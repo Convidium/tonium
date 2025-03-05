@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Artist {
+  artist_id   Int        @id @default(autoincrement())
+  artist_name String     @unique @map("artist_name")
+  records     Record[]   @relation("RecordToArtist")
+  songs       SongFile[] @relation("SongToArtist")
+
+  @@map("artists")
+}
+
+model Genre {
+  genre_id   Int           @id @default(autoincrement())
+  genre_name String        @unique @map("genre_name")
+  records    RecordGenre[]
+  songs      SongGenre[]
+
+  @@map("genres")
+}
+
+model Mood {
+  mood_id   Int          @id @default(autoincrement())
+  mood_name String       @unique @map("mood_name")
+  records   RecordMood[]
+  songs     SongMood[]
+
+  @@map("moods")
+}
+
+model Record {
+  record_id              Int                    @id @default(autoincrement())
+  record_type            String                 @map("record_type")
+  record_name            String                 @map("record_name")
+  record_artist          Int?                   @map("record_artist")
+  artist                 Artist?                @relation("RecordToArtist", fields: [record_artist], references: [artist_id])
+  record_date            DateTime?              @map("record_date") @db.Date
+  record_info            String?                @map("record_info")
+  record_label           String?                @map("record_label")
+  record_producer        String?                @map("record_producer")
+  record_cover_path      String?                @map("record_cover_path")
+  record_backcover_path  String?                @map("record_backcover_path")
+  record_back_cover_path String?                @map("record_back_cover_path")
+  genres                 RecordGenre[]
+  moods                  RecordMood[]
+  songs                  SongFile[]
+  recentListenedRecords  RecentListenedRecord[]
+
+  @@index([record_artist], map: "idx_record_artist")
+  @@map("records")
+}
+
+model RecordGenre {
+  record_id Int
+  record    Record @relation(fields: [record_id], references: [record_id])
+  genre_id  Int
+  genre     Genre  @relation(fields: [genre_id], references: [genre_id])
+
+  @@id([record_id, genre_id])
+  @@map("record_genres")
+}
+
+model RecordMood {
+  record_id Int
+  record    Record @relation(fields: [record_id], references: [record_id])
+  mood_id   Int
+  mood      Mood   @relation(fields: [mood_id], references: [mood_id])
+
+  @@id([record_id, mood_id])
+  @@map("record_moods")
+}
+
+model SongFile {
+  song_id         Int         @id @default(autoincrement())
+  album_id        Int?        @map("album_id")
+  album           Record?     @relation(fields: [album_id], references: [record_id])
+  song_name       String      @map("song_name")
+  song_artist     Int?        @map("song_artist")
+  artist          Artist?     @relation("SongToArtist", fields: [song_artist], references: [artist_id])
+  song_info       String?     @map("song_info")
+  song_audio_path String?     @map("song_audio_path")
+  track_number    Int?        @map("track_number")
+  genres          SongGenre[]
+  moods           SongMood[]
+
+  @@index([album_id], map: "idx_album_id")
+  @@index([song_artist], map: "idx_song_artist")
+  @@index([album_id, track_number], map: "idx_track_number")
+  @@map("song_files")
+}
+
+model SongGenre {
+  song_id  Int
+  song     SongFile @relation(fields: [song_id], references: [song_id])
+  genre_id Int
+  genre    Genre    @relation(fields: [genre_id], references: [genre_id])
+
+  @@id([song_id, genre_id])
+  @@map("song_genres")
+}
+
+model SongMood {
+  song_id Int
+  song    SongFile @relation(fields: [song_id], references: [song_id])
+  mood_id Int
+  mood    Mood     @relation(fields: [mood_id], references: [mood_id])
+
+  @@id([song_id, mood_id])
+  @@map("song_moods")
+}
+
+model RecentListenedRecord {
+  user_id     Int
+  record_id   Int
+  record      Record    @relation(fields: [record_id], references: [record_id])
+  listened_at DateTime? @default(now()) @db.Timestamp(6)
+
+  @@id([user_id, record_id])
+  @@map("recent_listened_records")
+}
