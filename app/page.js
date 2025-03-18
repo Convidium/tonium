@@ -1,4 +1,4 @@
-'use client'; // Додайте це, щоб використовувати useEffect
+'use client';
 
 import { useEffect, useState } from 'react';
 
@@ -8,9 +8,9 @@ export default function Home() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch('/api/data');
+        const response = await fetch('/api/records');
         const result = await response.json();
-        setData(result);
+        setData(result.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -21,10 +21,10 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Data from PostgreSQL:</h1>
+      <h1>Data from SQLite:</h1>
       <ul>
         {data.map((item) => (
-          <li key={item.id}>{JSON.stringify(item)}</li> // Замініть item.id та item.name на ваші поля
+          <li key={item.id}>{JSON.stringify(item)}</li>
         ))}
       </ul>
     </div>
