@@ -20,7 +20,6 @@ interface RecordData {
 export type RecordCreateInput = Omit<RecordData, 'record_id' | 'artists' | 'record_genres' | 'record_moods' | 'song_files' | 'recent_listened_records'> & {
     record_artist?: number | null;
     record_date?: Date | null;
-    // Можливо, вам знадобиться вказати ID існуючих жанрів та настроїв при створенні
     // record_genres?: { connect: { record_id_genre_id: { record_id: number; genre_id: number } }};
     // record_moods?: { connect: { record_id_mood_id: { record_id: number; mood_id: number } }};
 };

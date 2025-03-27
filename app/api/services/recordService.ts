@@ -1,4 +1,4 @@
-import { findMany, createRecord } from "../db";
+import { findMany, createOne } from "../db";
 import RecordData, { RecordCreateInput } from '@/app/interfaces/record-data';
 
 type FindRecordsResult =
@@ -19,7 +19,7 @@ export async function findRecords(filters: any): Promise<FindRecordsResult> {
 export async function addRecord(recordData: RecordCreateInput): Promise<{ data: RecordData | null; status: number; error?: string }> {
     console.log("Record data received in addRecord:", recordData);
     try {
-        const result = await createRecord("records", recordData);
+        const result = await createOne("records", recordData);
         if (result.data) {
             return { data: result.data as RecordData, status: 201 };
         } else {

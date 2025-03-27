@@ -1,0 +1,64 @@
+.marquee-container {
+    width: 280px; /* Фіксована ширина */
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+.marquee-text {
+    display: inline-block;
+    position: relative;
+    transition: transform 5s linear;
+}
+
+.title.moving {
+    animation: marqueeMoveTitle 5s linear forwards;
+}
+
+.title.end {
+    animation: marqueeReturnTitle 5s linear forwards;
+}
+
+.artist.moving {
+    animation: marqueeMoveArtist 5s linear forwards;
+}
+
+.artist.end {
+    animation: marqueeReturnArtist 5s linear forwards;
+}
+
+@keyframes marqueeMoveTitle {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-1 * var(--move-distance)));
+    }
+}
+
+@keyframes marqueeReturnTitle {
+    from {
+        transform: translateX(calc(-1 * var(--move-distance)));
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes marqueeMoveArtist {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-1 * var(--move-distance)));
+    }
+}
+
+@keyframes marqueeReturnArtist {
+    from {
+        transform: translateX(calc(-1 * var(--move-distance)));
+    }
+    to {
+        transform: translateX(0);
+    }
+}

@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { findMany, createRecord } from "../db";
+import { findMany, createOne } from "../db";
 
 interface RecordData {
     record_id: number;
     record_type: string;
     record_name: string;
-    record_artist?: number | null; // Знак питання робить поле необов'язковим, | null враховує можливість null
+    record_artist?: number | null;
     record_date?: Date | null;
     record_info?: string | null;
     record_label?: string | null;
@@ -50,7 +50,7 @@ export async function createSong(albumId: number, songData: any) {
             album_id: albumId,
             ...songData,
         };
-        const result = await createRecord("song_files", dataToCreate);
+        const result = await createOne("song_files", dataToCreate);
         return NextResponse.json(result, { status: 201 });
     } catch (error) {
         console.error("Error creating song:", error);

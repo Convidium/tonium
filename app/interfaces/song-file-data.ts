@@ -16,7 +16,6 @@ export type SongFileCreateInput = Omit<SongFileData, 'song_id' | 'records' | 'ar
     album_id?: number | null;
     song_artist?: number | null;
     track_number?: number | null;
-    // Можливо, вам знадобиться вказати ID існуючих жанрів та настроїв при створенні
     // song_genres?: { connect: { song_id_genre_id: { song_id: number; genre_id: number } }};
     // song_moods?: { connect: { song_id_mood_id: { song_id: number; mood_id: number } }};
 };

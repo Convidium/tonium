@@ -27,7 +27,7 @@ export async function findMany(table, where = {}) {
     }
 }
 
-export async function createRecord(table, data) {
+export async function createOne(table, data) {
     if (!prisma[table]) {
         throw new Error(`Table "${table}" does not exist in Prisma schema.`);
     }

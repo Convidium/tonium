@@ -1,8 +1,8 @@
 interface GenreData {
     genre_id: number;
     genre_name: string;
-    record_genres: any; // Масив об'єктів RecordGenre
-    song_genres: any; // Масив об'єктів SongGenre
+    record_genres: any;
+    song_genres: any;
 }
 
 export type GenreCreateInput = Omit<GenreData, 'genre_id' | 'record_genres' | 'song_genres'>;

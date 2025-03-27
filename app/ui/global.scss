@@ -1,0 +1,19 @@
+@import "vars.scss";
+
+body {
+    margin: 0;
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+    background-color: hsla(var(--bg-h), var(--bg-s), var(--bg-l), var(--bg-opacity));
+    color: var(--text-main-hsl);
+}
+
+* {
+    transition: 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}

@@ -1,0 +1,30 @@
+:root{
+    --bg-h: 0;
+    --bg-s: 0%;
+    --bg-l: 7%;
+    --bg-opacity: 1;
+
+    
+    --border-h: 0;
+    --border-s: 0%;
+    --border-l: 31%;
+    --border-opacity: 0.7;
+
+
+    --accent-h: 0;
+    --accent-s: 94%;
+    --accent-l: 18%;
+    --accent-opacity: 1;
+    --accent-bg-hsl: hsla(var(--accent-h), var(--accent-s), var(--accent-l), var(--accent-opacity));
+
+
+    --text-main-hsl: hsla(0, 0%, 90%, 1);
+    --text-dimmed-hsl: hsla(0, 0%, 76%, 1);
+    --text-very-dimmed-hsl: hsla(0, 0%, 76%, 1);
+    --text-low-contrast-hsl: hsla(0, 0%, 60%, 1);
+    --loading-dimmed-hsl: hsla(0, 0%, 32%, 1);
+
+
+    --border-radius-default: 5px;
+    --border-default: 2px;
+}
