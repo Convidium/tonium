@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -46,4 +46,28 @@ export async function deleteRecord(table, where) {
         throw new Error(`Table "${table}" does not exist in Prisma schema.`);
     }
     return await prisma[table].delete({ where });
+}
+
+export async function searchFTS(table, searchQuery, fields) {
+    try {
+        console.log("Значення table:", table);
+
+        const conditions = fields.map(field => Prisma.sql`${Prisma.raw(field)} MATCH ${searchQuery}`);
+        const whereClause = conditions.length > 0 ? Prisma.sql`WHERE ${Prisma.join(conditions, ' OR ')}` : Prisma.empty;
+
+        const query = Prisma.sql`
+            SELECT *
+            FROM ${Prisma.raw(table)}
+            ${whereClause}
+        `;
+
+        const result = await prisma.$queryRaw(query);
+
+        return { data: result, status: 200 };
+    } catch (error) {
+        console.error("Prisma query error (searchRecords):", error);
+        return { error: "Prisma search query failed", status: 500 };
+    } finally {
+        await prisma.$disconnect();
+    }
 }
