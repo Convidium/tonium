@@ -30,10 +30,13 @@ model records {
 }
 
 model artists {
-  artist_id Int @id @default(autoincrement())
-  artist_name String @unique @map("artist_name")
-  records records[]
-  song_files song_files[] // Додано зворотнє відношення
+  artist_id       Int         @id @default(autoincrement())
+  artist_name     String      @unique @map("artist_name")
+  artist_bio      String?     @map("artist_bio")
+  artist_logo_path String?     @map("artist_logo_path")
+  artist_bg_path  String?     @map("artist_bg_path")
+  records         records[]
+  song_files      song_files[] // Додано зворотнє відношення
 
   @@map("artists")
 }
