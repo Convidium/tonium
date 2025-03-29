@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { findMany } from '../../db';
+import { findMany } from '../../utils/db';
 
 interface Params {
   artist_id: string;

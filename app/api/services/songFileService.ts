@@ -1,24 +1,5 @@
 import { NextResponse } from "next/server";
-import { findMany, createOne } from "../db";
-
-interface RecordData {
-    record_id: number;
-    record_type: string;
-    record_name: string;
-    record_artist?: number | null;
-    record_date?: Date | null;
-    record_info?: string | null;
-    record_label?: string | null;
-    record_producer?: string | null;
-    record_cover_path?: string | null;
-    record_backcover_path?: string | null;
-    record_back_cover_path?: string | null;
-    artists?: any | null; // Можливо, ви захочете створити окремий інтерфейс для Artist
-    record_genres: any; // Масив об'єктів record_genres
-    record_moods: any; // Масив об'єктів record_moods
-    song_files: any; // Масив об'єктів song_files
-    recent_listened_records: any; // Масив об'єктів recent_listened_records
-}
+import { findMany, createOne } from "../utils/db";
 
 export async function findSongs(albumId: number, filters: Record<string, any> = {}) {
     console.log("Album ID in findSongs:", albumId);

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { findOne } from '../../../../db';
+import { findOne } from '../../../../utils/db';
 
 export async function GET(req, { params }) {
   const { song_id } = params;

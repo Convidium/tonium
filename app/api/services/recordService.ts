@@ -1,4 +1,4 @@
-import { findMany, createOne } from "../db";
+import { findMany, createOne } from "../utils/db";
 import RecordData, { RecordCreateInput } from '@/app/interfaces/record-data';
 
 type FindRecordsResult =

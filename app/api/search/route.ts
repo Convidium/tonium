@@ -12,12 +12,25 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ error: "Search query 'q' is required" }, { status: 400 });
         }
 
-        // Обробляємо параметр tables (якщо переданий)
+        // Check if `tables` string exists. 
+        // If it does - split to get all tables, or else return all possible tables
         const tablesParam = searchParams.get('tables');
-        let tablesToSearch = tablesParam ? tablesParam.split(',') : ["song_files", "records", "artists", "recent_listened_records"];
+        const tablesToSearch = tablesParam ? tablesParam.split(',') : ["song_files", "records", "artists", "recent_listened_records"];
 
-        const result = await searchRecords(query, tablesToSearch);
+        const limitParam = searchParams.get('limit');
+        const pageParam = searchParams.get('page');
+        const limit = limitParam ? parseInt(limitParam, 10) : 10;
+        const page = pageParam ? parseInt(pageParam, 10) : 1;
 
+        if (isNaN(limit) || limit <= 0) {
+            return NextResponse.json({ error: 'Invalid limit parameter' }, { status: 400 });
+        }
+
+        if (isNaN(page) || page <= 0) {
+            return NextResponse.json({ error: 'Invalid page parameter' }, { status: 400 });
+        }
+
+        const result = await searchRecords(query, tablesToSearch, limit, page);
         if (result.error) {
             return NextResponse.json({ error: result.error }, { status: result.status });
         }

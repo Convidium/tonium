@@ -1,13 +1,14 @@
-import { searchFTS } from "../db";
+import { searchFTS } from "../utils/db";
 
-export async function searchRecords(query: string, tables: string[] = ["song_files", "records", "artists", "recent_listened_records"]): 
-    Promise<{ data: any; status: number; error?: string }> {
-    
-    console.log("Search query received:", query, "in tables:", tables);
-    
+export async function searchRecords(
+    query: string,
+    tables: string[],
+    limit: number = 10,
+    page: number = 1
+): Promise<{ data: any; status: number; error?: string }> {
+    console.log("Search query received:", query, "in tables:", tables, "limit:", limit, "page:", page);
     try {
-        // Викликаємо searchFTS з переданими таблицями
-        const result = await searchFTS(query, tables);
+        const result = await searchFTS(query, tables, limit, page);
         console.error("Search result:", result);
 
         if (result.error) {

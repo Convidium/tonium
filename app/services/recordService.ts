@@ -2,7 +2,7 @@ import { RecordType } from "@/app/types/records";
 
 export const fetchRecords = async (query: string): Promise<RecordType[]> => {
     try {
-        const res = await fetch(`/api/records?search=${query}`);
+        const res = await fetch(`/api/search?q=${query}`);
         console.log(res);
         
         if (!res.ok) throw new Error("Failed to fetch records");
