@@ -1,23 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { RequestParser } from '@/app/api/utils/RequestParser';
-import { searchRecords } from '@/app/api/services/searchService';
+import { findMany } from '@/app/api/utils/db';
 import convertBigIntToString from '@/app/api/utils/convertBigIntToString';
 
 export async function GET(request: NextRequest) {
     try {
         const parser = new RequestParser(request);
-
-        const query = parser.getQueryParam();
-        if (!query) {
-            return NextResponse.json({ error: "Search query 'q' is required" }, { status: 400 });
-        }
-
-        const tablesToSearch = parser.getTables();
         const limit = parser.getLimit();
-        
         const page = parser.getPage();
 
-        const result = await searchRecords(query, tablesToSearch, limit, page);
+        const result = await findMany("recent_records", {}, limit, page);
         if (result.error) {
             return NextResponse.json({ error: result.error }, { status: result.status });
         }
@@ -26,7 +18,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ data: serializedData }, { status: result.status });
 
     } catch (error: any) {
-        console.error("Search API error:", error);
+        console.error("API error:", error);
         return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 }

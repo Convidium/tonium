@@ -5,8 +5,10 @@ const prisma = new PrismaClient();
 
 export async function findOne(table, filters = {}) {
     try {
-        const where = { ...filters };
-        const result = await prisma[table].findUnique({ where });
+        const result = await prisma[table].findFirst({
+            where: { ...filters }
+        });
+
         return { data: result, status: 200 };
     } catch (error) {
         console.error('Prisma query error (findOne):', error);
@@ -16,9 +18,17 @@ export async function findOne(table, filters = {}) {
     }
 }
 
-export async function findMany(table, where = {}) {
+export async function findMany(table, where = {}, limit, page) {
     try {
-        const result = await prisma[table].findMany({ where });
+        const skip = limit && page ? (page - 1) * limit : 0;
+        const take = limit || undefined;
+
+        const result = await prisma[table].findMany({
+            where,
+            skip,
+            take,
+        });
+
         return { data: result, status: 200 };
     } catch (error) {
         console.error('Prisma query error (findMany):', error);

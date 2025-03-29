@@ -1,10 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { findMany } from '../utils/db';
+import { RequestParser } from '@/app/api/utils/RequestParser';
 import { addRecord } from "../services/recordService";
 
-export async function GET(req: NextRequest) {
-  const result = await findMany("records");
-  return NextResponse.json(result, { status: result.status });
+export async function GET(request: NextRequest) {
+  try {
+      const parser = new RequestParser(request);
+      const filters = parser.getFilters();
+      const limit = parser.getLimit();
+      const page = parser.getPage();
+
+      const result = await findMany("records", filters, limit, page);
+      return NextResponse.json(result, { status: result.status });
+
+  } catch (error: any) {
+      console.error("API error:", error);
+      return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }
 
 export async function POST(req: NextRequest) {

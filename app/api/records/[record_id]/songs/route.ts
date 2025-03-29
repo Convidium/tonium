@@ -1,38 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
 import { findSongs, createSong } from "../../../services/songFileService";
+import { RequestParser } from "@/app/api/utils/RequestParser";
 
 interface Params {
     record_id: string;
 }
 
 export async function GET(req: NextRequest, { params }: { params: Params }) {
-    const resolvedParams = await params;
-    const albumId = parseInt(resolvedParams.record_id, 10);
-    if (isNaN(albumId)) {
-        return NextResponse.json({ error: "Invalid album ID" }, { status: 400 });
-    }
-
     try {
-        const { searchParams } = new URL(req.url);
-        const filters: Record<string, string | string[]> = {};
+        const parser = new RequestParser(req);
+        const albumId = parser.getRecordId();
+        const filters = parser.getFilters();
+        const limit = parser.getLimit();
+        const page = parser.getPage();
 
-        for (const [key, value] of searchParams.entries()) {
-            if (filters[key]) {
-                if (Array.isArray(filters[key])) {
-                    (filters[key] as string[]).push(value);
-                } else {
-                    filters[key] = [filters[key] as string, value];
-                }
-            } else {
-                filters[key] = value;
-            }
+        if (!albumId) {
+            return NextResponse.json({ error: "Invalid album ID" }, { status: 400 });
         }
 
-        const result = await findSongs(albumId, filters);
+        const result = await findSongs(albumId, filters, limit, page);
         return NextResponse.json(result, { status: result.status });
+
     } catch (error: any) {
         console.error("Error processing GET request:", error);
-        return NextResponse.json({ error: error.message || "Internal server error" }, { status: 500 });
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 }
 
