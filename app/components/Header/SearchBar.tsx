@@ -3,6 +3,7 @@ import SearchSVG from "@/app/icons/Search.svg";
 import "@/app/ui/styles/SearchBar.scss";
 import "@/app/ui/ui-elements.scss";
 import { useSearch } from "@/app/hooks/useSearch";
+import { useDebounce } from "@/app/hooks/useDebounce";
 import SearchResults from "./SearchResults";
 
 const SearchBar: React.FC = () => {
@@ -10,7 +11,8 @@ const SearchBar: React.FC = () => {
     const searchBarRef = useRef<HTMLDivElement>(null);
     const resultsRef = useRef<HTMLDivElement>(null);
 
-    // Відстеження кліків поза пошуковим блоком
+    const debouncedSearchTerm = useDebounce(searchTerm, 100);
+
     const handleClickOutside = (event: MouseEvent) => {
         if (
             searchBarRef.current &&
@@ -54,7 +56,7 @@ const SearchBar: React.FC = () => {
                     records={records} 
                     recentRecords={recentRecords} 
                     loading={loading} 
-                    searchTerm={searchTerm} 
+                    searchTerm={debouncedSearchTerm}
                 />
             </div>
         </div>

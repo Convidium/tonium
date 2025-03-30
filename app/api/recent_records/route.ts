@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
         const limit = parser.getLimit();
         const page = parser.getPage();
 
-        const result = await findMany("recent_records", {}, limit, page);
+        const result = await findMany("recent_listened_records", {}, limit, page);
         if (result.error) {
             return NextResponse.json({ error: result.error }, { status: result.status });
         }

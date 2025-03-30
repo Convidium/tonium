@@ -69,6 +69,18 @@ export class RequestParser {
         return null;
     }
 
+    getSongId(): number | null {
+        const parts = this.pathname.split('/');
+        const recordIndex = parts.indexOf("records");
+        
+        if (recordIndex !== -1 && parts[recordIndex + 2] === "songs") {
+            const songId = parseInt(parts[recordIndex + 3], 10);
+            return isNaN(songId) ? null : songId;
+        }
+    
+        return null;
+    }
+
     getTrackNumber(): number | null {
         const trackNumberParam = this.searchParams.get('track_number');
     
