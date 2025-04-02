@@ -14,9 +14,8 @@
         background-color: hsla(var(--bg-h), var(--bg-s), 10%, var(--bg-opacity));
         padding: 0 0.2rem;
         box-sizing: border-box;
-        // position: relative;
         z-index: 2;
-    
+
         .search-btn {
             display: flex;
             align-items: center;
@@ -28,15 +27,16 @@
             aspect-ratio: 1;
             padding: 0;
             cursor: pointer;
-            &:hover{
+
+            &:hover {
                 background-color: hsla(var(--bg-h), var(--bg-s), 15%, var(--bg-opacity));
             }
-    
+
             svg {
                 scale: 0.8;
             }
         }
-    
+
         .search-input {
             border: none;
             background: transparent;
@@ -50,173 +50,77 @@
         }
 
         &.onfocus {
-            border: 2px solid hsla(var(--accent-h), var(--accent-s), 10%, var(--accent-opacity));
-            &:hover{
-                border: 2px solid hsla(var(--accent-h), var(--accent-s), 15%, var(--accent-opacity));
+            border: 2px solid hsla(var(--bg-h), var(--bg-s), var(--bg-l), var(--bg-opacity));
+            &:hover {
+                border: 2px solid hsla(var(--accent-h), var(--accent-s), 10%, var(--accent-opacity));
             }
         }
     }
-    .search-results-block{
+
+    .search-results-wrapper {
         display: flex;
         align-items: center;
+        flex-direction: column;
         position: absolute;
         top: 4rem;
         z-index: 1;
         width: 400px;
-        border-radius: var(--border-radius-default);
-        background-color: hsla(var(--bg-h), var(--bg-s), 10%, var(--bg-opacity));
-        border: 2px solid hsla(var(--border-h), var(--border-s), var(--border-l), 0.1);
-            animation-delay: 0.5s;
-        .loading-results{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            backdrop-filter: blur(1px);
-            position: absolute;
-            svg{
-                fill: hsla(var(--border-h), var(--border-s), var(--border-l), 1);
-            }
-        }
-        &.inactive{
+        height: auto;
+        animation-delay: 0.5s;
+
+        &.inactive {
             animation: rollDown 0.4s normal forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            opacity: 0;
         }
-        &.active{
+
+        &.active {
             animation: rollUp 0.4s normal forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        .results-list{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: inherit;
-            overflow: hidden;
+    }
+
+    .search-filters {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        width: 100%;
+        gap: 5px;
+        margin-bottom: 5px;
+
+        .filter-btn {
             width: 100%;
-            padding: 0.25rem;
-            .last-listened{
-                padding: 0.25rem;
-                font-family: "Grotezk Fett";
-            }
-            .last-listened-records{
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                width: 100%;
-                gap: 5px;
-                .record{
-                    display: grid;
-                    grid-template-columns: auto 1fr auto;
-                    align-items: center;
-                    height: 50px;
-                    padding: 0.25rem;
-                    gap: 10px;
-                    background-color: hsla(var(--bg-h), var(--bg-s), 15%, var(--bg-opacity));
-                    border-radius: var(--border-radius-default);
-                    &>div{
-                        height: inherit;
-                    }
-                    .record-image{
-                        display: flex;
-                        flex-direction: column;
-                        width: auto;
-                        img{
-                            border-radius: var(--border-radius-default);
-                        }
-                        .play-hover{
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            background-color: hsla(var(--bg-h), var(--bg-s), 10%, 0.4);
-                            border-radius: var(--border-radius-default);
-                            position: absolute;
-                            width: 50px;
-                            height: 50px;
-                            opacity: 0;
-                            cursor: pointer;
-                            &:hover{
-                                opacity: 1;
-                            }
-                        }
-                    }
-                    .record-data{
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        .title{
-                            font-family: "Grotezk Fett";
-                            text-decoration: none;
-                            cursor: pointer;
-                            &:hover{
-                                text-decoration: underline;
-                            }
-                        }
-                        .artist{
-                            font-family: "Grotezk Regular";
-                            font-size: 0.8rem;
-                            text-decoration: none;
-                            color: var(--text-low-contrast-hsl);
-                            cursor: pointer;
-                            &:hover{
-                                text-decoration: underline;
-                            }
-                        }
-                    }
-                    .record-control{
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        background-color: hsla(var(--bg-h), var(--bg-s), 15%, var(--bg-opacity));
-                        border-radius: var(--border-radius-default);
-                        aspect-ratio: 1;
-                        opacity: 0;
-                        width: fit-content;
-                        height: fit-content;
-                        button{
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            background-color: transparent;
-                            aspect-ratio: 1;
-                            width: 35px;
-                            height: 35px;
-                            border: none;
-                            cursor: pointer;
-                        }
-                        &:hover{
-                            background-color: hsla(var(--bg-h), var(--bg-s), 10%, var(--bg-opacity));
-                        }
-                    }
-                    &:hover > .record-control{
-                        opacity: 1;
-                    }
+            padding: 4px;
+            border: none;
+            border-radius: var(--border-radius-default);
+            font-size: 14px;
+            cursor: pointer;
+            background-color: hsla(var(--bg-h), var(--bg-s), 10%, var(--bg-opacity));
+            border: 2px solid hsla(var(--border-h), var(--border-s), var(--border-l), 0.1);
+            box-sizing: border-box;
+            color: var(--text-very-dimmed-hsl);
+            font-family: "Grotezk Cyrillic Bold";
+            font-size: 1rem;
+            transition: background 0.1s;
+
+            &.active {
+                background-color: hsla(var(--bg-h), var(--bg-s), 20%, var(--bg-opacity));
+                border: 2px solid hsla(var(--border-h), var(--border-s), var(--border-l), 1);
+                &:hover {
+                    background-color: hsla(var(--bg-h), var(--bg-s), 20%, var(--bg-opacity));
                 }
             }
-            .no-results{
-                display: flex;
-                justify-content: center;
-                padding: 0.25rem;
-                font-family: "Grotezk Regular";
-                font-size: 1rem;
-                color: var(--text-low-contrast-hsl);
-                user-select: none;
+
+            &:hover {
+                background-color: hsla(var(--bg-h), var(--bg-s), 15%, var(--bg-opacity));
             }
         }
-        
     }
 }
 
-
-
 @keyframes rollDown {
     0% {
-       transform: translateY(0px);
+        height: auto;
+        transform: translateY(0rem);
     }
-    50% {
-        height: 10px;
-    }
-    75% {
-        transform: translateY(-3rem);
-    }
+
     100% {
         height: 0px;
         transform: translateY(-3rem);
@@ -225,16 +129,12 @@
 
 @keyframes rollUp {
     0% {
-       height: 0px;
-       transform: translateY(-3rem);
-    }
-    50% {
+        height: 0px;
         transform: translateY(-3rem);
     }
-    75% {
-        height: 10px;
-    }
+
     100% {
-        transform: translateY(0px);
+        height: auto;
+        transform: translateY(0rem);
     }
 }

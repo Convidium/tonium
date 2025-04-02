@@ -27,7 +27,7 @@
         justify-content: center;
         height: 100%;
         background-color: transparent;
-        border: 2px solid hsla(var(--border-h), var(--border-s), var(--border-l), var(--border-opacity));
+        border: 2px solid hsla(var(--border-h), var(--border-s), 20%, var(--border-opacity));
         border-radius: var(--border-radius-default);
         box-sizing: border-box;
         z-index: 2;
@@ -51,12 +51,12 @@
             justify-content: center;
             height: 100%;
             aspect-ratio: 1;
-            background-color: hsla(var(--bg-h), var(--bg-s), 15%, var(--bg-opacity));
+            background-color: hsla(var(--bg-h), var(--bg-s), 10%, var(--bg-opacity));
             color: var(--text-dimmed-hsl);
             cursor: pointer;
 
             &:hover {
-                background-color: hsla(var(--bg-h), var(--bg-s), 20%, var(--bg-opacity));
+                background-color: hsla(var(--bg-h), var(--bg-s), 15%, var(--bg-opacity));
             }
         }
     }
@@ -115,21 +115,24 @@
     .create-btn {
         display: flex;
         align-items: center;
-        gap: 10px;
-        width: 140px;
+        gap: 5px;
+        width: 120px;
         font-family: "Grotezk Fett";
-        font-size: 1.4rem;
+        font-size: 1.3rem;
 
         svg {
-            scale: 0.8;
+            scale: 0.75;
         }
     }
 }
 
 .settings-block {
-    width: 80px;
+    width: 75px;
     aspect-ratio: 1;
     cursor: pointer;
+    svg{
+        scale: 0.8;
+    }
 }
 
 @media only screen and (max-width: 1200px) {

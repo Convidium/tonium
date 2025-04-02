@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import SearchSVG from "@/app/icons/Search.svg";
 import "@/app/ui/styles/SearchBar.scss";
 import "@/app/ui/ui-elements.scss";
@@ -7,60 +7,94 @@ import { useDebounce } from "@/app/hooks/useDebounce";
 import SearchResults from "./SearchResults";
 
 const SearchBar: React.FC = () => {
-    const { searchTerm, setSearchTerm, records, recentRecords, loading, isFocused, setIsFocused } = useSearch();
-    const searchBarRef = useRef<HTMLDivElement>(null);
-    const resultsRef = useRef<HTMLDivElement>(null);
+  const {
+    searchTerm,
+    setSearchTerm,
+    records,
+    recentRecords,
+    loading,
+    isFocused,
+    setIsFocused,
+    songs,
+    artists,
+  } = useSearch();
+  const searchBarRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const [activeFilters, setActiveFilters] = React.useState<string[]>([]);
 
-    const debouncedSearchTerm = useDebounce(searchTerm, 100);
-
-    const handleClickOutside = (event: MouseEvent) => {
-        if (
-            searchBarRef.current &&
-            !searchBarRef.current.contains(event.target as Node) &&
-            resultsRef.current &&
-            !resultsRef.current.contains(event.target as Node)
-        ) {
-            setIsFocused(false);
-        }
-    };
-
-    React.useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
-
-    return (
-        <div className="header-element search-bar-block" ref={searchBarRef}>
-            <div className="skeumorphic-bg">
-                <div className={`search-bar-component ${isFocused ? "onfocus" : ""}`}>
-                    <button className="search-btn">
-                        <SearchSVG />
-                    </button>
-                    <input
-                        className="search-input"
-                        placeholder="Looking for something, huh?"
-                        type="text"
-                        value={searchTerm}
-                        onChange={(e) => {
-                            setSearchTerm(e.target.value);
-                            setIsFocused(true);
-                        }}
-                        onFocus={() => setIsFocused(true)}
-                    />
-                </div>
-            </div>
-            <div className={`search-results-block ${isFocused ? "active" : "inactive"}`} ref={resultsRef}>
-                <SearchResults 
-                    records={records} 
-                    recentRecords={recentRecords} 
-                    loading={loading} 
-                    searchTerm={debouncedSearchTerm}
-                />
-            </div>
-        </div>
+  const filters = ["Records", "Artists", "Songs", "Articles"];
+  const handleFilterClick = (filter: string) => {
+    setActiveFilters((prevFilters) =>
+      prevFilters.includes(filter.toLowerCase())
+        ? prevFilters.filter((f) => f !== filter.toLowerCase())
+        : [...prevFilters, filter.toLowerCase()]
     );
+  };
+
+  const debouncedSearchTerm = useDebounce(searchTerm, 100);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      searchBarRef.current &&
+      !searchBarRef.current.contains(event.target as Node) &&
+      resultsRef.current &&
+      !resultsRef.current.contains(event.target as Node)
+    ) {
+      setIsFocused(false);
+    }
+  };
+
+  React.useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <div className="header-element search-bar-block" ref={searchBarRef}>
+      <div className="skeumorphic-bg">
+        <div className={`search-bar-component ${isFocused ? "onfocus" : ""}`}>
+          <button className="search-btn">
+            <SearchSVG />
+          </button>
+          <input
+            className="search-input"
+            placeholder="Looking for something, huh?"
+            type="text"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setIsFocused(true);
+            }}
+            onFocus={() => setIsFocused(true)}
+          />
+        </div>
+      </div>
+      <div className={`search-results-wrapper ${isFocused ? "active" : "active"}`} ref={resultsRef}>
+        <div className="search-filters">
+          {filters.map((filter) => (
+            <button
+              key={filter}
+              className={`filter-btn ${activeFilters.includes(filter.toLowerCase()) ? "active" : ""}`}
+              onClick={() => handleFilterClick(filter)}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+        <SearchResults
+          songs={songs}
+          records={records}
+          artists={artists}
+          recentRecords={recentRecords}
+          loading={loading}
+          searchTerm={debouncedSearchTerm}
+          filters={filters}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default SearchBar;

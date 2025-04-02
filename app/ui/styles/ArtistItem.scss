@@ -1,0 +1,51 @@
+.artists {
+    width: -webkit-fill-available;
+
+    .items-wrapper {
+        width: 100%;
+        overflow-x: scroll;
+        &.scrollbar-hidden {
+            overflow-x: hidden;
+        }
+
+        .items-grid {
+            display: flex;
+            overflow: hidden;
+            width: max-content;
+            gap: 15px;
+
+            .artist {
+                display: grid;
+                grid-template-columns: auto 1fr;
+                width: max-content;
+                align-items: center;
+                gap: 5px;
+                margin-bottom: 5px;
+
+                .artist-image {
+                    height: 35px;
+                    cursor: pointer;
+
+                    img {
+                        border-radius: 50%;
+                    }
+
+                    svg {
+                        fill: var(--text-dimmed-hsl);
+                    }
+                }
+
+                .artist-name {
+                    display: flex;
+                    height: 25px;
+                    font-size: 1rem;
+                    cursor: pointer;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+}

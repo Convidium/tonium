@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
 interface MarqueeProps {
-    title: string;
-    artist: string;
+    title: string | undefined;
+    artist: string | undefined;
 }
 
 const Marquee: React.FC<MarqueeProps> = ({ title, artist }) => {

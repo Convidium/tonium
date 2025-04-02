@@ -1,0 +1,97 @@
+.items-list.records {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    width: 100%;
+    gap: 10px;
+    padding-right: 5px;
+
+    .record {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        overflow: hidden;
+        gap: 10px;
+
+        .record-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: visible;
+            position: relative;
+            width: 60px;
+            aspect-ratio: 1;
+            &:hover {
+                img {
+                    filter: brightness(70%);
+                }
+            }
+
+            img {
+                border-radius: calc(var(--border-radius-default) - 1px);
+            }
+
+            .playHover {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                width: inherit;
+                aspect-ratio: 1;
+                background-color: transparent;
+                border-radius: calc(var(--border-radius-default) - 1px);
+
+                svg {
+                    fill: var(--text-very-dimmed-hsl);
+                    opacity: 0;
+                }
+
+                cursor: pointer;
+
+                &:hover {
+                    svg {
+                        opacity: 0.85;
+
+                        &:hover {
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        .record-info {
+            display: flex;
+            align-items: center;
+            width: 230px;
+
+            .record-data {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                width: 100%;
+                cursor: pointer;
+
+                .title:hover,
+                .artist:hover {
+                    text-decoration: underline;
+                }
+
+                .title {
+                    font-family: "Grotezk Fett";
+                    color: var(--text-dimmed-hsl);
+                }
+
+                .artist {
+                    font-family: "Grotezk Mittel";
+                    color: var(--text-low-contrast-hsl);
+                    font-size: 0.9rem;
+                }
+            }
+        }
+
+        &:hover {
+            // background-color: var(--text-low-contrast-hsl);
+        }
+    }
+}
