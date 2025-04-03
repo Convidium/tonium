@@ -6,6 +6,7 @@ import { RecordType, SongType, ArtistType } from "@/app/types/records";
 import "@/app/ui/styles/SearchResults.scss";
 import LoadingSVG from "@/app/icons/LoadingCircle.svg";
 import ArrowSVG from "@/app/icons/arrow.svg";
+import "../../ui/scrollbar.scss";
 
 type SearchResultsProps = {
   songs: SongType[];
@@ -17,7 +18,26 @@ type SearchResultsProps = {
   filters: string[];
 };
 
-const SearchResults: React.FC<SearchResultsProps> = ({ songs, records, artists, recentRecords, loading, searchTerm }) => {
+const SearchResults: React.FC<SearchResultsProps> = ({ songs, records, artists, recentRecords, loading, searchTerm, filters }) => {
+  console.log(filters);
+  
+  const renderedReults = filters.map(filter => {
+    if (filter == "Artists" && records.length > 0) {
+      return (
+        <RecordItem records={records} />
+      );
+    }
+    else if (filter == "Records" && records.length > 0) {
+      return (
+        <RecordItem records={records} />
+      );
+    }
+    else if (filter == "Songs" && songs.length > 0) {
+      return (
+        <SongItem songs={songs} />
+      );
+    }
+  })
   return (
     <div className="search-results-block">
       {loading ? (
@@ -28,18 +48,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ songs, records, artists, 
         <div className="results-list">
           {searchTerm.length > 0 ? (
             <>
-              {artists.length > 0 && (
-                <ArtistItem artists={artists} />
-              )}
-
-              {records.length > 0 && (
-                <RecordItem records={records} />
-              )}
-
-              {songs.length > 0 && (
-                <SongItem songs={songs} />
-              )}
-
+              {renderedReults}
               {artists.length === 0 && records.length === 0 && songs.length === 0 && (
                 <div className="no-results">No results found</div>
               )}

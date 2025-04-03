@@ -20,15 +20,22 @@ const SearchBar: React.FC = () => {
   } = useSearch();
   const searchBarRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
-  const [activeFilters, setActiveFilters] = React.useState<string[]>([]);
-
   const filters = ["Records", "Artists", "Songs", "Articles"];
+  const [activeFilters, setActiveFilters] = React.useState<string[]>(filters);
+
   const handleFilterClick = (filter: string) => {
-    setActiveFilters((prevFilters) =>
-      prevFilters.includes(filter.toLowerCase())
-        ? prevFilters.filter((f) => f !== filter.toLowerCase())
-        : [...prevFilters, filter.toLowerCase()]
-    );
+    setActiveFilters((prevFilters) => {
+      if (prevFilters.length === 1 && prevFilters.includes(filter)) {
+        return filters;
+      } else {
+        const filterToLower = filter;
+        if (prevFilters.includes(filterToLower)) {
+          return prevFilters.filter((f) => f !== filterToLower);
+        } else {
+          return [...prevFilters, filterToLower];
+        }
+      }
+    });
   };
 
   const debouncedSearchTerm = useDebounce(searchTerm, 100);
@@ -71,12 +78,12 @@ const SearchBar: React.FC = () => {
           />
         </div>
       </div>
-      <div className={`search-results-wrapper ${isFocused ? "active" : "active"}`} ref={resultsRef}>
+      <div className={`search-results-wrapper ${isFocused ? "active" : "inactive"}`} ref={resultsRef}>
         <div className="search-filters">
           {filters.map((filter) => (
             <button
               key={filter}
-              className={`filter-btn ${activeFilters.includes(filter.toLowerCase()) ? "active" : ""}`}
+              className={`filter-btn ${activeFilters.includes(filter) ? "active" : ""}`}
               onClick={() => handleFilterClick(filter)}
             >
               {filter}
@@ -90,7 +97,7 @@ const SearchBar: React.FC = () => {
           recentRecords={recentRecords}
           loading={loading}
           searchTerm={debouncedSearchTerm}
-          filters={filters}
+          filters={activeFilters}
         />
       </div>
     </div>

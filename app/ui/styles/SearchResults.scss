@@ -7,6 +7,7 @@
     background-color: hsla(var(--bg-h), var(--bg-s), 10%, var(--bg-opacity));
     border: 2px solid hsla(var(--border-h), var(--border-s), var(--border-l), 0.1);
     animation-delay: 0.5s;
+    max-height: 500px;
 
     .loading-results {
         display: flex;
@@ -39,7 +40,7 @@
         margin: auto;
         width: 90%;
         &.songs{
-            max-height: 300px;
+            max-height: 250px;
         }
     }
 
