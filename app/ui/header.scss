@@ -83,10 +83,10 @@
         cursor: pointer;
 
         &:hover {
-            background-color: var(--accent-bg-hsl);
+            background-color: hsla(var(--accent-h), var(--accent-s), calc(var(--accent-l) - 5%), var(--accent-opacity));
         }
 
-        &.active {
+        &.active, &:active {
             background-color: var(--accent-bg-hsl);
         }
 
@@ -130,12 +130,13 @@
     width: 75px;
     aspect-ratio: 1;
     cursor: pointer;
-    svg{
+
+    svg {
         scale: 0.8;
     }
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width:848px) {
     .logo-block {
         display: none;
     }
@@ -144,5 +145,32 @@
         .search-bar-component {
             width: inherit;
         }
+    }
+
+    .collection-block {
+        width: 60px;
+    }
+
+    .settings-block {
+        width: fit-content;
+        margin-right: 10px;
+    }
+}
+
+@media only screen and (max-width:676px) {
+    .header-wrapper {
+        grid-template-columns: auto 1fr auto auto;
+        .logo-block {
+            display: flex;
+        }
+
+        .settings-block {
+            width: fit-content;
+            margin-left: 10px;
+        }
+    }
+
+    .search-bar-block {
+        display: none !important;
     }
 }

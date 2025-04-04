@@ -3,15 +3,15 @@ import "@/app/ui/header.scss";
 import CollectionSVG from "@/app/icons/Collection.svg";
 import LogoSVG from "@/app/icons/Logo.svg";
 import SettingsSVG from "@/app/icons/Settings.svg";
-import CreateSVG from "@/app/icons/AddNew.svg";
 import SearchBar from './SearchBar';
+import CreateDropdownList from './CreateDropdownList'
 
 function Header() {
   return (
     <div className='header-wrapper'>
       <div className='header-element collection-block'>
         <div className='skeumorphic-bg-accent'>
-          <button className='expand-collection-btn active'>
+          <button className='expand-collection-btn'>
             <CollectionSVG />
           </button>
         </div>
@@ -22,14 +22,7 @@ function Header() {
         </button>
       </div>
       <SearchBar />
-      <div className='header-element create-block'>
-        <div className='skeumorphic-bg'>
-          <button className='create-btn'>
-            <CreateSVG />
-            <span>Create</span>
-          </button>
-        </div>
-      </div>
+      <CreateDropdownList />
       <div className='header-element settings-block'>
         <div className='skeumorphic-bg'>
           <button className='settings-btn'>
