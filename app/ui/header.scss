@@ -2,6 +2,8 @@
 @import "./fonts.scss";
 
 .header-wrapper {
+    position: absolute;
+    width: 100%;
     display: grid;
     justify-content: space-between;
     grid-template-columns: auto auto 1fr auto auto;
@@ -11,7 +13,8 @@
     border-left: 0;
     border-right: 0;
     color: var(--text-dimmed-hsl);
-    height: 46px;
+    height: 3rem;
+    z-index: 3;
 }
 
 .header-element {

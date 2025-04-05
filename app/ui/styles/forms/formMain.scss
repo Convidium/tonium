@@ -1,0 +1,60 @@
+.form-component {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    width: 100%;
+    .form-wrapper {
+        min-height: 500px;
+        height: fit-content;
+        min-width: 850px;
+        width: fit-content;
+        background-color: hsla(var(--bg-h), var(--bg-s), 12%, var(--bg-opacity));
+        border-radius: calc(var(--border-radius-default)*1);
+        border: 2px solid hsla(var(--bg-h), var(--bg-s), 15%, var(--bg-opacity));
+        hr{
+            margin: 0;
+            height: 0px;
+            border: 1px solid hsla(var(--bg-h), var(--bg-s), 15%, var(--bg-opacity));
+        }
+        .form-title, .form-block{
+            padding: 0.75rem 1rem;
+        }
+
+        .form-title{
+            display: flex;
+            justify-content: center;
+            background-color: hsla(var(--bg-h), var(--bg-s), 10%, var(--bg-opacity));
+            font-family: "Grotezk Fett";
+            font-size: 1.2rem;
+            color: var(--text-main-hsl);
+        }
+
+        .form-block{
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            overflow-y: auto;
+        }
+    }
+}
+
+.form-desktop{
+    position: absolute;
+    margin-top: 70px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+}
+
+.form-mobile{
+    position: absolute;
+    top: 70px;
+    .form-wrapper {
+        height: -webkit-fill-available;
+        width: 100%;
+    }
+}

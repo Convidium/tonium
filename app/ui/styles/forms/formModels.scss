@@ -1,0 +1,92 @@
+.form-create-option {
+    display: flex;
+    flex-direction: column;
+    background-color: hsla(var(--bg-h), var(--bg-s), 12%, var(--bg-opacity));
+    border-radius: calc(var(--border-radius-default)*1);
+    border: 2px solid hsla(var(--bg-h), var(--bg-s), 15%, var(--bg-opacity));
+    font-family: "Grotezk Fett";
+    color: var(--text-low-contrast-hsl);
+
+    &:hover {
+        background-color: hsla(var(--bg-h), var(--bg-s), 15%, var(--bg-opacity));
+        border-color: var(--text-low-contrast-hsl);
+        scale: 1.01;
+
+        .option-title,
+        .option-description {
+            color: var(--text-low-contrast-hsl);
+            .option-icon {
+                svg {
+                    fill: var(--text-low-contrast-hsl);
+                }
+            }
+        }
+
+        .splitting-line{
+            border-color: var(--text-low-contrast-hsl);
+        }
+
+        .option-btn {
+            opacity: 1;
+        }
+    }
+
+    .option-title {
+        text-align: center;
+        font-size: 1.3rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .option-description {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 1rem;
+
+        .option-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            aspect-ratio: 1;
+
+            svg {
+                width: 50px;
+                fill: var(--loading-dimmed-hsl);
+            }
+        }
+
+        .option-text {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: fit-content;
+            font-size: 0.9rem;
+        }
+    }
+
+    .option-btn {
+        position: absolute;
+        margin-top: -10px;
+        margin-left: 235px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--text-very-dimmed-hsl);
+        border: none;
+        border-radius: 50px;
+        aspect-ratio: 1;
+        width: 25px;
+        opacity: 0;
+        cursor: pointer;
+
+        &:hover {
+            scale: 1.1;
+        }
+
+        svg {
+            width: 22px;
+            height: 22px;
+            fill: hsla(var(--bg-h), var(--bg-s), 15%, var(--bg-opacity));
+        }
+    }
+}
