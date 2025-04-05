@@ -1,8 +1,9 @@
+'use client';
 import React from 'react'
 import "@/app/ui/header.scss";
-import CollectionSVG from "@/app/icons/Collection.svg";
-import LogoSVG from "@/app/icons/Logo.svg";
-import SettingsSVG from "@/app/icons/Settings.svg";
+import CollectionSVG from "@/app/ui/icons/Collection.svg";
+import LogoSVG from "@/app/ui/icons/Logo.svg";
+import SettingsSVG from "@/app/ui/icons/Settings.svg";
 import SearchBar from './SearchBar';
 import CreateDropdownList from './CreateDropdownList'
 

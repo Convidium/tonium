@@ -1,12 +1,14 @@
 import React, { useRef, useState } from "react";
 import Image from "next/image";
-import PlaySVG from "@/app/icons/play.svg";
-import CreateSVG from "@/app/icons/AddNew.svg";
-import ArtistSVG from "@/app/icons/user.svg";
-import RecordSVG from "@/app/icons/record.svg";
-import SongSVG from "@/app/icons/song.svg";
-import ArticleSVG from "@/app/icons/article.svg";
-import "@/app/ui/styles/dropdownList.scss";
+import PlaySVG from "@/app/ui/icons/play.svg";
+import CreateSVG from "@/app/ui/icons/AddNew.svg";
+import ArtistSVG from "@/app/ui/icons/user.svg";
+import AlbumSVG from "@/app/ui/icons/record.svg";
+import SingleSVG from "@/app/ui/icons/single-icon.svg";
+import CompilationSVG from "@/app/ui/icons/collection-icon.svg";
+import SongSVG from "@/app/ui/icons/song.svg";
+import ArticleSVG from "@/app/ui/icons/article.svg";
+import "@/app/ui/styles/DropdownList.scss";
 
 const CreateDropdownList: React.FC = () => {
   const blockRef = useRef<HTMLDivElement>(null);
@@ -46,8 +48,16 @@ const CreateDropdownList: React.FC = () => {
             <span>Artist</span>
           </button>
           <button className="dropdown-button">
-            <RecordSVG />
-            <span>Record</span>
+            <AlbumSVG />
+            <span>Album</span>
+          </button>
+          <button className="dropdown-button">
+            <SingleSVG />
+            <span>Single</span>
+          </button>
+          <button className="dropdown-button">
+            <CompilationSVG />
+            <span>Compilation</span>
           </button>
           <button className="dropdown-button">
             <SongSVG />

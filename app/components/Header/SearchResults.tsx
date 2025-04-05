@@ -4,8 +4,8 @@ import SongItem from "./SongItem";
 import ArtistItem from "./ArtistItem";
 import { RecordType, SongType, ArtistType } from "@/app/types/records";
 import "@/app/ui/styles/SearchResults.scss";
-import LoadingSVG from "@/app/icons/LoadingCircle.svg";
-import ArrowSVG from "@/app/icons/arrow.svg";
+import LoadingSVG from "@/app/ui/icons/LoadingCircle.svg";
+import ArrowSVG from "@/app/ui/icons/arrow.svg";
 import "../../ui/scrollbar.scss";
 
 type SearchResultsProps = {

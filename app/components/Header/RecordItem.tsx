@@ -1,12 +1,12 @@
 import React from "react";
 import Image from "next/image";
-import PlaySVG from "@/app/icons/play.svg";
-import MoreSVG from "@/app/icons/3-dots.svg";
+import PlaySVG from "@/app/ui/icons/play.svg";
+import MoreSVG from "@/app/ui/icons/3-dots.svg";
 import { RecordType } from "@/app/types/records";
 import Marquee from "./Marquee";
-import testImage from "@/app/icons/vinyl_low_res.png";
+import testImage from "@/app/ui/icons/vinyl_low_res.png";
 import "../../ui/styles/RecordItem.scss";
-import ArrowSVG from "@/app/icons/arrow.svg";
+import ArrowSVG from "@/app/ui/icons/arrow.svg";
 
 interface RecordItemProps {
   records: RecordType[];

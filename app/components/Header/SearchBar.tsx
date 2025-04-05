@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import SearchSVG from "@/app/icons/Search.svg";
+import SearchSVG from "@/app/ui/icons/Search.svg";
 import "@/app/ui/styles/SearchBar.scss";
 import "@/app/ui/ui-elements.scss";
 import { useSearch } from "@/app/hooks/useSearch";
