@@ -2,7 +2,7 @@ import React from "react";
 import RecordItem from "./RecordItem";
 import SongItem from "./SongItem";
 import ArtistItem from "./ArtistItem";
-import { RecordType, SongType, ArtistType } from "@/app/types/records";
+import { RecordType, SongType, ArtistType } from "@/app/domain/types/records";
 import "@/app/ui/styles/SearchResults.scss";
 import LoadingSVG from "@/app/ui/icons/LoadingCircle.svg";
 import ArrowSVG from "@/app/ui/icons/arrow.svg";

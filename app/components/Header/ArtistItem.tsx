@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ArtistType } from "@/app/types/records";
+import { ArtistType } from "@/app/domain/types/records";
 import "../../ui/styles/ArtistItem.scss";
 import DefaultProfileSVG from "@/app/icons/user-default-2.svg";
 import "../../ui/scrollbar.scss";

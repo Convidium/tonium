@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import PlaySVG from "@/app/ui/icons/play.svg";
 import MoreSVG from "@/app/ui/icons/3-dots.svg";
-import { RecordType } from "@/app/types/records";
+import { RecordType } from "@/app/domain/types/records";
 import Marquee from "./Marquee";
 import testImage from "@/app/ui/icons/vinyl_low_res.png";
 import "../../ui/styles/RecordItem.scss";

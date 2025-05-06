@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchRecords, fetchRecentRecords, fetchSongs, fetchArtists } from "@/app/services/recordService";
-import { RecordType, SongType, ArtistType } from "@/app/types/records";
+import { RecordType, SongType, ArtistType } from "@/app/domain/types/records";
 
 export const useSearch = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");

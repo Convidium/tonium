@@ -8,7 +8,7 @@ export const fetchRecords = async (query: string): Promise<RecordType[]> => {
     const data = await res.json();
     console.log(`/api/search?q=${query}`, data);
 
-    return Array.isArray(data.data?.records) ? data.data.records.map(record => ({
+    return Array.isArray(data.data?.records) ? data.data.records.map((record: RecordType) => ({
       ...record,
       image: record.record_cover_path || undefined,
       title: record.record_name,
@@ -28,7 +28,7 @@ export const fetchSongs = async (query: string): Promise<SongType[]> => {
     const data = await res.json();
     console.log(`/api/search?q=${query}`, data);
 
-    return Array.isArray(data.data?.song_files) ? data.data.song_files.map(song => ({
+    return Array.isArray(data.data?.song_files) ? data.data.song_files.map((song: SongType) => ({
       ...song,
       image: song.record_cover_path || undefined,
       title: song.song_name,
@@ -48,7 +48,7 @@ export const fetchArtists = async (query: string): Promise<ArtistType[]> => {
     const data = await res.json();
     console.log(`/api/search?q=${query}`, data);
 
-    return Array.isArray(data.data?.artists) ? data.data.artists.map(artist => ({
+    return Array.isArray(data.data?.artists) ? data.data.artists.map((artist: ArtistType) => ({
       ...artist,
       image: artist.artist_logo_path || undefined,
       title: artist.artist_name,
@@ -64,7 +64,7 @@ export const fetchRecentRecords = async (): Promise<RecordType[]> => {
     const res = await fetch(`/api/recent_records?limit=6`);
     if (!res.ok) throw new Error("Failed to fetch recent records");
     const data = await res.json();
-    return Array.isArray(data.data?.records) ? data.data.records.map(record => ({
+    return Array.isArray(data.data?.records) ? data.data.records.map((record: RecordType) => ({
       ...record,
       image: record.record_cover_path || undefined,
       title: record.record_name,
