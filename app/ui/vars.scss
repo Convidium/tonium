@@ -17,6 +17,9 @@
     --accent-opacity: 1;
     --accent-bg-hsl: hsla(var(--accent-h), var(--accent-s), var(--accent-l), var(--accent-opacity));
 
+    --error-hsl: hsla(0, 94%, 35%, 1);
+    --error-border-hsl: hsla(0, 94%, 20%, 1);
+
 
     --text-main-hsl: hsla(0, 0%, 90%, 1);
     --text-dimmed-hsl: hsla(0, 0%, 76%, 1);

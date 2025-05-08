@@ -7,10 +7,13 @@ import LoadingSVG from "@/app/ui/icons/LoadingCircle.svg";
 interface SelectInputProps<OptionType> {
     label: string;
     value: string;
-    onSelect: (value: string) => void;
+    onSelect: (value: OptionType | null) => void;
+    createNewOption: (label: string) => OptionType;
+    selectedOptionName: string;
     options: OptionType[];
     loading: boolean;
     onChange: (value: string) => void;
+    getOptionLabel: (option: OptionType) => string;
     placeholder?: string;
     required?: boolean;
     errorMessage?: string;
@@ -19,31 +22,38 @@ interface SelectInputProps<OptionType> {
 }
 
 const SelectInput = <OptionType,>({
-    label,
-    value,
-    onSelect,
-    onChange,
-    options,
-    loading,
-    placeholder = '',
-    required = false,
-    errorMessage = '',
-    className = '',
-    error = false,
+    label, value,
+    onSelect, onChange,
+    createNewOption,
+    selectedOptionName,
+    getOptionLabel,
+    options, loading,
+    placeholder = '', required = false, errorMessage = '', error = false, className = '',
 }: SelectInputProps<OptionType>) => {
+    const [isSelected, setIsSelected] = useState(false);
+    const [selectedElement, setSelectedElement] = useState<string>(selectedOptionName);
     const [isActive, setIsActive] = useState(false);
     const blockRef = useRef<HTMLDivElement>(null);
+    const [isError, setIsError] = useState<boolean>(error);
 
     const toggleVisibility = (state?: boolean) => {
         setIsActive(state !== undefined ? state : !isActive);
     };
 
-    const [isSelected, setIsSelected] = useState(false);
-    const [selectedElement, setSelectedElement] = useState<OptionType | null>(null);
-    const handleSelect = (option: OptionType) => {
-        setSelectedElement(option);
+    const createOption = (value: string) => {
+        setIsError(false);
+        if (value == "") return setIsError(true);
+        setSelectedElement(value);
+        const resultOption = createNewOption(value);
+        onSelect(resultOption);
         setIsSelected(true);
-        toggleVisibility(false);
+    }
+
+    const selectOption = (value: OptionType, name: string) => {
+        setIsError(false);
+        onSelect(value);
+        setSelectedElement(name);
+        setIsSelected(true);
     }
 
     const handleClickOutside = (event: MouseEvent) => {
@@ -51,6 +61,12 @@ const SelectInput = <OptionType,>({
             setIsActive(false);
         }
     };
+
+    const removeSelectedOption = () => {
+        setIsSelected(false);
+        setSelectedElement("");
+        onSelect(null);
+    }
 
     React.useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
@@ -60,16 +76,18 @@ const SelectInput = <OptionType,>({
     return (
         <div className={`custom-select-input ${className}`} ref={blockRef}>
             <label className="input-label">
-                {label}
-                {required && <span className="required-star">*</span>}
-                {error && <span className="error-message">{errorMessage}</span>}
+                <div>
+                    {label}
+                    {required && <span className="required-star">*</span>}
+                </div>
+                {isError && <span className="error-message">{errorMessage}</span>}
             </label>
-            <div className='select-input-wrapper'>
+            <div className={`select-input-wrapper ${isError ? "error" : ""}`}>
                 {
                     isSelected ?
                         <div className='selected-filed'>
-                            <span>Selected option</span>
-                            <CrossSVG />
+                            <span>{selectedElement}</span>
+                            <CrossSVG onClick={() => removeSelectedOption()} />
                         </div>
                         :
                         <input
@@ -85,17 +103,20 @@ const SelectInput = <OptionType,>({
                 </button>
             </div>
             <div className={'select-input-block' + (isActive ? ' list-visible' : ' list-unvisible')}>
-                <button className='select-input-create' onClick={() => selectElement()}> Create new option +</button>
+                <button className='select-input-create' onClick={() => createOption(value)}>
+                    Create new option +
+                </button>
                 <div className='select-input-list'>
-                    {options.map((option: OptionType) => (
+                    {options.map((option: OptionType, key: number) => (
                         <div
-                            key={option.artist_id}
+                            key={key}
                             className='list-option'
-                            onClick={() => selectOption(option)}
+                            onClick={() => selectOption(option, getOptionLabel(option))}
                         >
-                            {option.artist_name}
+                            {getOptionLabel(option)}
                         </div>
                     ))}
+                    {options.length === 0 ? <span>No results were found.</span> : null}
                 </div>
             </div>
         </div>

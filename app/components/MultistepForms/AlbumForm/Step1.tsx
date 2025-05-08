@@ -7,7 +7,7 @@ import { fetchData } from '@/app/services/fetchService';
 import { memoize } from '@/app/utils/memoize';
 
 type Artist = {
-  artist_id: number;
+  artist_id?: number;
   artist_name: string;
   isNew?: boolean;
 }
@@ -55,7 +55,6 @@ const Step1 = () => {
       .finally(() => setIsLoading(false));
   }, [debouncedQuery]);
 
-
   return (
     <div className='step1-album'>
       <TextInput
@@ -81,10 +80,17 @@ const Step1 = () => {
           setArtistQuery(val);
           if (val.trim() !== '') setArtistError(false);
         }}
+        createNewOption={(label) => ({
+          artist_id: -1,
+          artist_name: label,
+          isNew: true
+        })}
         options={options}
-        selectedOption={selectedOption}
-        placeholder="Enter the title of the album"
+        selectedOptionName={selectedOption?.artist_name ? selectedOption?.artist_name : ""}
+        getOptionLabel={(artist) => artist.artist_name}
+        placeholder="Select artist (use 'Enter' to create)"
         required
+        loading={false}
         error={artistError}
         errorMessage="This field is required!"
         className='album-title-input'

@@ -4,9 +4,15 @@
     gap: 3px;
 
     .input-label {
+        display: flex;
+        justify-content: space-between;
         font-family: "Grotezk Regular";
         font-size: var(--f-XM);
         color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+
+        .error-message{
+            color: var(--error-hsl);
+        }
     }
 
     .select-input-wrapper {
@@ -20,12 +26,19 @@
         border-radius: var(--border-radius-default);
         width: --webkit-fill-available;
 
+        &.error{
+            border-color: var(--error-border-hsl);
+            &:hover {
+                border-color: var(--error-border-hsl);
+            }
+        }
+
         &:hover {
-            border: 2px solid hsla(var(--cp-h), var(--cp-s), var(--cp-l-5), 1);
+            border-color: hsla(var(--cp-h), var(--cp-s), var(--cp-l-5), 1);
         }
 
         &:focus {
-            border: 2px solid hsla(var(--cp-h), var(--cp-s), var(--cp-l-6), 0.7);
+            border-color: hsla(var(--cp-h), var(--cp-s), var(--cp-l-6), 0.7);
         }
 
         .input-field {
@@ -158,6 +171,12 @@
                     background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-3));
                     color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-8));
                 }
+            }
+            span{
+                width: 100%;
+                text-align: center;
+                padding: 1rem 0;
+                color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
             }
         }
 
