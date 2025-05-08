@@ -22,6 +22,11 @@ export class RequestParser {
         return this.searchParams.get('q');
     }
 
+    getFields(): string[] | null {
+        const fieldsParam = this.searchParams.get('fields');
+        return fieldsParam ? fieldsParam.split(',') : null;
+    }
+
     getTables(defaultTables: string[] = ["song_files", "records", "artists", "recent_listened_records"]): string[] {
         const tablesParam = this.searchParams.get('table');
         console.log(tablesParam);

@@ -1,17 +1,34 @@
-import * as React from 'react'
+import React from 'react';
+import "@/app/ui/styles/ui-components/TextInput.scss";
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+interface TextInputProps {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  required?: boolean;
+  errorMessage?: string;
+  className?: string;
+  error?: boolean;
+}
 
-export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type = 'text', ...props }, ref) => {
-    return (
+const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, placeholder = '', required = false, errorMessage = '', className = '', error = false}) => {
+  return (
+    <div className={`custom-text-input ${className}`}>
+      <label className="input-label">
+        {label}
+        {required && <span className="required-star">*</span>}
+        {error && <span className="error-message">{errorMessage}</span>}
+      </label>
       <input
-        type={type}
-        className={"class"}
-        ref={ref}
-        {...props}
+        type="text"
+        value={value}
+        placeholder={placeholder}
+        onChange={(e) => onChange(e.target.value)}
+        className={`input-field ${error ? 'input-error' : ''}`}
       />
-    )
-  }
-)
-Input.displayName = 'Input'
+    </div>
+  );
+};
+
+export default TextInput;

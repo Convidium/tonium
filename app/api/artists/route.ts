@@ -9,6 +9,7 @@ export async function GET(request: NextRequest) {
         const parser = new RequestParser(request);
         const limit = parser.getLimit();
         const page = parser.getPage();
+        const fields = parser.getFields();
 
         const result = await findMany("artists", {}, limit, page);
         if (result.error) {
@@ -16,7 +17,19 @@ export async function GET(request: NextRequest) {
         }
 
         const serializedData = convertBigIntToString(result.data);
-        return NextResponse.json({ data: serializedData }, { status: result.status });
+        const filteredData = fields
+            ? serializedData.map((artist: any) => {
+                  const filtered: Record<string, any> = {};
+                  for (const field of fields) {
+                      if (artist.hasOwnProperty(field)) {
+                          filtered[field] = artist[field];
+                      }
+                  }
+                  return filtered;
+              })
+            : serializedData;
+
+        return NextResponse.json({ data: filteredData }, { status: result.status });
 
     } catch (error: any) {
         console.error("API error:", error);

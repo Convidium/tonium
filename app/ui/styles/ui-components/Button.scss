@@ -1,0 +1,83 @@
+.custom-button {
+    background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-0));
+    color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+    font-family: "Grotezk Regular";
+    font-size: var(--f-M);
+    border-radius: var(--border-radius-default);
+    padding: 0.5rem;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.nav-button {
+    font-family: "Grotezk Fett";
+    font-size: var(--f-L);
+    border-radius: calc(var(--border-radius-default)*2);
+    padding: 0.15rem;
+    width: max-content;
+    border: 2px solid hsla(var(--cp-h), var(--cp-s), var(--cp-l-5), 0.7);
+
+    &:hover {
+        svg {
+            fill: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7)) !important;
+        }
+
+        color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
+        border: 2px solid hsla(var(--cp-h), var(--cp-s), var(--cp-l-5), 1);
+    }
+
+    &:active {
+        .button-bg {
+            background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-2));
+        }
+    }
+
+    .button-bg {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.25rem;
+        background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-3));
+        border-radius: calc(var(--border-radius-default) + 1px);
+    }
+
+    span {
+        padding: 0 0.5rem;
+    }
+
+    svg {
+        fill: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6)) !important;
+        height: 30px;
+        width: fit-content;
+    }
+}
+
+.nav-prev {
+    svg {
+        transform: rotate(180deg);
+    }
+}
+
+
+.nav-submit {
+    border: 2px solid hsla(var(--cp-h), var(--cp-s), var(--cp-l-5), 0.7);
+
+    &:hover {
+        border: 2px solid hsla(var(--cp-h), var(--cp-s), var(--cp-l-7), 1);
+    }
+    
+    &:active {
+        .button-bg {
+            background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+        }
+    }
+
+    .button-bg {
+        background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
+        color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-3));
+
+        svg {
+            fill: hsl(var(--cp-h), var(--cp-s), var(--cp-l-3)) !important;
+        }
+    }
+}

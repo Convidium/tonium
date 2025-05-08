@@ -1,4 +1,4 @@
-.form-wrapper{
+.form-wrapper {
     position: absolute;
     width: 100%;
     height: calc(100vh - 4rem);
@@ -6,55 +6,86 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    .form-container{
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         width: 800px;
         height: 550px;
         color: white;
         background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-2));
         border-radius: var(--border-radius-default);
-        border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-3));
-        .form-header{
+        border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-4));
+
+        .form-header {
             display: grid;
             grid-template-columns: 100px 1fr 100px;
             align-items: center;
             padding: 1rem;
             background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-1));
-            .tooltip{
+
+            .tooltip {
                 font-family: "Grotezk Cyrillic Bold";
                 text-align: left;
                 font-size: var(--f-XM);
                 opacity: 0.4;
                 cursor: pointer;
-                &:hover{
+
+                &:hover {
                     opacity: 1;
                 }
             }
-            .title{
+
+            .title {
                 font-family: "Grotezk Fett";
                 text-align: center;
                 font-size: var(--f-XL);
-                color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+                color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
             }
-            .step{
+
+            .step {
                 font-family: "Grotezk Cyrillic Bold";
                 text-align: right;
                 font-size: var(--f-XM);
-                color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-5));
-                span{ 
-                    color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+                color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+
+                span {
+                    color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
                     font-family: "Grotezk Fett";
                     cursor: pointer;
-                    span:hover{
+
+                    span:hover {
                         opacity: 1;
                         text-decoration: underline;
                     }
                 }
             }
         }
-        .splitting-line{
+
+        .splitting-line {
             margin: 0;
             padding: 0;
-            border: 1px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-3));
+            border: 1px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-4));
+        }
+
+        .step-viewport{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: -webkit-fill-available;
+            margin: auto;
+            width: calc(100% - 2rem);
+        }
+
+        .step-navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            width: -webkit-fill-available;
+            &.nav-end {
+                justify-content: flex-end !important;
+            }
         }
     }
 }

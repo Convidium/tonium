@@ -3,8 +3,10 @@ import SearchSVG from "@/app/ui/icons/Search.svg";
 import "@/app/ui/styles/SearchBar.scss";
 import "@/app/ui/ui-elements.scss";
 import { useSearch } from "@/app/hooks/useSearch";
-import { useDebounce } from "@/app/hooks/useDebounce";
+import useDebouncedValue from "@/app/hooks/useDebouncedValue";
 import SearchResults from "./SearchResults";
+import { paginatedFetcher } from "@/app/utils/apiPaginator";
+// import type { RecordType, SongType, ArtistType } from "@/app/types/records";
 
 const SearchBar: React.FC = () => {
   const {
@@ -38,7 +40,7 @@ const SearchBar: React.FC = () => {
     });
   };
 
-  const debouncedSearchTerm = useDebounce(searchTerm, 100);
+  const debouncedSearchTerm = useDebouncedValue(searchTerm, 100);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (

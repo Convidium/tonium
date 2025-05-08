@@ -1,5 +1,8 @@
 import { FormStep, useFormContext } from "./FormContext";
 import "@/app/ui/styles/forms/multistepForm.scss";
+import Button from "../UI/Button";
+import ArrowSharpSVG from "@/app/ui/icons/arrow-sharp.svg";
+import CheckSVG from "@/app/ui/icons/check.svg";
 
 type MultistepFormProps = {
     config: FormStep[];
@@ -28,23 +31,25 @@ export const MultistepForm = ({ config, onSubmit }: MultistepFormProps) => {
     return (
         <div className="form-wrapper">
             <div className="form-container">
-                <div className="form-header">
-                    <div className="tooltip">In Alpha</div>
-                    <div className="title">{config[currentStep].title}</div>
-                    <div className="step">Step: <span>{currentStep+1}</span> of {config.length}</div>
+                <div className="form-header-wrapper">
+                    <div className="form-header">
+                        <div className="tooltip">In Alpha</div>
+                        <div className="title">{config[currentStep].title}</div>
+                        <div className="step">Step: <span>{currentStep + 1}</span> of {config.length}</div>
+                    </div>
+                    <hr className="splitting-line" />
                 </div>
-                <hr className="splitting-line"/>
                 <div className="step-viewport">
                     <CurrentComponent />
                 </div>
-                <div className="flex justify-between">
+                <div className={(currentStep === 0 ? "nav-end " : "") + "step-navigation"}>
                     {currentStep > 0 && (
-                        <button onClick={handleBack}>Back</button>
+                        <Button label="Prev" onClick={handleBack} className="nav-button nav-prev" icon={<ArrowSharpSVG/>} iconPosition={"left"}/>
                     )}
                     {currentStep < config.length - 1 ? (
-                        <button onClick={handleNext}>Next</button>
+                        <Button label="Next" onClick={handleNext} className="nav-button nav-next" icon={<ArrowSharpSVG/>} iconPosition={"right"}/>
                     ) : (
-                        <button onClick={handleSubmit}>Submit</button>
+                        <Button label="Submit" onClick={handleSubmit} className="nav-button nav-submit" icon={<CheckSVG/>}/>
                     )}
                 </div>
             </div>

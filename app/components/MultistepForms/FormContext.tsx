@@ -19,7 +19,7 @@ type FormContextType = {
   resetForm: () => void
 }
 
-const FormContext = createContext<FormContextType | null>(null)
+const FormContext = createContext<FormContextType | null>(null);
 
 export const useFormContext = () => {
   const context = useContext(FormContext)

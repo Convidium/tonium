@@ -1,0 +1,200 @@
+.custom-select-input {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    .input-label {
+        font-family: "Grotezk Regular";
+        font-size: var(--f-XM);
+        color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+    }
+
+    .select-input-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0.2rem;
+        display: flex;
+        background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-0));
+        border: 2px solid hsla(var(--cp-h), var(--cp-s), var(--cp-l-5), 0.7);
+        border-radius: var(--border-radius-default);
+        width: --webkit-fill-available;
+
+        &:hover {
+            border: 2px solid hsla(var(--cp-h), var(--cp-s), var(--cp-l-5), 1);
+        }
+
+        &:focus {
+            border: 2px solid hsla(var(--cp-h), var(--cp-s), var(--cp-l-6), 0.7);
+        }
+
+        .input-field {
+            padding: 0.3rem;
+            background-color: transparent;
+            width: -webkit-fill-available;
+            height: -webkit-fill-available;
+            border: none;
+            border-radius: calc(var(--border-radius-default) - 2px);
+            font-family: "Grotezk Regular", "Grotezk Cyrillic Regular";
+            font-size: var(--f-XM);
+            color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
+            outline: none;
+
+            &::placeholder {
+                color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-5));
+            }
+        }
+
+        .selected-filed{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-right: 3px;
+            padding: 0.3rem 0.5rem;
+            background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-3));
+            width: -webkit-fill-available;
+            height: -webkit-fill-available;
+            border: none;
+            border-radius: calc(var(--border-radius-default) - 2px);
+            font-family: "Grotezk Regular", "Grotezk Cyrillic Regular";
+            font-size: var(--f-XM);
+            color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
+            &:hover{
+                background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-4));
+            }
+
+            svg{
+                cursor: pointer;
+                height: 16px;
+                width: 16px;
+                fill: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
+            }
+        }
+
+        .expand-button{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 1;
+            height: 100%;
+            border: none;
+            border-radius: calc(var(--border-radius-default) - 2px);
+            background-color: transparent;
+            transition: 0.2s;
+            cursor: pointer;
+            svg{
+                scale: 0.9;
+                fill: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+            }
+            &:hover{
+                background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-3));
+                svg{
+                    fill: hsl(var(--cp-h), var(--cp-s), var(--cp-l-8));
+                }
+            }
+            &.active{ 
+                background-color: hsla(var(--cp-h), var(--cp-s), var(--cp-l-4));
+                svg{
+                    rotate: 180deg;
+                }
+            }
+        }
+    }
+
+    .select-input-block{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: fit-content;
+        position: absolute;
+        margin-top: 5rem;
+        padding: 0.2rem;
+        background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-0));
+        border: 2px solid hsla(var(--cp-h), var(--cp-s), var(--cp-l-5), 0.7);
+        border-radius: var(--border-radius-default);
+        width: calc(300px - 0.6rem);
+        font-family: "Grotezk Regular", "Grotezk Cyrillic Regular";
+
+        .select-input-create{
+            width: 100%;
+            padding: 0.2rem;
+            background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-4));
+            border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-5));
+            border-radius: calc(var(--border-radius-default) - 2px);
+            font-family: "Grotezk Fett";
+            font-size: var(--f-XM);
+            color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+            cursor: pointer;
+            &:hover{
+                color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-8));
+                border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+                &:active{
+                    border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-5));
+                    color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+                }
+            }
+        }
+
+        .select-input-list{
+            margin-top: 3px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            overflow-y: scroll;
+            max-height: 150px;
+            font-size: var(--f-XM);
+            .list-option{
+                padding: 0.3rem 0.5rem;
+                margin: 2px 0;
+                margin-right: 0.25rem;
+                background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-2));
+                color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
+                border: none;
+                border-radius: calc(var(--border-radius-default) - 2px);
+                cursor: pointer;
+                user-select: none;
+                &:hover{
+                    background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-3));
+                    color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-8));
+                }
+            }
+        }
+
+        &.list-unvisible{
+            animation: fadeOut 0.2s normal forwards linear;
+        }
+
+        &.list-visible{
+            animation: fadeIn 0.2s normal forwards linear;
+        }
+    }
+}
+
+.album-title-input {
+    width: 300px;
+}
+
+@keyframes fadeOut {
+    0% {
+        display: flex;
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        display: flex;
+        opacity: 0;
+    }
+
+    100% {
+        display: flex;
+        opacity: 1;
+    }
+}
