@@ -27,8 +27,8 @@ function FormChooseModel({ handleSelect }: FormChooseModelProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className='form-component form-desktop'>
-      <div className='form-wrapper'>
+    <div className='creation-form-component form-desktop'>
+      <div className='creation-form-wrapper'>
         <div className='form-title'>Create new model</div>
         <hr className='splitting-line' />
         <div className='form-block' ref={viewportRef}>

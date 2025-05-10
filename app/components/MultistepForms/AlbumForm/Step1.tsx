@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import TextInput from '../../UI/Input';
 import SelectInput from '../../UI/SelectInput';
+import DatePicker from '../../UI/DatePicker';
 import "@/app/ui/styles/forms/albumForm/step1.scss";
 import useDebouncedValue from '@/app/hooks/useDebouncedValue';
 import { fetchData } from '@/app/services/fetchService';
@@ -38,6 +39,15 @@ const Step1 = () => {
   const [artistError, setArtistError] = useState<boolean>(false);
 
   const debouncedQuery: string = useDebouncedValue(artistQuery, 300);
+
+  useEffect(() => {
+    memoizedFetchArtists("")
+      .then(data => setOptions(data?.data || []))
+      .catch((err) => {
+        console.error("Artist fetch failed", err);
+        setOptions([]);
+      })
+  }, []);
 
   useEffect(() => {
     if (debouncedQuery.trim() === '') {
@@ -90,12 +100,12 @@ const Step1 = () => {
         getOptionLabel={(artist) => artist.artist_name}
         placeholder="Select artist (use 'Enter' to create)"
         required
-        loading={false}
+        loading={isLoading}
         error={artistError}
         errorMessage="This field is required!"
         className='album-title-input'
       />
-      <TextInput
+      <DatePicker
         label="Album Title"
         value={title}
         onChange={(val) => {

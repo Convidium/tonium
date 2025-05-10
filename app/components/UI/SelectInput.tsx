@@ -107,16 +107,21 @@ const SelectInput = <OptionType,>({
                     Create new option +
                 </button>
                 <div className='select-input-list'>
-                    {options.map((option: OptionType, key: number) => (
-                        <div
-                            key={key}
-                            className='list-option'
-                            onClick={() => selectOption(option, getOptionLabel(option))}
-                        >
-                            {getOptionLabel(option)}
-                        </div>
-                    ))}
-                    {options.length === 0 ? <span>No results were found.</span> : null}
+                    {
+                        loading ? (<span><LoadingSVG /></span>) : (
+                            options.length === 0 ? <span>No results were found.</span>
+                                :
+                                options.map((option: OptionType, key: number) => (
+                                    <div
+                                        key={key}
+                                        className='list-option'
+                                        onClick={() => selectOption(option, getOptionLabel(option))}
+                                    >
+                                        {getOptionLabel(option)}
+                                    </div>
+                                ))
+                        )
+                    }
                 </div>
             </div>
         </div>

@@ -10,6 +10,7 @@ import CompilationSVG from "@/app/ui/icons/collection-icon.svg";
 import ArticleSVG from "@/app/ui/icons/article.svg";
 import TrackSVG from "@/app/ui/icons/song.svg";
 import AddSVG from "@/app/ui/icons/fat-plus.svg";
+import FormChooseModel from '../components/FormCreation/FormChooseModel';
 
 const options = [
   { label: 'Album', icon: AlbumSVG, option1: "One artist", option2: "Multiple songs", option3: "One cover", value: 'album' },
@@ -28,35 +29,7 @@ function CreatePage() {
   }
 
   return (
-    <div className='form-component form-desktop'>
-      <div className='form-wrapper'>
-        <div className='form-title'>Create new model</div>
-        <hr className='splitting-line' />
-        <div className='form-block'>
-          {options.map(({label, value, option1, option2, option3, icon: Component }, index) => (
-            <div className='form-create-option' key={index}>
-              <div className='option-title'>
-                {label}
-              </div>
-              <hr className='splitting-line' />
-              <div className='option-description'>
-                <div className='option-icon'>
-                  {<Component/>}
-                  </div>
-                <div className='option-text'>
-                  <span>{option1}</span>
-                  <span>{option2}</span>
-                  <span>{option3}</span>
-                </div>
-              </div>
-              <button className='option-btn' onClick={() => handleSelect(value)}>
-                <AddSVG/>
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    <FormChooseModel handleSelect={handleSelect}/>
   )
 }
 
