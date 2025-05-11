@@ -41,7 +41,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange, require
   }, []);
 
   return (
-    <div className='datepicker-container'>
+    <div className='datepicker-container' ref={blockRef}>
       <DPInput
         label={label}
         valueDay={currentDay}
@@ -60,7 +60,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange, require
         maxYear={fullYearNow}
         minYear={1900}
       />
-      <div className={`datepicker-selector-block w-300-cor-05 ${isCalendarOpen ? 'list-visible' : 'list-unvisible'}`} ref={blockRef} >
+      <div className={`datepicker-selector-block w-300-cor-05 ${isCalendarOpen ? 'list-visible' : 'list-unvisible'}`}>
         <Scroller data-from={1} data-to={31} />
         <Scroller data-to-select={months} />
         <Scroller data-from={1900} data-to={fullYearNow} />
