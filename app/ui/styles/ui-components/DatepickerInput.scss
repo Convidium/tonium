@@ -6,7 +6,7 @@
     .date-input-block {
         display: grid;
         align-items: center;
-        grid-template-columns: 30px 8px 30px 8px 60px 1fr;
+        grid-template-columns: 35px 8px 35px 8px 60px 1fr;
         padding: 0.1rem 0.2rem;
         background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-0));
         border: 2px solid hsla(var(--cp-h), var(--cp-s), var(--cp-l-5), 0.7);

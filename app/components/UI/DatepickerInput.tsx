@@ -33,6 +33,7 @@ const DatepickerInput: React.FC<DatepickerInputProps> = ({
     const yearInput = useRef<HTMLInputElement>(null);
 
     const handleDayChange = (value: string) => {
+        if (value !== value.trim()) return;
         const toNumber = Number(value);
         if (Number.isNaN(toNumber)) return;
 
@@ -48,6 +49,7 @@ const DatepickerInput: React.FC<DatepickerInputProps> = ({
     }
 
     const handleMonthChange = (value: string) => {
+        if (value !== value.trim()) return;
         const toNumber = Number(value);
         if (Number.isNaN(toNumber)) return;
         if (toNumber > 12) {
@@ -61,6 +63,7 @@ const DatepickerInput: React.FC<DatepickerInputProps> = ({
     }
 
     const handleYearChange = (value: string) => {
+        if (value !== value.trim()) return;
         const toNumber = Number(value);
         if (Number.isNaN(toNumber)) return;
 
