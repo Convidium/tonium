@@ -1,54 +1,69 @@
-import React from 'react';
-import "@/app/ui/styles/ui-components/TextInput.scss";
+import React, { useRef, useState } from 'react';
+import "@/app/ui/styles/ui-components/Datepicker.scss";
+import Scroller from "@/app/components/UI/Scroller";
+import DPInput from "@/app/components/UI/DatepickerInput";
 
 interface DatePickerProps {
   label: string;
   value: string;
   onChange: (value: string) => void;
-  placeholder?: string;
   required?: boolean;
   errorMessage?: string;
   className?: string;
   error?: boolean;
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange, placeholder = '', required = false, errorMessage = '', className = '', error = false}) => {
+const fullYearNow = (new Date).getFullYear();
+const monthNow = (new Date).getMonth();
+const dayNow = (new Date).getDate();
+
+
+const existingMonths: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange, required = false, errorMessage = '', className = '', error = false }) => {
+  const [months, setMonths] = useState<string[]>(existingMonths);
+  const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
+  const [currentDay, setCurrentDay] = useState<string>(dayNow.toString());
+  const [currentMonth, setCurrentMonth] = useState<string>(monthNow.toString());
+  const [currentYear, setCurrentYear] = useState<string>(fullYearNow.toString());
+  
+  const blockRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (blockRef.current && !blockRef.current.contains(event.target as Node)) {
+      setIsCalendarOpen(false);
+    }
+  };
+
+  React.useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <div className={`custom-datepicker ${className}`}>
-      <label className="datepicker-label">
-        {label}
-        {required && <span className="required-star">*</span>}
-        {error && <span className="error-message">{errorMessage}</span>}
-      </label>
-      <input
-        type="text"
-        value={value}
-        placeholder={placeholder}
-        onChange={(e) => onChange(e.target.value)}
-        className={`input-field ${error ? 'input-error' : ''}`}
+    <div className='datepicker-container'>
+      <DPInput
+        label={label}
+        valueDay={currentDay}
+        valueMonth={currentMonth}
+        valueYear={currentYear}
+        onChange={onChange}
+        isCalendarOpen={isCalendarOpen}
+        setIsCalendarOpen={setIsCalendarOpen}
+        setCurrentDay={setCurrentDay}
+        setCurrentMonth={setCurrentMonth}
+        setCurrentYear={setCurrentYear}
+        required={required}
+        error={error}
+        errorMessage={errorMessage}
+        className={className}
+        maxYear={fullYearNow}
+        minYear={1900}
       />
-      <div className='datepicker-block'>
-        <div className='datepicker-days'>
-          <div className='day'>1</div>
-          <div className='day'>2</div>
-          <div className='day'>3</div>
-          <div className='day'>4</div>
-          <div className='day'>5</div>
-        </div>
-        <div className='datepicker-months'>
-          <div className='month'>6</div>
-          <div className='month'>7</div>
-          <div className='month'>8</div>
-          <div className='month'>9</div>
-          <div className='month'>10</div>
-        </div>
-        <div className='datepicker-years'>
-          <div className='years'>1978</div>
-          <div className='years'>1979</div>
-          <div className='years'>1980</div>
-          <div className='years'>1981</div>
-          <div className='years'>1982</div>
-        </div>
+      <div className={`datepicker-selector-block w-300-cor-05 ${isCalendarOpen ? 'list-visible' : 'list-unvisible'}`} ref={blockRef} >
+        <Scroller data-from={1} data-to={31} />
+        <Scroller data-to-select={months} />
+        <Scroller data-from={1900} data-to={fullYearNow} />
       </div>
     </div>
   );

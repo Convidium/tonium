@@ -106,17 +106,15 @@ const Step1 = () => {
         className='album-title-input'
       />
       <DatePicker
-        label="Album Title"
-        value={title}
+        label="Date of release"
+        value={""}
         onChange={(val) => {
-          setTitle(val);
-          if (val.trim() !== '') setError(false);
+          console.log(val);
         }}
-        placeholder="Enter the title of the album"
         required
         error={error}
         errorMessage="This field is required!"
-        className='album-title-input'
+        className='w-300'
       />
     </div>
   )
