@@ -17,11 +17,7 @@ const fullYearNow = (new Date).getFullYear();
 const monthNow = (new Date).getMonth();
 const dayNow = (new Date).getDate();
 
-
-const existingMonths: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
 const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange, required = false, errorMessage = '', className = '', error = false }) => {
-  const [months, setMonths] = useState<string[]>(existingMonths);
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const [currentDay, setCurrentDay] = useState<string>(dayNow.toString());
   const [currentMonth, setCurrentMonth] = useState<string>(monthNow.toString());
@@ -61,9 +57,9 @@ const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange, require
         minYear={1900}
       />
       <div className={`datepicker-selector-block w-300-cor-05 ${isCalendarOpen ? 'list-visible' : 'list-unvisible'}`}>
-        <Scroller data-from={1} data-to={31} />
-        <Scroller data-to-select={months} />
-        <Scroller data-from={1900} data-to={fullYearNow} />
+        <Scroller dataFrom={1} dataTo={31} currentValue={currentDay} onValueChange={setCurrentDay} debounceDelay={300} />
+        <Scroller dataFrom={1} dataTo={12} currentValue={currentMonth} onValueChange={setCurrentMonth} debounceDelay={300} />
+        <Scroller dataFrom={1900} dataTo={fullYearNow} currentValue={currentYear} onValueChange={setCurrentYear} debounceDelay={300} />
       </div>
     </div>
   );

@@ -1,32 +1,35 @@
 .datepicker-container {
+        width: 300px;
     .datepicker-selector-block {
+        width: inherit;
         position: absolute;
         margin-top: 0.5rem;
         flex-direction: row;
         align-items: center;
-        padding: 0.5rem;
-        display: flex;
+        padding: 0.5rem 0;
+        display: grid;
+        grid-template-columns: 30% 35% 35% !important;
         background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-0));
         border: 2px solid hsla(var(--cp-h), var(--cp-s), var(--cp-l-5), 0.7);
         border-radius: var(--border-radius-default);
 
         &.w-300-cor-05{
-            width: calc(300px - 1.2rem);
+            width: calc(300px - 0.2rem);
         }
 
         &.list-unvisible{
-            animation: fadeOut 0.2s normal forwards linear;
+            animation: fadeOutDP 0.2s normal forwards linear;
         }
 
         &.list-visible{
-            animation: fadeIn 0.2s normal forwards linear;
+            animation: fadeInDP 0.2s normal forwards linear;
         }
     }
 }
 
-@keyframes fadeOut {
+@keyframes fadeOutDP {
     0% {
-        display: flex;
+        display: grid;
         opacity: 1;
     }
 
@@ -36,14 +39,14 @@
     }
 }
 
-@keyframes fadeIn {
+@keyframes fadeInDP {
     0% {
-        display: flex;
+        display: grid;
         opacity: 0;
     }
 
     100% {
-        display: flex;
+        display: grid;
         opacity: 1;
     }
 }
