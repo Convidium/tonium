@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import "@/app/ui/styles/ui-components/DatepickerInput.scss";
 import CaldenarSVG from "@/app/ui/icons/calendar.svg";
-import { isNumber } from 'util';
 
 interface DatepickerInputProps {
     label: string;
@@ -16,7 +15,6 @@ interface DatepickerInputProps {
     setCurrentDay: (value: string) => void;
     setCurrentMonth: (value: string) => void;
     setCurrentYear: (value: string) => void;
-    onChange: (value: string) => void;
     required?: boolean;
     className?: string;
     errorMessage?: string;
@@ -26,7 +24,7 @@ interface DatepickerInputProps {
 const DatepickerInput: React.FC<DatepickerInputProps> = ({
     label, valueDay, valueMonth, valueYear, maxYear, minYear,
     setCurrentDay, setCurrentMonth, setCurrentYear,
-    isCalendarOpen = false, setIsCalendarOpen, onChange,
+    isCalendarOpen = false, setIsCalendarOpen,
     required = false, className = '', errorMessage = '', isError = false }) => {
     const dayInput = useRef<HTMLInputElement>(null);
     const monthInput = useRef<HTMLInputElement>(null);
@@ -133,11 +131,13 @@ const DatepickerInput: React.FC<DatepickerInputProps> = ({
     return (
         <div className={`custom-datepicker-input ${className}`}>
             <label className="input-label">
-                {label}
-                {required && <span className="required-star">*</span>}
+                <span>
+                    {label}
+                    {required && <span className="required-star">*</span>}
+                </span>
                 {isError && <span className="error-message">{errorMessage}</span>}
             </label>
-            <div className='date-input-block'>
+            <div className={'date-input-block' + (isError ? ' error' : "")}>
                 <input
                     type="text"
                     value={valueDay}

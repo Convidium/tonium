@@ -12,8 +12,9 @@ import { StepComponentProps, useFormContext } from '../FormContext';
 const Step1: React.FC<StepComponentProps> = ({ errors }) => {
   const { formData, setFormData } = useFormContext();
 
-  const [title, setTitle] = useState<string>(formData.title || "");
+  const [selectedTitle, setSelectedTitle] = useState<string>(formData.title || "");
   const [selectedArtist, setSelectedArtist] = useState<Artist | null>(formData.artist || null);
+  const [selectedDate, setSlectedDate] = useState<string>(formData.date || "");
 
   const [artistOptions, setArtistOptions] = useState<Artist[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -67,9 +68,9 @@ const Step1: React.FC<StepComponentProps> = ({ errors }) => {
     <div className='step1-album'>
       <TextInput
         label="Album Title"
-        value={title}
+        value={selectedTitle}
         onChange={(val) => {
-          setTitle(val);
+          setSelectedTitle(val);
           setFormData({ title: val })
         }}
         placeholder="Enter the title of the album"
@@ -106,8 +107,8 @@ const Step1: React.FC<StepComponentProps> = ({ errors }) => {
       />
       <DatePicker
         label="Date of release"
-        value={""}
-        onChange={(val) => {
+        prevDate={selectedDate}
+        onSelect={(val) => {
           setFormData({ date: val })
         }}
         required

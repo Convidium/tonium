@@ -67,12 +67,22 @@
                 }
             }
         }
+
+        &.error{
+            border-color: var(--error-border-hsl);
+        }
     }
 
     .input-label {
+        display: flex;
+        flex-direction: column;
         font-family: "Grotezk Regular";
         font-size: var(--f-XM);
         color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+
+        .error-message{
+            color: var(--error-hsl);
+        }
     }
 }
 

@@ -3,14 +3,16 @@ import Step2 from '@/app/components/MultistepForms/AlbumForm/Step2';
 import Step3 from '@/app/components/MultistepForms/AlbumForm/Step3';
 
 import * as Yup from 'yup';
+import { MIN_YEAR, MAX_YEAR } from '@/app/configs/constants';
 import isTitleUnique from '@/app/utils/validators/isTitleUnique';
 
 import { FormStep } from '@/app/components/MultistepForms/FormContext';
 
 import { Artist } from '@/app/types/selectableArtists';
 
-export const albumConfig: FormStep[] = [
+const dateRegex = /^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[012])-(19|20)\d\d$/;
 
+export const albumConfig: FormStep[] = [
   {
     id: 'basic',
     title: "Add basic album info",
@@ -59,12 +61,31 @@ export const albumConfig: FormStep[] = [
             otherwise: (schema) => schema.notRequired().nullable(),
           }),
         }),
+      date: Yup.string()
+        .required('Date is required')
+        .matches(dateRegex, 'Date must be in DD-MM-YYYY format')
+        .test('is-valid-date', 'Date is not valid', value => {
+          if (!value) return false;
+          const [day, month, year] = value.split('-').map(Number);
+          const dateObj = new Date(year, month - 1, day);
+          return (
+            dateObj.getFullYear() === year &&
+            dateObj.getMonth() === month - 1 &&
+            dateObj.getDate() === day
+          );
+        })
+        .test("is-date-in-range", `Date must be from ${MIN_YEAR} to ${MAX_YEAR}`, value => {
+          if (!value) return false;
+          const year = Number(value.split('-')[2]);
+          return year >= MIN_YEAR && year <= MAX_YEAR;
+        }),
     }),
   },
   {
     id: 'additional',
     title: "Add additional album info",
-    component: Step2
+    component: Step2,
+
   },
   {
     id: 'cover',

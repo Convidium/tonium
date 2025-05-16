@@ -1,12 +1,14 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import "@/app/ui/styles/ui-components/Datepicker.scss";
 import Scroller from "@/app/components/UI/Scroller";
 import DPInput from "@/app/components/UI/DatepickerInput";
+import { MIN_YEAR, MAX_YEAR } from '@/app/configs/constants';
+
 
 interface DatePickerProps {
   label: string;
-  value: string;
-  onChange: (value: string) => void;
+  prevDate: string;
+  onSelect: (value: string) => void;
   required?: boolean;
   className?: string;
   errorMessage?: string;
@@ -17,7 +19,7 @@ const fullYearNow = (new Date).getFullYear();
 const monthNow = (new Date).getMonth();
 const dayNow = (new Date).getDate();
 
-const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange, required = false, className = '', errorMessage = '', isError = false }) => {
+const DatePicker: React.FC<DatePickerProps> = ({ label, prevDate, onSelect, required = false, className = '', errorMessage = '', isError = false }) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const [currentDay, setCurrentDay] = useState<string>(dayNow.toString());
   const [currentMonth, setCurrentMonth] = useState<string>(monthNow.toString());
@@ -31,6 +33,22 @@ const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange, require
     }
   };
 
+  const parsePrevDate = (date: string) => {
+    const dateArr = date.split("-");
+    setCurrentDay(dateArr[0]);
+    setCurrentMonth(dateArr[1]);
+    setCurrentYear(dateArr[2]);
+  }
+
+  useEffect(() => {
+    parsePrevDate(prevDate);
+  }, [])
+
+  useEffect(() => {
+    const newDate = `${currentDay}-${currentMonth}-${currentYear}`;
+    onSelect(newDate);
+  }, [currentDay, currentMonth, currentYear]);
+
   React.useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -43,7 +61,6 @@ const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange, require
         valueDay={currentDay}
         valueMonth={currentMonth}
         valueYear={currentYear}
-        onChange={onChange}
         isCalendarOpen={isCalendarOpen}
         setIsCalendarOpen={setIsCalendarOpen}
         setCurrentDay={setCurrentDay}
@@ -53,13 +70,13 @@ const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange, require
         isError={isError}
         errorMessage={errorMessage}
         className={className}
-        maxYear={fullYearNow}
-        minYear={1900}
+        maxYear={MAX_YEAR}
+        minYear={MIN_YEAR}
       />
       <div className={`datepicker-selector-block w-300-cor-05 ${isCalendarOpen ? 'list-visible' : 'list-unvisible'}`}>
         <Scroller dataFrom={1} dataTo={31} currentValue={currentDay} onValueChange={setCurrentDay} debounceDelay={300} />
         <Scroller dataFrom={1} dataTo={12} currentValue={currentMonth} onValueChange={setCurrentMonth} debounceDelay={300} />
-        <Scroller dataFrom={1900} dataTo={fullYearNow} currentValue={currentYear} onValueChange={setCurrentYear} debounceDelay={300} />
+        <Scroller dataFrom={MIN_YEAR} dataTo={MAX_YEAR} currentValue={currentYear} onValueChange={setCurrentYear} debounceDelay={300} />
       </div>
     </div>
   );
