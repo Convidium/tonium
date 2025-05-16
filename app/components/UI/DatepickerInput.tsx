@@ -18,16 +18,16 @@ interface DatepickerInputProps {
     setCurrentYear: (value: string) => void;
     onChange: (value: string) => void;
     required?: boolean;
-    errorMessage?: string;
     className?: string;
-    error?: boolean;
+    errorMessage?: string;
+    isError?: boolean;
 }
 
 const DatepickerInput: React.FC<DatepickerInputProps> = ({
     label, valueDay, valueMonth, valueYear, maxYear, minYear,
     setCurrentDay, setCurrentMonth, setCurrentYear,
     isCalendarOpen = false, setIsCalendarOpen, onChange,
-    required = false, errorMessage = '', className = '', error = false }) => {
+    required = false, className = '', errorMessage = '', isError = false }) => {
     const dayInput = useRef<HTMLInputElement>(null);
     const monthInput = useRef<HTMLInputElement>(null);
     const yearInput = useRef<HTMLInputElement>(null);
@@ -135,7 +135,7 @@ const DatepickerInput: React.FC<DatepickerInputProps> = ({
             <label className="input-label">
                 {label}
                 {required && <span className="required-star">*</span>}
-                {error && <span className="error-message">{errorMessage}</span>}
+                {isError && <span className="error-message">{errorMessage}</span>}
             </label>
             <div className='date-input-block'>
                 <input
@@ -143,7 +143,7 @@ const DatepickerInput: React.FC<DatepickerInputProps> = ({
                     value={valueDay}
                     placeholder={"DD"}
                     onChange={(e) => handleDayChange(e.target.value)}
-                    className={`input-field ${error ? 'input-error' : ''}`}
+                    className={`input-field ${isError ? 'input-error' : ''}`}
                     ref={dayInput}
                 />
                 <span>/</span>
@@ -152,7 +152,7 @@ const DatepickerInput: React.FC<DatepickerInputProps> = ({
                     value={valueMonth}
                     placeholder={"MM"}
                     onChange={(e) => handleMonthChange(e.target.value)}
-                    className={`input-field ${error ? 'input-error' : ''}`}
+                    className={`input-field ${isError ? 'input-error' : ''}`}
                     ref={monthInput}
                 />
                 <span>/</span>
@@ -161,7 +161,7 @@ const DatepickerInput: React.FC<DatepickerInputProps> = ({
                     value={valueYear}
                     placeholder={"YYYY"}
                     onChange={(e) => handleYearChange(e.target.value)}
-                    className={`input-field ${error ? 'input-error' : ''}`}
+                    className={`input-field ${isError ? 'input-error' : ''}`}
                     ref={yearInput}
                 />
                 <button className={`scroll-wheel-btn ${isCalendarOpen ? "active" : ""}`} onClick={() => setIsCalendarOpen(!isCalendarOpen)}><CaldenarSVG /></button>

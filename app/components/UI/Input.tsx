@@ -7,25 +7,27 @@ interface TextInputProps {
   onChange: (value: string) => void;
   placeholder?: string;
   required?: boolean;
-  errorMessage?: string;
   className?: string;
-  error?: boolean;
+  errorMessage?: string;
+  isError?: boolean;
 }
 
-const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, placeholder = '', required = false, errorMessage = '', className = '', error = false}) => {
+const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, placeholder = '', required = false, className = '', errorMessage = '', isError = false }) => {
   return (
     <div className={`custom-text-input ${className}`}>
       <label className="input-label">
-        {label}
-        {required && <span className="required-star">*</span>}
-        {error && <span className="error-message">{errorMessage}</span>}
+        <span>
+          {label}
+          {required && <span className="required-star">*</span>}
+        </span>
+        {isError && <span className="error-message">{errorMessage}</span>}
       </label>
       <input
         type="text"
         value={value}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
-        className={`input-field ${error ? 'input-error' : ''}`}
+        className={`input-field ${isError ? 'input-error' : ''}`}
       />
     </div>
   );

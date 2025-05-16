@@ -4,19 +4,24 @@ import React, { createContext, useContext, useState } from 'react';
 import { useLocalStorage } from '@/app/hooks/useLocalStorage';
 
 export type FormStep = {
-  id: string
-  title: string
-  component: React.FC
+  id: string;
+  title: string;
+  component: React.FC<StepComponentProps>;
+  validationSchema?: any;
 }
 
+export type StepComponentProps = {
+  errors: Record<string, string>;
+};
+
 type FormContextType = {
-  formData: Record<string, any>
-  setFormData: (data: Record<string, any>) => void
-  currentStep: number
-  nextStep: () => void
-  prevStep: () => void
-  config: FormStep[]
-  resetForm: () => void
+  formData: Record<string, any>;
+  setFormData: (data: Record<string, any>) => void;
+  currentStep: number;
+  nextStep: () => void;
+  prevStep: () => void;
+  config: FormStep[];
+  resetForm: () => void;
 }
 
 const FormContext = createContext<FormContextType | null>(null);
@@ -30,8 +35,8 @@ export const useFormContext = () => {
 }
 
 interface FormProviderProps {
-  children: React.ReactNode
-  config: FormStep[]
+  children: React.ReactNode;
+  config: FormStep[];
 }
 
 export const FormProvider = ({ children, config }: FormProviderProps) => {

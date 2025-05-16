@@ -7,6 +7,7 @@ import LoadingSVG from "@/app/ui/icons/LoadingCircle.svg";
 interface SelectInputProps<OptionType> {
     label: string;
     value: string;
+    prevSelected: OptionType | null;
     onSelect: (value: OptionType | null) => void;
     createNewOption: (label: string) => OptionType;
     selectedOptionName: string;
@@ -18,31 +19,28 @@ interface SelectInputProps<OptionType> {
     required?: boolean;
     errorMessage?: string;
     className?: string;
-    error?: boolean;
+    isError?: boolean;
 }
 
 const SelectInput = <OptionType,>({
-    label, value,
+    label, value, prevSelected,
     onSelect, onChange,
     createNewOption,
     selectedOptionName,
     getOptionLabel,
     options, loading,
-    placeholder = '', required = false, errorMessage = '', error = false, className = '',
+    placeholder = '', required = false, errorMessage = '', isError = false, className = '',
 }: SelectInputProps<OptionType>) => {
-    const [isSelected, setIsSelected] = useState(false);
+    const [isSelected, setIsSelected] = useState(!!prevSelected);
     const [selectedElement, setSelectedElement] = useState<string>(selectedOptionName);
     const [isActive, setIsActive] = useState(false);
     const blockRef = useRef<HTMLDivElement>(null);
-    const [isError, setIsError] = useState<boolean>(error);
 
     const toggleVisibility = (state?: boolean) => {
         setIsActive(state !== undefined ? state : !isActive);
     };
 
     const createOption = (value: string) => {
-        setIsError(false);
-        if (value == "") return setIsError(true);
         setSelectedElement(value);
         const resultOption = createNewOption(value);
         onSelect(resultOption);
@@ -50,7 +48,6 @@ const SelectInput = <OptionType,>({
     }
 
     const selectOption = (value: OptionType, name: string) => {
-        setIsError(false);
         onSelect(value);
         setSelectedElement(name);
         setIsSelected(true);
@@ -95,7 +92,7 @@ const SelectInput = <OptionType,>({
                             value={value}
                             placeholder={placeholder}
                             onChange={(e) => { onChange(e.target.value), toggleVisibility(true) }}
-                            className={`input-field ${error ? 'input-error' : ''}`}
+                            className={`input-field ${isError ? 'input-error' : ''}`}
                         />
                 }
                 <button className={'expand-button' + (isActive ? ' active' : '')} onClick={() => toggleVisibility()}>

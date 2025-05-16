@@ -2,67 +2,65 @@ import React, { useEffect, useState } from 'react'
 import TextInput from '../../UI/Input';
 import SelectInput from '../../UI/SelectInput';
 import DatePicker from '../../UI/DatePicker';
+
 import "@/app/ui/styles/forms/albumForm/step1.scss";
 import useDebouncedValue from '@/app/hooks/useDebouncedValue';
-import { fetchData } from '@/app/services/fetchService';
-import { memoize } from '@/app/utils/memoize';
+import { fetchEntities } from '@/app/services/entityService';
+import { Artist } from '@/app/types/selectableArtists';
+import { StepComponentProps, useFormContext } from '../FormContext';
 
-type Artist = {
-  artist_id?: number;
-  artist_name: string;
-  isNew?: boolean;
-}
+const Step1: React.FC<StepComponentProps> = ({ errors }) => {
+  const { formData, setFormData } = useFormContext();
 
-const memoizedFetchArtists = memoize(
-  async (query: string) => {
-    const response = await fetchData(`/api/artists?artist_name=${query}&fields=artist_id,artist_name`);
-    return await response;
-  },
-  {
-    maxSize: 50,
-    ttl: 5 * 60 * 1000,
-    policy: 'LRU'
-  }
-);
+  const [title, setTitle] = useState<string>(formData.title || "");
+  const [selectedArtist, setSelectedArtist] = useState<Artist | null>(formData.artist || null);
 
-const Step1 = () => {
-  const [isSelected, setIsSelected] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<Artist | null>(null);
-
-  const [options, setOptions] = useState<Artist[]>([]);
-
-  const [title, setTitle] = useState('');
-  const [error, setError] = useState(false);
-
+  const [artistOptions, setArtistOptions] = useState<Artist[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [artistQuery, setArtistQuery] = useState<string>("");
-  const [artistError, setArtistError] = useState<boolean>(false);
 
   const debouncedQuery: string = useDebouncedValue(artistQuery, 300);
 
   useEffect(() => {
-    memoizedFetchArtists("")
-      .then(data => setOptions(data?.data || []))
-      .catch((err) => {
+    fetchEntities<Artist>({
+      endpoint: '/api/artists',
+      fields: ["artist_id", "artist_name"],
+      defaults: {
+        artist_id: -1,
+        isNew: false,
+      },
+    })
+      .then(setArtistOptions)
+      .catch((err: any) => {
         console.error("Artist fetch failed", err);
-        setOptions([]);
+        setArtistOptions([]);
       })
+      .finally(() => setIsLoading(false));;
   }, []);
 
   useEffect(() => {
     if (debouncedQuery.trim() === '') {
-      setOptions([]);
+      setArtistOptions([]);
       return;
     }
+    console.log(errors);
 
     setIsLoading(true);
-    memoizedFetchArtists(debouncedQuery.trim())
-      .then(data => setOptions(data?.data || []))
-      .catch((err) => {
+    fetchEntities<Artist>({
+      endpoint: '/api/artists',
+      query: { artist_name: debouncedQuery },
+      fields: ["artist_id", "artist_name"],
+      defaults: {
+        artist_id: -1,
+        isNew: false,
+      },
+    })
+      .then(setArtistOptions)
+      .catch((err: any) => {
         console.error("Artist fetch failed", err);
-        setOptions([]);
+        setArtistOptions([]);
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => setIsLoading(false));;
   }, [debouncedQuery]);
 
   return (
@@ -72,48 +70,49 @@ const Step1 = () => {
         value={title}
         onChange={(val) => {
           setTitle(val);
-          if (val.trim() !== '') setError(false);
+          setFormData({ title: val })
         }}
         placeholder="Enter the title of the album"
         required
-        error={error}
-        errorMessage="This field is required!"
+        errorMessage={errors.title}
+        isError={!!errors.title}
         className='album-title-input'
       />
       <SelectInput<Artist>
         label="Artist"
         value={artistQuery}
+        prevSelected={selectedArtist}
         onSelect={(val) => {
-          setSelectedOption(val);
+          setSelectedArtist(val);
+          setFormData({ artist: val })
         }}
         onChange={(val) => {
           setArtistQuery(val);
-          if (val.trim() !== '') setArtistError(false);
         }}
         createNewOption={(label) => ({
           artist_id: -1,
           artist_name: label,
           isNew: true
         })}
-        options={options}
-        selectedOptionName={selectedOption?.artist_name ? selectedOption?.artist_name : ""}
+        options={artistOptions}
+        selectedOptionName={selectedArtist?.artist_name ? selectedArtist?.artist_name : ""}
         getOptionLabel={(artist) => artist.artist_name}
         placeholder="Select artist (use 'Enter' to create)"
         required
         loading={isLoading}
-        error={artistError}
-        errorMessage="This field is required!"
+        errorMessage={errors.artist}
+        isError={!!errors.artist}
         className='album-title-input'
       />
       <DatePicker
         label="Date of release"
         value={""}
         onChange={(val) => {
-          console.log(val);
+          setFormData({ date: val })
         }}
         required
-        error={error}
-        errorMessage="This field is required!"
+        errorMessage={errors.date}
+        isError={!!errors.date}
         className='w-300'
       />
     </div>

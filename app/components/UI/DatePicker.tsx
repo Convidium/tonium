@@ -8,16 +8,16 @@ interface DatePickerProps {
   value: string;
   onChange: (value: string) => void;
   required?: boolean;
-  errorMessage?: string;
   className?: string;
-  error?: boolean;
+  errorMessage?: string;
+  isError?: boolean;
 }
 
 const fullYearNow = (new Date).getFullYear();
 const monthNow = (new Date).getMonth();
 const dayNow = (new Date).getDate();
 
-const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange, required = false, errorMessage = '', className = '', error = false }) => {
+const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange, required = false, className = '', errorMessage = '', isError = false }) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const [currentDay, setCurrentDay] = useState<string>(dayNow.toString());
   const [currentMonth, setCurrentMonth] = useState<string>(monthNow.toString());
@@ -50,7 +50,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange, require
         setCurrentMonth={setCurrentMonth}
         setCurrentYear={setCurrentYear}
         required={required}
-        error={error}
+        isError={isError}
         errorMessage={errorMessage}
         className={className}
         maxYear={fullYearNow}
