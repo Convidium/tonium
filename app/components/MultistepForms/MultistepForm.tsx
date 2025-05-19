@@ -54,7 +54,7 @@ export const MultistepForm = ({ config, onSubmit }: MultistepFormProps) => {
             <div className="form-container">
                 <div className="form-header-wrapper">
                     <div className="form-header">
-                        <div className="tooltip">In Alpha</div>
+                        <div className="tooltip"></div>
                         <div className="title">{config[currentStep].title}</div>
                         <div className="step">Step: <span>{currentStep + 1}</span> of {config.length}</div>
                     </div>

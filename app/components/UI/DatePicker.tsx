@@ -24,7 +24,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ label, prevDate, onSelect, requ
   const [currentDay, setCurrentDay] = useState<string>(dayNow.toString());
   const [currentMonth, setCurrentMonth] = useState<string>(monthNow.toString());
   const [currentYear, setCurrentYear] = useState<string>(fullYearNow.toString());
-  
+
   const blockRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -35,10 +35,12 @@ const DatePicker: React.FC<DatePickerProps> = ({ label, prevDate, onSelect, requ
 
   const parsePrevDate = (date: string) => {
     const dateArr = date.split("-");
-    setCurrentDay(dateArr[0]);
-    setCurrentMonth(dateArr[1]);
-    setCurrentYear(dateArr[2]);
-  }
+    if (dateArr.length === 3) {
+      setCurrentDay(dateArr[0]);
+      setCurrentMonth(dateArr[1]);
+      setCurrentYear(dateArr[2]);
+    }
+  };
 
   useEffect(() => {
     parsePrevDate(prevDate);
