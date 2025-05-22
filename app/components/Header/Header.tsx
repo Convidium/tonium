@@ -3,9 +3,9 @@ import React from 'react'
 import "@/app/ui/header.scss";
 import CollectionSVG from "@/app/ui/icons/Collection.svg";
 import LogoSVG from "@/app/ui/icons/Logo.svg";
-import SettingsSVG from "@/app/ui/icons/Settings.svg";
 import SearchBar from './SearchBar';
 import CreateDropdownList from './CreateDropdownList'
+import SettingsList from './SettingsList';
 
 function Header() {
   return (
@@ -24,13 +24,7 @@ function Header() {
       </div>
       <SearchBar />
       <CreateDropdownList />
-      <div className='header-element settings-block'>
-        <div className='skeumorphic-bg'>
-          <button className='settings-btn'>
-            <SettingsSVG />
-          </button>
-        </div>
-      </div>
+      <SettingsList />
     </div>
   )
 }

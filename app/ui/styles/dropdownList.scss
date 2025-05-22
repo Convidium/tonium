@@ -19,12 +19,13 @@
     }
 }
 
-.dropdown-buttons{
+.dropdown-buttons, 
+.setting-options
+{
     display: flex;
     flex-direction: column;
     justify-content: center;
     height: inherit;
-    width: inherit;
     overflow: hidden;
     padding: 0.5rem;
     gap: 5px;
@@ -58,6 +59,10 @@
             width: 20px;
         }
     }
+}
+
+.setting-options{
+    right: 1rem;
 }
 
 @keyframes rollDown {

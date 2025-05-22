@@ -40,7 +40,7 @@ const SearchBar: React.FC = () => {
     });
   };
 
-  const debouncedSearchTerm = useDebouncedValue(searchTerm, 100);
+  const debouncedSearchTerm = useDebouncedValue(searchTerm, 200);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (

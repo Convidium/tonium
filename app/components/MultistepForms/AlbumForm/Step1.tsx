@@ -6,8 +6,15 @@ import DatePicker from '../../UI/DatePicker';
 import "@/app/ui/styles/forms/albumForm/step1.scss";
 import useDebouncedValue from '@/app/hooks/useDebouncedValue';
 import { fetchEntities } from '@/app/services/entityService';
+import { memoize } from '@/app/utils/memoize';
 import { Artist } from '@/app/types/selectableArtists';
 import { StepComponentProps, useFormContext } from '../FormContext';
+
+const fetchArtistsMemoized = memoize(fetchEntities<Artist>, {
+  maxSize: 50,
+  ttl: 5 * 60 * 1000, // 5 minutes
+  serializeArgs: (args) => JSON.stringify(args),
+});
 
 const Step1: React.FC<StepComponentProps> = ({ errors }) => {
   const { formData, setFormData } = useFormContext();
@@ -44,10 +51,8 @@ const Step1: React.FC<StepComponentProps> = ({ errors }) => {
       setArtistOptions([]);
       return;
     }
-    console.log(errors);
-
     setIsLoading(true);
-    fetchEntities<Artist>({
+    fetchArtistsMemoized({
       endpoint: '/api/artists',
       query: { artist_name: debouncedQuery },
       fields: ["artist_id", "artist_name"],
@@ -61,7 +66,7 @@ const Step1: React.FC<StepComponentProps> = ({ errors }) => {
         console.error("Artist fetch failed", err);
         setArtistOptions([]);
       })
-      .finally(() => setIsLoading(false));;
+      .finally(() => setIsLoading(false));
   }, [debouncedQuery]);
 
   return (

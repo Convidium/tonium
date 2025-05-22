@@ -2,7 +2,7 @@
 @import "./fonts.scss";
 
 .header-wrapper {
-    position: absolute;
+    position: fixed;
     width: 100%;
     display: grid;
     justify-content: space-between;
@@ -16,7 +16,7 @@
     height: 3rem;
     z-index: 3;
 
-    svg{
+    svg {
         fill: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
     }
 }
@@ -39,16 +39,30 @@
         box-sizing: border-box;
         z-index: 2;
 
+        &:hover {
+            border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-5));
+        }
+
+        &.active-btn {
+            border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+            &>button{
+                color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
+            }
+            svg {
+                fill: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
+            }
+        }
+
         &>.search-bar-component,
         .logo-btn,
         .expand-collection-btn,
         .create-btn,
         .settings-btn {
-            border-radius: calc(var(--border-radius-default) - 2px);
-            border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-0));
+            border-radius: var(--border-radius-default);
+            border: 3px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-0));
 
             &:hover {
-                border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-0));
+                border-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-0));
             }
         }
 
@@ -58,12 +72,20 @@
             justify-content: center;
             height: 100%;
             aspect-ratio: 1;
-            background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-1));
-            color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
+            background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-3));
+            color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
             cursor: pointer;
 
+            svg {
+                fill: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+            }
+
             &:hover {
-                background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-2));
+                color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-8));
+
+                svg {
+                    fill: hsl(var(--cp-h), var(--cp-s), var(--cp-l-8));
+                }
             }
         }
     }
@@ -93,7 +115,8 @@
             background-color: hsla(var(--accent-h), var(--accent-s), calc(var(--accent-l) - 5%), var(--accent-opacity));
         }
 
-        &.active, &:active {
+        &.active,
+        &:active {
             background-color: var(--accent-bg-hsl);
         }
 
@@ -164,6 +187,7 @@
 @media only screen and (max-width:676px) {
     .header-wrapper {
         grid-template-columns: auto 1fr auto auto;
+
         .logo-block {
             display: flex;
         }

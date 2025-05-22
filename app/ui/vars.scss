@@ -3,22 +3,44 @@
     --cp-h: 0;
     --cp-s: 0%;
 
-    --cp-l-0: 7%;
-    --cp-l-1: 10%;
-    --cp-l-2: 11%;
-    --cp-l-3: 15%;
-    --cp-l-4: 18%;
-    --cp-l-5: 30%;
-    --cp-l-6: 60%;
-    --cp-l-7: 80%;
-    --cp-l-8: 90%;
+// Dark Mode
+    // --cp-l-0: 7%;
+    // --cp-l-1: 10%;
+    // --cp-l-2: 11%;
+    // --cp-l-3: 15%;
+    // --cp-l-4: 18%;
+    // --cp-l-5: 30%;
+    // --cp-l-6: 60%;
+    // --cp-l-7: 80%;
+    // --cp-l-8: 90%;
+
+// Light Mode
+    --cp-l-0: 98%;
+    --cp-l-1: 95%;
+    --cp-l-2: 92%;
+    --cp-l-3: 85%;
+    --cp-l-4: 82%;
+    --cp-l-5: 70%;
+    --cp-l-6: 40%;
+    --cp-l-7: 20%;
+    --cp-l-8: 10%;
 
     --cp-background-hsl: hsl(var(--cp-h), var(--cp-s), var(--cp-l-0));
     --text-main-hsl: hsl(var(--cp-h), var(--cp-s), var(--cp-l-9));
 
-    --accent-h: 0;
-    --accent-s: 94%;
-    --accent-l: 18%;
+// Dark Mode
+    // --accent-h: calc(var(--cp-h) + 180);
+    // --accent-s: calc(100% - var(--cp-s)*0.25);
+    // --accent-l: 18%;
+    // --accent-opacity: 1;
+    // --accent-bg-hsl: hsla(var(--accent-h), var(--accent-s), var(--accent-l), var(--accent-opacity));
+
+    
+// Light Mode
+    --accent-h: calc(var(--cp-h) + 180);
+    --accent-s: calc(100% - var(--cp-s)*0.25);
+    --accent-l: 80%;
+    --accent-l-h-contrast: 40%;
     --accent-opacity: 1;
     --accent-bg-hsl: hsla(var(--accent-h), var(--accent-s), var(--accent-l), var(--accent-opacity));
 

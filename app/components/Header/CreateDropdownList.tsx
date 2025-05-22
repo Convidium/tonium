@@ -41,7 +41,7 @@ const CreateDropdownList: React.FC = () => {
 
   return (
     <div className='header-element create-block' ref={blockRef} onClick={() => setIsFocused(!isFocused)}>
-      <div className='skeumorphic-bg'>
+      <div className={`skeumorphic-bg ${isFocused ? "active-btn" : "inactive-btn"}`}>
         <button className='create-btn' onDoubleClick={() => handleSelect()}>
           <CreateSVG />
           <span>Create</span>
