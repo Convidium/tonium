@@ -4,8 +4,8 @@
     min-height: 60px;
     width: inherit;
     border-radius: var(--border-radius-default);
-    background-color: hsla(var(--bg-h), var(--bg-s), 10%, var(--bg-opacity));
-    border: 2px solid hsla(var(--border-h), var(--border-s), var(--border-l), 0.1);
+    background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-1));
+    border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-4));
     animation-delay: 0.5s;
     max-height: 500px;
 
@@ -19,7 +19,7 @@
         position: absolute;
 
         svg {
-            fill: hsla(var(--border-h), var(--border-s), var(--border-l), 1);
+            fill: hsl(var(--cp-h), var(--cp-s), var(--cp-l-5));
         }
     }
 }
@@ -55,22 +55,22 @@
             display: flex;
             align-items: center;
             font-family: "Grotezk Fett";
-            color: var(--loading-dimmed-hsl);
+            color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-5));
             cursor: pointer;
 
             svg {
                 width: 1.5rem;
                 height: 1rem;
-                fill: var(--loading-dimmed-hsl);
+                fill: hsl(var(--cp-h), var(--cp-s), var(--cp-l-5));
             }
 
             &:hover {
-                color: var(--text-low-contrast-hsl);
+                color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
                 transition: 0.1s;
                 text-decoration: underline;
 
                 svg {
-                    fill: var(--text-low-contrast-hsl);
+                    fill: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
                 }
             }
         }
@@ -82,7 +82,7 @@
         padding: 0.25rem;
         font-family: "Grotezk Regular";
         font-size: 1rem;
-        color: var(--text-low-contrast-hsl);
+        color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
         user-select: none;
     }
 }

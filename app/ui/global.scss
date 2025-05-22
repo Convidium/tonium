@@ -10,7 +10,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     
-    background-color: hsla(var(--bg-h), var(--bg-s), var(--bg-l), var(--bg-opacity));
+    background-color: var(--cp-background-hsl);
     color: var(--text-main-hsl);
 }
 

@@ -24,6 +24,9 @@
             align-items: center;
             padding: 1rem;
             background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-1));
+            border-radius: calc(var(--border-radius-default) - 2px);
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
 
             .tooltip {
                 font-family: "Grotezk Cyrillic Bold";

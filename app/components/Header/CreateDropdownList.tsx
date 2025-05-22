@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import PlaySVG from "@/app/ui/icons/play.svg";
-import CreateSVG from "@/app/ui/icons/AddNew.svg";
+import CreateSVG from "@/app/ui/icons/fat-plus.svg";
 import ArtistSVG from "@/app/ui/icons/user.svg";
 import AlbumSVG from "@/app/ui/icons/record.svg";
 import SingleSVG from "@/app/ui/icons/single-icon.svg";

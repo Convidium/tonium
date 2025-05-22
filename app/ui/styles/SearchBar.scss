@@ -11,7 +11,7 @@
         width: 400px;
         height: 100%;
         border-radius: var(--border-radius-default);
-        background-color: hsla(var(--bg-h), var(--bg-s), 10%, var(--bg-opacity));
+        background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-1));
         padding: 0 0.2rem;
         box-sizing: border-box;
         z-index: 2;
@@ -29,7 +29,7 @@
             cursor: pointer;
 
             &:hover {
-                background-color: hsla(var(--bg-h), var(--bg-s), 15%, var(--bg-opacity));
+                background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-3));
             }
 
             svg {
@@ -43,17 +43,18 @@
             height: 100%;
             width: 100%;
             outline: none;
-            color: var(--text-dimmed-hsl);
+            color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
             font-size: 1.2rem;
             padding: 0 0.5rem;
             font-family: "Grotezk Fett", "Grotezk Cyrillic Bold";
+
+            &::placeholder{
+                color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-4));
+            }
         }
 
         &.onfocus {
-            border: 2px solid hsla(var(--bg-h), var(--bg-s), var(--bg-l), var(--bg-opacity));
-            &:hover {
-                border: 2px solid hsla(var(--accent-h), var(--accent-s), 10%, var(--accent-opacity));
-            }
+            border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-0));
         }
     }
 
@@ -92,24 +93,25 @@
             border-radius: var(--border-radius-default);
             font-size: 14px;
             cursor: pointer;
-            background-color: hsla(var(--bg-h), var(--bg-s), 10%, var(--bg-opacity));
-            border: 2px solid hsla(var(--border-h), var(--border-s), var(--border-l), 0.1);
+            background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-2));
+            border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-3));
             box-sizing: border-box;
             color: var(--text-very-dimmed-hsl);
             font-family: "Grotezk Cyrillic Bold";
             font-size: 1rem;
-            transition: background 0.1s;
+            transition: background 0.2s;
 
             &.active {
-                background-color: hsla(var(--bg-h), var(--bg-s), 20%, var(--bg-opacity));
-                border: 2px solid hsla(var(--border-h), var(--border-s), var(--border-l), 1);
+                background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
+                border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
+                color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-2));
                 &:hover {
-                    background-color: hsla(var(--bg-h), var(--bg-s), 20%, var(--bg-opacity));
+                    border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
                 }
             }
 
             &:hover {
-                background-color: hsla(var(--bg-h), var(--bg-s), 15%, var(--bg-opacity));
+                    border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-5));
             }
         }
     }

@@ -1,37 +1,4 @@
-:root{
-    --bg-h: 0;
-    --bg-s: 0%;
-    --bg-l: 7%;
-    --bg-opacity: 1;
-
-    
-    --border-h: 0;
-    --border-s: 0%;
-    --border-l: 31%;
-    --border-opacity: 0.7;
-
-
-    --accent-h: 0;
-    --accent-s: 94%;
-    --accent-l: 18%;
-    --accent-opacity: 1;
-    --accent-bg-hsl: hsla(var(--accent-h), var(--accent-s), var(--accent-l), var(--accent-opacity));
-
-    --error-hsl: hsla(0, 49%, 45%, 1);
-    --error-border-hsl: hsla(0, 54%, 31%, 1);
-
-
-    --text-main-hsl: hsla(0, 0%, 90%, 1);
-    --text-dimmed-hsl: hsla(0, 0%, 76%, 1);
-    --text-very-dimmed-hsl: hsla(0, 0%, 76%, 1);
-    --text-low-contrast-hsl: hsla(0, 0%, 60%, 1);
-    --loading-dimmed-hsl: hsla(0, 0%, 32%, 1);
-
-
-    --border-radius-default: 5px;
-    --border-default: 2px;
-
-
+:root {
     // CP - color pallette of the app
     --cp-h: 0;
     --cp-s: 0%;
@@ -46,6 +13,20 @@
     --cp-l-7: 80%;
     --cp-l-8: 90%;
 
+    --cp-background-hsl: hsl(var(--cp-h), var(--cp-s), var(--cp-l-0));
+    --text-main-hsl: hsl(var(--cp-h), var(--cp-s), var(--cp-l-9));
+
+    --accent-h: 0;
+    --accent-s: 94%;
+    --accent-l: 18%;
+    --accent-opacity: 1;
+    --accent-bg-hsl: hsla(var(--accent-h), var(--accent-s), var(--accent-l), var(--accent-opacity));
+
+    --error-hsl: hsla(0, 49%, 45%, 1);
+    --error-border-hsl: hsla(0, 54%, 31%, 1);
+
+
+
     --f-XL: 1.3rem;
     --f-L: 1.2rem;
     --f-XM: 1.1rem;
@@ -53,4 +34,7 @@
     --f-SM: 0.9rem;
     --f-S: 0.8rem;
     --f-XS: 0.7rem;
+
+    --border-radius-default: 5px;
+    --border-default: 2px;
 }

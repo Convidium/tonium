@@ -26,6 +26,11 @@
 
             img {
                 border-radius: calc(var(--border-radius-default) - 1px);
+                opacity: 0.5;
+
+                &:hover {
+                    opacity: 1;
+                }
             }
 
             .playHover {
@@ -35,12 +40,11 @@
                 position: absolute;
                 width: inherit;
                 aspect-ratio: 1;
-                background-color: hsla(0, 0%, 7%, 10%);
                 border-radius: calc(var(--border-radius-default) - 1px);
+                opacity: 1;
 
                 svg {
                     fill: var(--text-very-dimmed-hsl);
-                    opacity: 0;
                 }
 
                 cursor: pointer;
@@ -63,6 +67,7 @@
             display: flex;
             align-items: center;
             width: 230px;
+
             .record-data {
                 display: flex;
                 justify-content: center;
@@ -70,15 +75,17 @@
                 width: 100%;
                 cursor: pointer;
 
-                .title:hover,.artist:hover{
+                .title:hover,
+                .artist:hover {
                     text-decoration: underline;
                 }
-                
-                .title{
+
+                .title {
                     font-family: "Grotezk Fett";
                     color: var(--text-dimmed-hsl);
                 }
-                .artist{
+
+                .artist {
                     font-family: "Grotezk Mittel";
                     color: var(--text-low-contrast-hsl);
                     font-size: 0.9rem;
