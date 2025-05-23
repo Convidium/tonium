@@ -1,0 +1,110 @@
+.user-profile-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    font-family: "Grotezk Fett";
+
+    .user-profile {
+        display: grid;
+        grid-template-columns: 30px auto;
+        align-items: center;
+        gap: 0.5rem;
+
+        .logo-picture {
+            width: 30px;
+            height: 30px;
+            display: block;
+            opacity: 1;
+            border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-5));
+            border-radius: 50px;
+            cursor: pointer;
+
+            svg {
+                width: inherit;
+                height: inherit;
+                scale: 1;
+            }
+
+
+            &:hover {
+                scale: 1.1;
+            }
+        }
+
+        .user-desription {
+            .user-name {
+                font-size: var(--f-S);
+                color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+                cursor: pointer;
+
+                &:hover {
+                    color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-8));
+                }
+            }
+
+            .user-email {
+                font-size: var(--f-XS);
+                color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+            }
+        }
+    }
+
+    .user-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+
+        .user-btn {
+            color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+            border: none;
+            background-color: transparent;
+            padding: 0;
+            cursor: pointer;
+            font-family: "Grotezk Fett";
+            padding: 0 0.5rem;
+
+            &:hover {
+                color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+.login-btn {
+    border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-4)) !important;
+    padding: 0.15rem !important;
+    width: 100px;
+
+    .button-bg {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        padding: 0.25rem;
+        background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-3));
+        border-radius: 2px;
+        color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+        font-family: "Grotezk Fett";
+
+        svg {
+            width: 20px;
+            fill: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+        }
+
+    }
+
+    &:hover {
+        border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-5)) !important;
+
+        .button-bg {
+            color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-8));
+
+            svg {
+                fill: hsl(var(--cp-h), var(--cp-s), var(--cp-l-8));
+            }
+        }
+    }
+}

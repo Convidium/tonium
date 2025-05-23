@@ -1,0 +1,65 @@
+.login-form-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    width: 100%;
+    height: 100vh;
+
+    .login-form-block {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 600px;
+        height: fit-content;
+        padding: 1rem;
+        background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-2));
+        border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-4));
+        border-radius: var(--border-radius-default);
+
+        .login-title {
+            width: 100%;
+            text-align: center;
+            font-family: "Grotezk Fett";
+            color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+            font-size: var(--f-L);
+        }
+
+        .login-input-list {
+            .login-input {
+                padding: 1rem;
+            }
+        }
+
+        .login-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            gap: 5px;
+
+            .login-btn {
+                width: 150px;
+            }
+
+            .auth-suggestion {
+                display: flex;
+                justify-content: center;
+                gap: 5px;
+                font-size: var(--f-M);
+                font-family: "Grotezk Fett";
+                color: hsla(var(--cp-h), var(--cp-s), var(--cp-l-6), 0.75);
+
+                .auth-link {
+                    cursor: pointer;
+                    color: hsl(var(--accent-h), var(--accent-s), var(--cp-l-7));
+                    &:hover{
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+        }
+    }
+}

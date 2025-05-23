@@ -16,6 +16,10 @@
     height: 3rem;
     z-index: 3;
 
+    &.simple-header {
+        padding: 0.5rem 1rem;
+    }
+
     svg {
         fill: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
     }
@@ -45,9 +49,11 @@
 
         &.active-btn {
             border: 2px solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
-            &>button{
+
+            &>button {
                 color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
             }
+
             svg {
                 fill: hsl(var(--cp-h), var(--cp-s), var(--cp-l-7));
             }
@@ -156,7 +162,6 @@
 .settings-block {
     width: 75px;
     aspect-ratio: 1;
-    cursor: pointer;
 
     svg {
         scale: 0.8;
