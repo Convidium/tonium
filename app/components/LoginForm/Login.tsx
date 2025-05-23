@@ -3,8 +3,13 @@ import React from 'react'
 import "@/app/ui/styles/forms/authForms/login.scss";
 import TextInput from '../UI/Input';
 import Button from '../UI/Button';
+import { useRouter } from 'next/navigation';
 
 function Login() {
+    const router = useRouter();
+    const handleRouteSelect = () => {
+        router.push(`/sign-in/`);
+    }
   return (
     <div className='login-form-wrapper'>
       <div className='login-form-block'>
@@ -17,7 +22,7 @@ function Login() {
           <Button className='login-btn' label='Log In' onClick={() => console.log("logging in")} />
           <div className='auth-suggestion'>
             <span>Don't have an account?</span>
-            <span className='auth-link'>Sign In</span>
+            <span className='auth-link' onClick={() => handleRouteSelect()}>Sign In</span>
           </div>
         </div>
       </div>
