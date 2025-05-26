@@ -6,6 +6,7 @@ import ColorSelector from "./ColorSelector";
 import UserProfile from "./UserProfile";
 import Button from "../UI/Button";
 import { useRouter } from "next/navigation";
+import ThemeToggle from "./ThemeToggle";
 
 const SettingsList: React.FC = () => {
     const blockRef = useRef<HTMLDivElement>(null);
@@ -48,6 +49,7 @@ const SettingsList: React.FC = () => {
             </div>
             <div className={`dropdown-list-wrapper setting-options ${isFocused ? "active" : "inactive"}`} ref={listRef}>
                 <ColorSelector />
+                <ThemeToggle/>
                 <UserProfile />
                 <Button label="Log In" onClick={() => handleRouteSelect()} className="login-btn" icon={<LogInSVG />} iconPosition="right" />
             </div>

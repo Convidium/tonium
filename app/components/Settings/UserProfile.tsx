@@ -13,7 +13,7 @@ const UserProfile: React.FC = () => {
                     <UserSVG />
                 </div>
                 <div className="user-desription">
-                    <div className="user-name">Mein Name</div>
+                    <div className="user-name">My Name</div>
                     <div className="user-email">somename@gmail.com</div>
                 </div>
             </div>

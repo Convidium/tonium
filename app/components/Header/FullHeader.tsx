@@ -17,13 +17,13 @@ function FullHeader() {
     <div className='header-wrapper'>
       <div className='header-element collection-block'>
         <div className='skeumorphic-bg-accent'>
-          <button className='expand-collection-btn' onClick={() => handleRouteSelect()}>
+          <button className='expand-collection-btn'>
             <CollectionSVG />
           </button>
         </div>
       </div>
       <div className='header-element logo-block'>
-        <button className='logo-btn'>
+        <button className='logo-btn' onClick={() => handleRouteSelect()}>
           <LogoSVG />
         </button>
       </div>

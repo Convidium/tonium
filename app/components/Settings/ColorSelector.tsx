@@ -2,18 +2,20 @@ import React, { useEffect, useRef, useState } from "react";
 import "@/app/ui/styles/ui-components/ColorPaletteSelector.scss";
 
 const ColorSelector: React.FC = () => {
-    const [hue, setHue] = useState(0);
-    const [saturation, setSaturation] = useState(0);
+    const [hue, setHue] = useState<number | null>(null);
+    const [saturation, setSaturation] = useState<number | null>(null);
 
     useEffect(() => {
-        const storedHue = Number(localStorage.getItem('cp-h'));
-        const storedSaturation = Number(localStorage.getItem('cp-s'));
+        const storedHue = Number(localStorage.getItem('cp-h')) || 0;
+        const storedSaturation = Number(localStorage.getItem('cp-s')) || 0;
 
         setHue(storedHue);
         setSaturation(storedSaturation);
     }, []);
 
     useEffect(() => {
+        if (hue === null || saturation === null) return;
+
         document.documentElement.style.setProperty('--cp-h', hue.toString());
         document.documentElement.style.setProperty('--cp-s', `${saturation}%`);
 
@@ -25,24 +27,27 @@ const ColorSelector: React.FC = () => {
 
         if (hueInput)
             hueInput.style.background = `linear-gradient(to right,
-        hsl(0, 100%, 50%),
-        hsl(60, 100%, 50%),
-        hsl(120, 100%, 50%),
-        hsl(180, 100%, 50%),
-        hsl(240, 100%, 50%),
-        hsl(300, 100%, 50%),
-        hsl(360, 100%, 50%))`;
+                hsl(0, 100%, 50%),
+                hsl(60, 100%, 50%),
+                hsl(120, 100%, 50%),
+                hsl(180, 100%, 50%),
+                hsl(240, 100%, 50%),
+                hsl(300, 100%, 50%),
+                hsl(360, 100%, 50%))`;
 
         if (satInput)
             satInput.style.background = `linear-gradient(to right,
-        hsl(${hue}, 0%, 50%),
-        hsl(${hue}, 100%, 50%)
-      )`;
+                hsl(${hue}, 0%, 50%),
+                hsl(${hue}, 100%, 50%)
+            )`;
 
-        // Update thumb color via CSS var
         const thumbColor = `hsl(${hue}, ${saturation}%, 50%)`;
         document.documentElement.style.setProperty('--thumb-color', thumbColor);
     }, [hue, saturation]);
+
+    if (hue === null || saturation === null) {
+        return null;
+    }
 
     return (
         <div className="color-selector">

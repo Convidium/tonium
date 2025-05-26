@@ -87,7 +87,7 @@ function SignIn() {
                 <div className='login-button'>
                     <Button
                         className='login-btn'
-                        label='Log In'
+                        label='Sign In'
                         onClick={() => console.log("logging in")}
                         type="submit"
                     />
