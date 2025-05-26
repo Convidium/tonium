@@ -19,6 +19,8 @@ export async function findRecords(filters: any): Promise<FindRecordsResult> {
 export async function addRecord(recordData: RecordCreateInput): Promise<{ data: RecordData | null; status: number; error?: string }> {
     console.log("Record data received in addRecord:", recordData);
     try {
+        console.log(recordData);
+        
         const result = await createOne("records", recordData);
         if (result.data) {
             return { data: result.data as RecordData, status: 201 };

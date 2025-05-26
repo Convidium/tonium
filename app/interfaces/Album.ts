@@ -1,12 +1,11 @@
-import {ArtistType} from "./Artist";
+import { ArtistType } from "./Artist";
 
 export type AlbumDetailedRating = {
-    technicalProficiency?: number;
-    songEnjoyability?: number;
-    concept?: number;
-    historicalImpact?: number;
-    consistency?: number;
-    personalImpact?: number;
+    music: number;
+    lyrics: number;
+    production: number;
+    innovation: number;
+    replayability: number;
 };
 
 export type AlbumData = {

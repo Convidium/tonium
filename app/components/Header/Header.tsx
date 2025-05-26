@@ -7,10 +7,17 @@ import SimpleHeader from "@/app/components/Header/SimpleHeader";
 
 const simplePagesURL = ["/login", "/sign-in"];
 
-function Header() {
+interface HeaderProps {
+  isSidebarOpen: boolean;
+  toggleSidebar: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ isSidebarOpen, toggleSidebar }) => {
   const pathname = usePathname();
   return (
-    simplePagesURL.includes(pathname) ? <SimpleHeader/> : <FullHeader/>
+    simplePagesURL.includes(pathname)
+      ? <SimpleHeader/>
+      : <FullHeader />
   )
 }
 
