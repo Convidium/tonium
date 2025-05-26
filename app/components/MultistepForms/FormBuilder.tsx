@@ -8,21 +8,27 @@ interface FormBuilderProps {
 }
 
 export const FormBuilder = ({ type }: FormBuilderProps) => {
-    const config = formConfigs[type];
+    const configObj = formConfigs[type];
 
-    if (!config) {
+    if (!configObj) {
         return <div>Invalid form type</div>
     }
 
+    const normalizedConfig = Array.isArray(configObj)
+        ? { steps: configObj, buildEntity: undefined }
+        : configObj;
+
     const handleSubmit = (formData: any) => {
-        console.log('Final form data:', formData);
-        // TODO: Handle form submission logic here
-        // e.g., send to an API or save to a database
+        const entity = normalizedConfig.buildEntity
+            ? normalizedConfig.buildEntity(formData)
+            : formData;
+        // Submit entity to API
+        console.log('Final entity:', entity);
     };
 
     return (
-        <FormProvider config={config}>
-            <MultistepForm config={config} onSubmit={handleSubmit} />
+        <FormProvider config={normalizedConfig.steps}>
+            <MultistepForm config={normalizedConfig.steps} onSubmit={handleSubmit} />
         </FormProvider>
     )
 }

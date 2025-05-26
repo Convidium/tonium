@@ -4,8 +4,6 @@ async function isTitleUnique(title: string, query: string) {
   console.log(`Checking if title "${title}" is unique...`);
   return new Promise(resolve => {
     setTimeout(() => {
-        console.log(title);
-        
       const existingTitles = ['Existing Album', "The Beatles"];
       resolve(!existingTitles.includes(title));
     }, 500);

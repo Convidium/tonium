@@ -7,6 +7,7 @@ import { MIN_YEAR, MAX_YEAR } from '@/app/configs/constants';
 import isTitleUnique from '@/app/utils/validators/isTitleUnique';
 
 import { FormStep } from '@/app/components/MultistepForms/FormContext';
+import { AlbumBuilder } from '@/app/builders/AlbumBilder';
 
 import { Artist } from '@/app/types/selectableArtists';
 
@@ -93,3 +94,23 @@ export const albumConfig: FormStep[] = [
     component: Step3
   },
 ]
+
+
+export const buildAlbumEntity = (formData: any) =>
+  new AlbumBuilder()
+    .setTitle(formData.title)
+    .setArtist(formData.artist)
+    .setDate(formData.date)
+    .setProducer(formData.producer)
+    .setLabel(formData.label)
+    .setWriters(formData.writers)
+    .setGenres(formData.genres)
+    .setMoods(formData.moods)
+    .setFrontCoverPath(formData.frontCoverPath)
+    .setBackCoverPath(formData.backCoverPath)
+    .setTags(formData.tags)
+    .setDescription(formData.description)
+    .setOverallRating(formData.overallRating)
+    .setDetailedRating(formData.detailedRating)
+    .setSongIds(formData.songIds)
+    .build();

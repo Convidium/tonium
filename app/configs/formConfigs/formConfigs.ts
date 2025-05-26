@@ -1,15 +1,21 @@
 import { FormStep } from '@/app/components/MultistepForms/FormContext';
-import { albumConfig } from './album';
+import { albumConfig, buildAlbumEntity } from './album';
 import { singleConfig } from './single';
 
 type FormConfigsType = {
-    album: FormStep[];
+    album: {
+        steps: FormStep[];
+        buildEntity: any,
+    };
     single: FormStep[];
     track?: FormStep[];
     compilation?: FormStep[];
 };
 
 export const formConfigs: FormConfigsType = {
-    album: albumConfig,
+    album: {
+        steps: albumConfig,
+        buildEntity: buildAlbumEntity,
+    },
     single: singleConfig,
 }
