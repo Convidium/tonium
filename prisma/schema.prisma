@@ -5,122 +5,215 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
-  binaryTargets = ["native"]
 }
 
-model records {
-  record_id          Int     @id @default(autoincrement())
-  record_type        String  @map("record_type")
-  record_name        String  @map("record_name")
-  record_artist      Int?    @map("record_artist")
-  record_date        String? @map("record_date")
-  record_info        String? @map("record_info")
-  record_label       String? @map("record_label")
-  record_producer    String? @map("record_producer")
-  record_cover_path  String? @map("record_cover_path")
-  record_backcover_path String? @map("record_backcover_path")
-  record_back_cover_path String? @map("record_back_cover_path")
-  artists            artists? @relation(fields: [record_artist], references: [artist_id])
-  record_genres      record_genres[]
-  record_moods       record_moods[]
-  song_files         song_files[]
-  recent_listened_records recent_listened_records[]
-
-  @@map("records")
+model Albums {
+  id                Int      @id @default(autoincrement())
+  name              String
+  release_date      String?
+  info              String?
+  label_id          Int?
+  producer_id       Int?
+  front_cover_path  String?
+  back_cover_path   String?
+  albumWriters      Album_Writers[]
+  albumGenres       Album_Genres[]
+  albumMoods        Album_Moods[]
+  albumTags         Album_Tags[]
+  albumRatings      Album_Ratings?
+  albumListenHistory Album_Listen_History[]
 }
 
-model artists {
-  artist_id       Int         @id @default(autoincrement())
-  artist_name     String      @unique @map("artist_name")
-  artist_bio      String?     @map("artist_bio")
-  artist_logo_path String?     @map("artist_logo_path")
-  artist_bg_path  String?     @map("artist_bg_path")
-  records         records[]
-  song_files      song_files[] // Додано зворотнє відношення
-
-  @@map("artists")
+model Single {
+  id                Int      @id @default(autoincrement())
+  name              String
+  release_date      String?
+  info              String?
+  label_id          Int?
+  producer_id       Int?
+  front_cover_path  String?
+  back_cover_path   String?
+  a_side_track_id   Int?
+  b_side_track_id   Int?
+  aSideTrack        Tracks? @relation("ASideTracks", fields: [a_side_track_id], references: [id])
+  bSideTrack        Tracks? @relation("BSideTracks", fields: [b_side_track_id], references: [id])
+  singleGenres      Single_Genres[]
+  singleMoods       Single_Moods[]
+  singleTags        Single_Tags[]
+  singleListenHistory Single_Listen_History[]
 }
 
-model genres {
-  genre_id Int @id @default(autoincrement())
-  genre_name String @unique @map("genre_name")
-  record_genres record_genres[]
-  song_genres song_genres[]
-
-  @@map("genres")
+model Compilations {
+  id           Int      @id @default(autoincrement())
+  name         String
+  info         String?
+  cover_path   String?
+  compilationGenres   Compilation_Genres[]
+  compilationMoods    Compilation_Moods[]
+  compilationTags     Compilation_Tags[]
+  compilationListenHistory Compilation_Listen_History[]
 }
 
-model moods {
-  mood_id Int @id @default(autoincrement())
-  mood_name String @unique @map("mood_name")
-  record_moods record_moods[]
-  song_moods song_moods[]
-
-  @@map("moods")
+model Tracks {
+  id           Int      @id @default(autoincrement())
+  track_name   String
+  track_path   String
+  aSideSingles Single[] @relation("ASideTracks")
+  bSideSingles Single[] @relation("BSideTracks")
 }
 
-model record_genres {
-  record_id Int
+model Artists {
+  id               Int      @id @default(autoincrement())
+  artist_logo_path String?
+  artist_name      String
+  active_from      String?
+  active_to        String?
+}
+
+model Writers {
+  writer_id   Int      @id @default(autoincrement())
+  writer_name String
+  albumWriters Album_Writers[]
+}
+
+model Album_Writers {
+  album_id  Int
+  writer_id Int
+  @@id([album_id, writer_id])
+  album     Albums  @relation(fields: [album_id], references: [id])
+  writer    Writers @relation(fields: [writer_id], references: [writer_id])
+}
+
+model Genres {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  albumGenres     Album_Genres[]
+  singleGenres    Single_Genres[]
+  compilationGenres Compilation_Genres[]
+}
+
+model Album_Genres {
+  album_id Int
   genre_id Int
-  records records @relation(fields: [record_id], references: [record_id])
-  genres genres @relation(fields: [genre_id], references: [genre_id])
-
-  @@id([record_id, genre_id])
-  @@map("record_genres")
+  @@id([album_id, genre_id])
+  album    Albums @relation(fields: [album_id], references: [id])
+  genre    Genres @relation(fields: [genre_id], references: [id])
 }
 
-model record_moods {
-  record_id Int
-  mood_id Int
-  records records @relation(fields: [record_id], references: [record_id])
-  moods moods @relation(fields: [mood_id], references: [mood_id])
-
-  @@id([record_id, mood_id])
-  @@map("record_moods")
+model Single_Genres {
+  single_id Int
+  genre_id  Int
+  @@id([single_id, genre_id])
+  single    Single @relation(fields: [single_id], references: [id])
+  genre     Genres @relation(fields: [genre_id], references: [id])
 }
 
-model song_files {
-  song_id Int @id @default(autoincrement())
-  album_id Int? @map("album_id")
-  song_name String @map("song_name")
-  song_artist Int? @map("song_artist")
-  song_info String? @map("song_info")
-  song_audio_path String? @map("song_audio_path")
-  track_number Int? @map("track_number")
-  records records? @relation(fields: [album_id], references: [record_id])
-  artists artists? @relation(fields: [song_artist], references: [artist_id])
-  song_genres song_genres[]
-  song_moods song_moods[]
-
-  @@map("song_files")
+model Compilation_Genres {
+  compilation_id Int
+  genre_id       Int
+  @@id([compilation_id, genre_id])
+  compilation    Compilations @relation(fields: [compilation_id], references: [id])
+  genre          Genres       @relation(fields: [genre_id], references: [id])
 }
 
-model song_genres {
-  song_id Int
-  genre_id Int
-  song_files song_files @relation(fields: [song_id], references: [song_id])
-  genres genres @relation(fields: [genre_id], references: [genre_id])
-
-  @@id([song_id, genre_id])
-  @@map("song_genres")
+model Moods {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  albumMoods     Album_Moods[]
+  singleMoods    Single_Moods[]
+  compilationMoods Compilation_Moods[]
 }
 
-model song_moods {
-  song_id Int
-  mood_id Int
-  song_files song_files @relation(fields: [song_id], references: [song_id])
-  moods moods @relation(fields: [mood_id], references: [mood_id])
-
-  @@id([song_id, mood_id])
-  @@map("song_moods")
+model Album_Moods {
+  album_id Int
+  mood_id  Int
+  @@id([album_id, mood_id])
+  album    Albums @relation(fields: [album_id], references: [id])
+  mood     Moods  @relation(fields: [mood_id], references: [id])
 }
 
-model recent_listened_records {
-  user_id Int
-  record_id Int
-  listened_at DateTime? @default(now()) @map("listened_at")
-  records records @relation(fields: [record_id], references: [record_id])
+model Single_Moods {
+  single_id Int
+  mood_id   Int
+  @@id([single_id, mood_id])
+  single    Single @relation(fields: [single_id], references: [id])
+  mood      Moods  @relation(fields: [mood_id], references: [id])
+}
 
-  @@id([user_id, record_id])
-  @@map("recent_listened_records")
+model Compilation_Moods {
+  compilation_id Int
+  mood_id        Int
+  @@id([compilation_id, mood_id])
+  compilation    Compilations @relation(fields: [compilation_id], references: [id])
+  mood           Moods        @relation(fields: [mood_id], references: [id])
+}
+
+model Tags {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  albumTags     Album_Tags[]
+  singleTags    Single_Tags[]
+  compilationTags Compilation_Tags[]
+}
+
+model Album_Tags {
+  album_id Int
+  tag_id   Int
+  @@id([album_id, tag_id])
+  album    Albums @relation(fields: [album_id], references: [id])
+  tag      Tags   @relation(fields: [tag_id], references: [id])
+}
+
+model Single_Tags {
+  single_id Int
+  tag_id    Int
+  @@id([single_id, tag_id])
+  single    Single @relation(fields: [single_id], references: [id])
+  tag       Tags   @relation(fields: [tag_id], references: [id])
+}
+
+model Compilation_Tags {
+  compilation_id Int
+  tag_id         Int
+  @@id([compilation_id, tag_id])
+  compilation    Compilations @relation(fields: [compilation_id], references: [id])
+  tag            Tags         @relation(fields: [tag_id], references: [id])
+}
+
+model Album_Ratings {
+  album_id             Int @id
+  general_rating       Int?
+  technical_proficency Int?
+  concept              Int?
+  historical_impact    Int?
+  song_enjoyability    Int?
+  concistency          Int?
+  personal_impact      Int?
+  music_quality        Int?
+  lyrics               Int?
+  album                Albums @relation(fields: [album_id], references: [id])
+}
+
+model Album_Listen_History {
+  listen_id       Int      @id @default(autoincrement())
+  album_id        Int
+  listen_timestamp DateTime @default(now()) @map("listen_timestamp") // SQLite TEXT для дати/часу можна мапити до DateTime
+  album           Albums   @relation(fields: [album_id], references: [id])
+  @@map("Album_Listen_History") // Щоб ім'я таблиці у БД було таким самим
+}
+
+model Single_Listen_History {
+  listen_id        Int      @id @default(autoincrement())
+  single_id        Int
+  listen_timestamp DateTime @default(now()) @map("listen_timestamp")
+  single           Single   @relation(fields: [single_id], references: [id])
+  @@map("Single_Listen_History")
+}
+
+model Compilation_Listen_History {
+  listen_id        Int      @id @default(autoincrement())
+  compilation_id   Int
+  listen_timestamp DateTime @default(now()) @map("listen_timestamp")
+  compilation      Compilations @relation(fields: [compilation_id], references: [id])
+  @@map("Compilation_Listen_History")
 }

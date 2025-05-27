@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '@/app/ui/styles/sidebar/sidebar.scss';
 import AlbumData from '@/app/interfaces/Album';
-import { BiDirectionalPriorityQueue } from '@/app/utils/DirectionalQueue';
+import { BiDirectionalPriorityQueue } from '@/app/utils/directionalQueue';
 
 import { examplesJSON } from 'database/examples';
 
@@ -44,7 +44,7 @@ const CollectionSidebar: React.FC<CollectionSidebarProps> = ({ isOpen, onClose }
 
     const moveAlbum = (album: AlbumData, position: 'top' | 'bottom') => {
         const queue = queueRef.current;
-        queue.clear();  // Очистимо чергу
+        queue.clear();
         const newQueue: AlbumData[] = [];
 
         if (position === 'top') {
@@ -62,11 +62,11 @@ const CollectionSidebar: React.FC<CollectionSidebarProps> = ({ isOpen, onClose }
     return (
         <div className={`collection-sidebar ${isOpen ? 'open' : ''}`} ref={blockRef}>
             <div className="sidebar-content">
-                <div>Last Listened Albums:</div>
+                <div className='last-listened-albums-title'>Last listened albums:</div>
                 <div className="last-listened-albums-list">
                     {displayedAlbums.length > 0 ? (
                         displayedAlbums.map((album) => (
-                            <li
+                            <div
                                 key={album.id}
                                 className="album-item"
                                 onClick={() => moveAlbum(album, 'top')}
@@ -75,9 +75,11 @@ const CollectionSidebar: React.FC<CollectionSidebarProps> = ({ isOpen, onClose }
                                     moveAlbum(album, 'bottom');
                                 }}
                             >
-                                <span className="album-title">{album.title}</span> by{' '}
-                                <strong className="album-artist">{album.artist.name}</strong>
-                            </li>
+
+                                {/* <img src={album.frontCoverPath}/> */}
+                                <span className="album-title">{album.title}</span> by
+                                <span className="album-artist"> {album.artist.name}</span>
+                            </div>
                         ))
                     ) : (
                         <li>No recent albums.</li>

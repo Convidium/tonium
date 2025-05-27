@@ -29,8 +29,14 @@ function SignIn() {
         try {
             await signInSchema.validate({ username, email, password }, { abortEarly: false });
             setErrors({});
-            const res = await registerUser(username, password);
-            if (res.ok) {
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+            if (response.ok) {
                 alert('Registration successful');
             } else {
                 alert('Registration failed');
