@@ -147,6 +147,26 @@ CREATE TABLE Compilation_Tags (
     FOREIGN KEY (tag_id) REFERENCES Tags(id)
 );
 
+CREATE TABLE Album_Tracks (
+    album_id INTEGER NOT NULL,
+    track_id INTEGER NOT NULL,
+    track_position INTEGER NOT NULL,
+    PRIMARY KEY (album_id, track_id),
+    UNIQUE (album_id, track_position),
+    FOREIGN KEY (album_id) REFERENCES Albums(id) ON DELETE CASCADE,
+    FOREIGN KEY (track_id) REFERENCES Tracks(id) ON DELETE CASCADE
+);
+
+CREATE TABLE Compilation_Tracks (
+    compilation_id INTEGER NOT NULL,
+    track_id INTEGER NOT NULL,
+    track_position INTEGER NOT NULL,
+    PRIMARY KEY (compilation_id, track_id),
+    UNIQUE (compilation_id, track_position),
+    FOREIGN KEY (compilation_id) REFERENCES Compilations(id) ON DELETE CASCADE,
+    FOREIGN KEY (track_id) REFERENCES Tracks(id) ON DELETE CASCADE
+);
+
 
 
 CREATE TABLE Album_Ratings (

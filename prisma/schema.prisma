@@ -8,180 +8,281 @@ generator client {
 }
 
 model Albums {
-  id                Int      @id @default(autoincrement())
-  name              String
-  release_date      String?
-  info              String?
-  label_id          Int?
-  producer_id       Int?
-  front_cover_path  String?
-  back_cover_path   String?
-  albumWriters      Album_Writers[]
-  albumGenres       Album_Genres[]
-  albumMoods        Album_Moods[]
-  albumTags         Album_Tags[]
-  albumRatings      Album_Ratings?
+  id                 Int                    @id @default(autoincrement())
+  name               String
+  release_date       String                 // Змінено на String, бо NOT NULL у SQL
+  info               String?
+  label_id           Int?
+  producer_id        Int?
+  front_cover_path   String?
+  back_cover_path    String?
+  
+  albumArtists       Album_Artists[]
+  albumTracks        Album_Tracks[]
+  albumWriters       Album_Writers[]
+  albumGenres        Album_Genres[]
+  albumMoods         Album_Moods[]
+  albumTags          Album_Tags[]
+  albumRatings       Album_Ratings?
   albumListenHistory Album_Listen_History[]
+
+  @@map("Albums")
 }
 
 model Single {
-  id                Int      @id @default(autoincrement())
-  name              String
-  release_date      String?
-  info              String?
-  label_id          Int?
-  producer_id       Int?
-  front_cover_path  String?
-  back_cover_path   String?
-  a_side_track_id   Int?
-  b_side_track_id   Int?
-  aSideTrack        Tracks? @relation("ASideTracks", fields: [a_side_track_id], references: [id])
-  bSideTrack        Tracks? @relation("BSideTracks", fields: [b_side_track_id], references: [id])
-  singleGenres      Single_Genres[]
-  singleMoods       Single_Moods[]
-  singleTags        Single_Tags[]
+  id                  Int                  @id @default(autoincrement())
+  name                String
+  release_date        String?
+  info                String?
+  label_id            Int?
+  producer_id         Int?
+  front_cover_path    String?
+  back_cover_path     String?
+  a_side_track_id     Int?
+  b_side_track_id     Int?
+  
+  aSideTrack          Tracks?              @relation("ASideTracks", fields: [a_side_track_id], references: [id])
+  bSideTrack          Tracks?              @relation("BSideTracks", fields: [b_side_track_id], references: [id])
+  singleGenres        Single_Genres[]
+  singleMoods         Single_Moods[]
+  singleTags          Single_Tags[]
   singleListenHistory Single_Listen_History[]
+
+  @@map("Single")
 }
 
 model Compilations {
-  id           Int      @id @default(autoincrement())
-  name         String
-  info         String?
-  cover_path   String?
-  compilationGenres   Compilation_Genres[]
-  compilationMoods    Compilation_Moods[]
-  compilationTags     Compilation_Tags[]
+  id                     Int                      @id @default(autoincrement())
+  name                   String
+  info                   String?
+  cover_path             String?
+  
+  compilationGenres      Compilation_Genres[]
+  compilationMoods       Compilation_Moods[]
+  compilationTags        Compilation_Tags[]
   compilationListenHistory Compilation_Listen_History[]
+  Compilation_Tracks     Compilation_Tracks[]
+
+  @@map("Compilations")
 }
 
 model Tracks {
-  id           Int      @id @default(autoincrement())
-  track_name   String
-  track_path   String
-  aSideSingles Single[] @relation("ASideTracks")
-  bSideSingles Single[] @relation("BSideTracks")
+  id                  Int                  @id @default(autoincrement())
+  track_name          String
+  track_path          String
+  
+  aSideSingles        Single[]             @relation("ASideTracks")
+  bSideSingles        Single[]             @relation("BSideTracks")
+  albumTracks         Album_Tracks[]
+  compilationTracks   Compilation_Tracks[]
+
+  @@map("Tracks")
 }
 
 model Artists {
-  id               Int      @id @default(autoincrement())
+  id               Int             @id @default(autoincrement())
   artist_logo_path String?
-  artist_name      String
+  artist_name      String          @unique
   active_from      String?
   active_to        String?
+
+  albumArtists     Album_Artists[]
+  // trackArtists Track_Artists[] // ВИДАЛЕНО, бо немає таблиці Track_Artists у statements.sql
+
+  @@map("Artists")
 }
 
 model Writers {
-  writer_id   Int      @id @default(autoincrement())
+  writer_id   Int             @id @default(autoincrement())
   writer_name String
+  
   albumWriters Album_Writers[]
+
+  @@map("Writers")
+}
+
+model Album_Artists {
+  album_id    Int
+  artist_id   Int
+  
+  album       Albums @relation(fields: [album_id], references: [id]) // ВИПРАВЛЕНО регістр
+  artist      Artists @relation(fields: [artist_id], references: [id]) // ВИПРАВЛЕНО регістр
+
+  @@id([album_id, artist_id])
+  @@map("Album_Artists")
 }
 
 model Album_Writers {
   album_id  Int
   writer_id Int
-  @@id([album_id, writer_id])
+  
   album     Albums  @relation(fields: [album_id], references: [id])
   writer    Writers @relation(fields: [writer_id], references: [writer_id])
+
+  @@id([album_id, writer_id])
+  @@map("Album_Writers")
 }
 
 model Genres {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  albumGenres     Album_Genres[]
-  singleGenres    Single_Genres[]
-  compilationGenres Compilation_Genres[]
+  id                 Int                  @id @default(autoincrement())
+  name               String               @unique
+  
+  albumGenres        Album_Genres[]
+  singleGenres       Single_Genres[]
+  compilationGenres  Compilation_Genres[]
+
+  @@map("Genres")
 }
 
 model Album_Genres {
   album_id Int
   genre_id Int
-  @@id([album_id, genre_id])
+  
   album    Albums @relation(fields: [album_id], references: [id])
   genre    Genres @relation(fields: [genre_id], references: [id])
+
+  @@id([album_id, genre_id])
+  @@map("Album_Genres")
 }
 
 model Single_Genres {
   single_id Int
   genre_id  Int
-  @@id([single_id, genre_id])
+  
   single    Single @relation(fields: [single_id], references: [id])
   genre     Genres @relation(fields: [genre_id], references: [id])
+
+  @@id([single_id, genre_id])
+  @@map("Single_Genres")
 }
 
 model Compilation_Genres {
   compilation_id Int
   genre_id       Int
-  @@id([compilation_id, genre_id])
+  
   compilation    Compilations @relation(fields: [compilation_id], references: [id])
   genre          Genres       @relation(fields: [genre_id], references: [id])
+
+  @@id([compilation_id, genre_id])
+  @@map("Compilation_Genres")
 }
 
 model Moods {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-  albumMoods     Album_Moods[]
-  singleMoods    Single_Moods[]
-  compilationMoods Compilation_Moods[]
+  id                 Int                  @id @default(autoincrement())
+  name               String               @unique
+  
+  albumMoods         Album_Moods[]
+  singleMoods        Single_Moods[]
+  compilationMoods   Compilation_Moods[]
+
+  @@map("Moods")
 }
 
 model Album_Moods {
   album_id Int
   mood_id  Int
-  @@id([album_id, mood_id])
+  
   album    Albums @relation(fields: [album_id], references: [id])
   mood     Moods  @relation(fields: [mood_id], references: [id])
+
+  @@id([album_id, mood_id])
+  @@map("Album_Moods")
 }
 
 model Single_Moods {
   single_id Int
   mood_id   Int
-  @@id([single_id, mood_id])
+  
   single    Single @relation(fields: [single_id], references: [id])
   mood      Moods  @relation(fields: [mood_id], references: [id])
+
+  @@id([single_id, mood_id])
+  @@map("Single_Moods")
 }
 
 model Compilation_Moods {
   compilation_id Int
   mood_id        Int
-  @@id([compilation_id, mood_id])
+  
   compilation    Compilations @relation(fields: [compilation_id], references: [id])
   mood           Moods        @relation(fields: [mood_id], references: [id])
+
+  @@id([compilation_id, mood_id])
+  @@map("Compilation_Moods")
 }
 
 model Tags {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-  albumTags     Album_Tags[]
-  singleTags    Single_Tags[]
-  compilationTags Compilation_Tags[]
+  id                 Int                  @id @default(autoincrement())
+  name               String               @unique
+  
+  albumTags          Album_Tags[]
+  singleTags         Single_Tags[]
+  compilationTags    Compilation_Tags[]
+
+  @@map("Tags")
 }
 
 model Album_Tags {
   album_id Int
   tag_id   Int
-  @@id([album_id, tag_id])
+  
   album    Albums @relation(fields: [album_id], references: [id])
   tag      Tags   @relation(fields: [tag_id], references: [id])
+
+  @@id([album_id, tag_id])
+  @@map("Album_Tags")
 }
 
 model Single_Tags {
   single_id Int
   tag_id    Int
-  @@id([single_id, tag_id])
+  
   single    Single @relation(fields: [single_id], references: [id])
   tag       Tags   @relation(fields: [tag_id], references: [id])
+
+  @@id([single_id, tag_id])
+  @@map("Single_Tags")
 }
 
 model Compilation_Tags {
   compilation_id Int
   tag_id         Int
-  @@id([compilation_id, tag_id])
+  
   compilation    Compilations @relation(fields: [compilation_id], references: [id])
   tag            Tags         @relation(fields: [tag_id], references: [id])
+
+  @@id([compilation_id, tag_id])
+  @@map("Compilation_Tags")
+}
+
+model Album_Tracks {
+  album_id       Int
+  track_id       Int
+  track_position Int
+
+  album          Albums @relation(fields: [album_id], references: [id], onDelete: Cascade)
+  track          Tracks @relation(fields: [track_id], references: [id], onDelete: Cascade)
+
+  @@id([album_id, track_id])
+  @@unique([album_id, track_position])
+  @@map("Album_Tracks")
+}
+
+model Compilation_Tracks {
+  compilation_id Int
+  track_id       Int
+  track_position Int
+
+  compilation    Compilations @relation(fields: [compilation_id], references: [id], onDelete: Cascade)
+  track          Tracks       @relation(fields: [track_id], references: [id], onDelete: Cascade)
+
+  @@id([compilation_id, track_id])
+  @@unique([compilation_id, track_position])
+  @@map("Compilation_Tracks")
 }
 
 model Album_Ratings {
-  album_id             Int @id
+  album_id             Int     @id
   general_rating       Int?
   technical_proficency Int?
   concept              Int?
@@ -191,29 +292,38 @@ model Album_Ratings {
   personal_impact      Int?
   music_quality        Int?
   lyrics               Int?
+  
   album                Albums @relation(fields: [album_id], references: [id])
+
+  @@map("Album_Ratings")
 }
 
 model Album_Listen_History {
-  listen_id       Int      @id @default(autoincrement())
-  album_id        Int
-  listen_timestamp DateTime @default(now()) @map("listen_timestamp") // SQLite TEXT для дати/часу можна мапити до DateTime
-  album           Albums   @relation(fields: [album_id], references: [id])
-  @@map("Album_Listen_History") // Щоб ім'я таблиці у БД було таким самим
+  listen_id        Int      @id @default(autoincrement())
+  album_id         Int
+  listen_timestamp DateTime @default(now()) @map("listen_timestamp")
+  
+  album            Albums   @relation(fields: [album_id], references: [id])
+
+  @@map("Album_Listen_History")
 }
 
 model Single_Listen_History {
   listen_id        Int      @id @default(autoincrement())
   single_id        Int
   listen_timestamp DateTime @default(now()) @map("listen_timestamp")
+  
   single           Single   @relation(fields: [single_id], references: [id])
+
   @@map("Single_Listen_History")
 }
 
 model Compilation_Listen_History {
-  listen_id        Int      @id @default(autoincrement())
+  listen_id        Int          @id @default(autoincrement())
   compilation_id   Int
-  listen_timestamp DateTime @default(now()) @map("listen_timestamp")
+  listen_timestamp DateTime     @default(now()) @map("listen_timestamp")
+  
   compilation      Compilations @relation(fields: [compilation_id], references: [id])
+
   @@map("Compilation_Listen_History")
 }
