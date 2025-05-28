@@ -1,46 +1,38 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { RequestParser } from '@/app/api/utils/RequestParser';
-import { AlbumRepository } from '@/app/api/repositories/AlbumRepository';
-import { CreateAlbumRequest } from '../types/definitions';
+import { FileService } from '@/app/api/services/FileService';
+import { InputAlbumData } from '@/app/api/types/InputDefinitions';
+import { AlbumController } from '@/app/api/controllers/AlbumController';
 
-const albumRepository = new AlbumRepository();
+const fileService = new FileService();
 
-export async function GET(request: NextRequest) {
-    try {
-        const parser = new RequestParser(request);
 
-        const filters = parser.getFilters();
-        const limit = parser.getLimit();
-        const page = parser.getPage();
-        const query = parser.getQueryParam();
-        const fields = parser.getFields();
+export async function POST(req: NextRequest) {
+    const formData = await req.formData();
+    const albumJson = formData.get('album_data');
 
-        const result = await albumRepository.findAlbums(filters, limit, page, query, fields);
-        return NextResponse.json(result, { status: 200 });
-
-    } catch (error) {
-        console.error('Failed to search for albums', error);
-        return NextResponse.json({ message: 'Server returned error, while searching for albums: ' }, { status: 500 });
+    if (!albumJson || typeof albumJson !== 'string') {
+        return NextResponse.json({ error: 'Invalid album data' }, { status: 400 });
     }
-}
+    const albumData: InputAlbumData = JSON.parse(albumJson as string);
 
-export async function POST(request: Request) {
-    try {
-        const albumData: CreateAlbumRequest = await request.json();
+    const frontCover = formData.get('front_cover') as File | null;
+    const backCover = formData.get('back_cover') as File | null;
+    const audioFiles = formData.getAll('audiofiles') as File[];
 
-        if (!albumData.name || albumData.name.trim() === '') {
-            return NextResponse.json({ error: 'Album name is required.' }, { status: 400 });
-        }
-        if (!albumData.release_date || albumData.release_date.trim() === '') {
-            return NextResponse.json({ error: 'Release date is required.' }, { status: 400 });
-        }
-        const newAlbum = await albumRepository.createAlbum(albumData);
-
-        return NextResponse.json(newAlbum, { status: 201 });
-
-    } catch (error: any) {
-        console.error('Error creating album:', error);
-
-        return NextResponse.json({ error: error.message || 'Failed to create album.' }, { status: 500 });
+    if (frontCover) {
+        albumData.front_cover_path = await fileService.save(frontCover, 'covers');
     }
+    if (backCover) {
+        albumData.back_cover_path = await fileService.save(backCover, 'covers');
+    }
+    if (albumData.tracks && audioFiles.length === albumData.tracks.length) {
+        for (let i = 0; i < albumData.tracks.length; i++) {
+            albumData.tracks[i].track_path = await fileService.save(audioFiles[i], 'audiofiles');
+        }
+    }
+
+    const controller = new AlbumController({ fileService });
+    const result = await controller.createAlbum(albumData);
+
+    return NextResponse.json(result);
 }

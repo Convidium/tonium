@@ -1,6 +1,8 @@
 CREATE TABLE Albums (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
+    artist_id INTEGER NOT NULL,
+    FOREIGN KEY (artist_id) REFERENCES Artists(id),
     release_date TEXT NOT NULL,
     info TEXT,
     label_id INTEGER,
@@ -12,6 +14,8 @@ CREATE TABLE Albums (
 CREATE TABLE Single (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
+    artist_id INTEGER NOT NULL,
+    FOREIGN KEY (artist_id) REFERENCES Artists(id),
     release_date TEXT,
     info TEXT,
     label_id INTEGER,
@@ -204,4 +208,9 @@ CREATE TABLE Compilation_Listen_History (
     compilation_id INTEGER NOT NULL,
     listen_timestamp TEXT DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (compilation_id) REFERENCES Compilations(id)
+);
+
+CREATE TABLE Settings (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    storagePath TEXT NOT NULL UNIQUE
 );
