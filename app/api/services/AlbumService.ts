@@ -6,19 +6,19 @@ import { TagService } from './TagService';
 import { WriterService } from './WriterService';
 
 export class AlbumService {
-    constructor() { }
+    constructor() {}
+    private genreService = new GenreService();
+    private moodService = new MoodService();
+    private tagService = new TagService();
+    private writerService = new WriterService();
 
     async createAlbum(data: InputAlbumData) {
         console.log('[Service] Створюємо альбом:', data.name);
-        const genreService = new GenreService();
-        const moodService = new MoodService();
-        const tagService = new TagService();
-        const writerService = new WriterService();
-        
-        const genreIds = await genreService.processInputGenres(data.genres || []);
-        const moodIds = await moodService.processInputMoods(data.moods || []);
-        const tagIds = await tagService.processInputTags(data.moods || []);
-        const writerIds = await writerService.processInputWriters(data.moods || []);
+
+        const genreIds = await this.genreService.processInputGenres(data.genres || []);
+        const moodIds = await this.moodService.processInputMoods(data.moods || []);
+        const tagIds = await this.tagService.processInputTags(data.tags || []);
+        const writerIds = await this.writerService.processInputWriters(data.writers || []);
 
         const album = await prisma.albums.create({
             data: {
@@ -33,10 +33,10 @@ export class AlbumService {
             },
         });
 
-        await genreService.bindGenresToAlbum(album.id, genreIds);
-        await moodService.bindMoodsToAlbum(album.id, moodIds);
-        await tagService.bindTagsToAlbum(album.id, tagIds);
-        await writerService.bindWritersToAlbum(album.id, writerIds);
+        await this.genreService.bindGenresToAlbum(album.id, genreIds);
+        await this.moodService.bindMoodsToAlbum(album.id, moodIds);
+        await this.tagService.bindTagsToAlbum(album.id, tagIds);
+        await this.writerService.bindWritersToAlbum(album.id, writerIds);
 
         console.log('[Service] Базовий альбом створено, id =', album.id);
         return album;
