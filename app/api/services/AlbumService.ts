@@ -4,6 +4,7 @@ import { GenreService } from './GenreService';
 import { MoodService } from './MoodService';
 import { TagService } from './TagService';
 import { WriterService } from './WriterService';
+import { PrismaClient } from '@prisma/client';
 
 export class AlbumService {
     constructor() {}
@@ -13,6 +14,9 @@ export class AlbumService {
     private writerService = new WriterService();
 
     async createAlbum(data: InputAlbumData) {
+    }
+
+    async createAlbumInsideTx(data: InputAlbumData, tx: PrismaClient) {
         console.log('[Service] Створюємо альбом:', data.name);
 
         const genreIds = await this.genreService.processInputGenres(data.genres || []);
@@ -20,7 +24,7 @@ export class AlbumService {
         const tagIds = await this.tagService.processInputTags(data.tags || []);
         const writerIds = await this.writerService.processInputWriters(data.writers || []);
 
-        const album = await prisma.albums.create({
+        const album = await tx.albums.create({
             data: {
                 name: data.name,
                 release_date: data.release_date,
@@ -41,4 +45,5 @@ export class AlbumService {
         console.log('[Service] Базовий альбом створено, id =', album.id);
         return album;
     }
+    
 }

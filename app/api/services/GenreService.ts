@@ -1,8 +1,9 @@
 import { InputGenre } from '@/app/api/types/InputDefinitions';
 import prisma from '@/app/api/utils/prisma';
+import { PrismaClient } from '@prisma/client';
 
 export class GenreService {
-    constructor() { }
+    constructor(private tx: PrismaClient = prisma) {}
 
     public async processInputGenres(inputGenres: InputGenre[]): Promise<number[]> {
         return await this.prepareGenres(inputGenres);
@@ -10,7 +11,7 @@ export class GenreService {
     
     public async bindGenresToAlbum(albumId: number, genreIds: number[]) {
         if (genreIds.length === 0) return;
-        await prisma.album_Genres.createMany({
+        await this.tx.album_Genres.createMany({
             data: genreIds.map((id) => ({
                 album_id: albumId,
                 genre_id: id,
@@ -23,7 +24,7 @@ export class GenreService {
 
         for (const g of genres) {
             if (g.isNew && g.name) {
-                const created = await prisma.genres.upsert({
+                const created = await this.tx.genres.upsert({
                     where: { name: g.name },
                     update: {},
                     create: { name: g.name },

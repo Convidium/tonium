@@ -1,8 +1,9 @@
 import { InputMood } from '@/app/api/types/InputDefinitions';
 import prisma from '@/app/api/utils/prisma';
+import { PrismaClient } from '@prisma/client';
 
 export class MoodService {
-    constructor() { }
+    constructor(private tx: PrismaClient = prisma) {}
 
     public async processInputMoods(inputGenres: InputMood[]): Promise<number[]> {
         return await this.prepareMoods(inputGenres);
@@ -10,7 +11,7 @@ export class MoodService {
     
     public async bindMoodsToAlbum(albumId: number, moodIds: number[]) {
         if (moodIds.length === 0) return;
-        await prisma.album_Moods.createMany({
+        await this.tx.album_Moods.createMany({
             data: moodIds.map((id) => ({
                 album_id: albumId,
                 mood_id: id,
@@ -23,7 +24,7 @@ export class MoodService {
 
         for (const m of moods) {
             if (m.isNew && m.name) {
-                const created = await prisma.moods.upsert({
+                const created = await this.tx.moods.upsert({
                     where: { name: m.name },
                     update: {},
                     create: { name: m.name },

@@ -1,8 +1,9 @@
 import { InputTag } from '@/app/api/types/InputDefinitions';
 import prisma from '@/app/api/utils/prisma';
+import { PrismaClient } from '@prisma/client';
 
 export class TagService {
-    constructor() { }
+    constructor(private tx: PrismaClient = prisma) {}
 
     public async processInputTags(inputTags: InputTag[]): Promise<number[]> {
         return await this.prepareTags(inputTags);
@@ -10,7 +11,7 @@ export class TagService {
     
     public async bindTagsToAlbum(albumId: number, tagIds: number[]) {
         if (tagIds.length === 0) return;
-        await prisma.album_Tags.createMany({
+        await this.tx.album_Tags.createMany({
             data: tagIds.map((id) => ({
                 album_id: albumId,
                 tag_id: id,
@@ -23,7 +24,7 @@ export class TagService {
 
         for (const t of tags) {
             if (t.isNew && t.name) {
-                const created = await prisma.tags.upsert({
+                const created = await this.tx.tags.upsert({
                     where: { name: t.name },
                     update: {},
                     create: { name: t.name },

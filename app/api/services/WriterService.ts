@@ -1,8 +1,9 @@
 import { InputWriter } from '@/app/api/types/InputDefinitions';
 import prisma from '@/app/api/utils/prisma';
+import { PrismaClient } from '@prisma/client';
 
 export class WriterService {
-    constructor() { }
+    constructor(private tx: PrismaClient = prisma) {}
 
     public async processInputWriters(inputTags: InputWriter[]): Promise<number[]> {
         return await this.prepareWriters(inputTags);
@@ -10,7 +11,7 @@ export class WriterService {
     
     public async bindWritersToAlbum(albumId: number, writerIds: number[]) {
         if (writerIds.length === 0) return;
-        await prisma.album_Writers.createMany({
+        await this.tx.album_Writers.createMany({
             data: writerIds.map((id) => ({
                 album_id: albumId,
                 writer_id: id,
@@ -23,7 +24,7 @@ export class WriterService {
 
         for (const w of writers) {
             if (w.isNew && w.writer_name) {
-                const created = await prisma.writers.upsert({
+                const created = await this.tx.writers.upsert({
                     where: { writer_name: w.writer_name },
                     update: {},
                     create: { writer_name: w.writer_name },
