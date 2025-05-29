@@ -91,6 +91,90 @@ export class AlbumService {
         });
     }
 
+    async getAlbums({ limit = 10, page = 1, query, filters = {} } : { limit?: number; page?: number; query?: string | null; filters?: Record<string, string | string[] | number>}) {
+        const where: Prisma.AlbumsWhereInput = {};
+
+        if (query) {
+            where.name = { contains: query };
+        }
+
+        const [albums, total] = await prisma.$transaction([
+            prisma.albums.findMany({
+                where,
+                include: {
+                    artist: true,
+                    albumTracks: {
+                    include: {
+                        track: true,
+                    }
+                },
+                },
+                skip: (page - 1) * limit,
+                take: limit,
+                orderBy: {
+                    release_date: 'desc',
+                },
+            }),
+            prisma.albums.count({ where }),
+        ]);
+
+        return {
+            albums,
+            total,
+            page,
+            limit,
+        };
+    }
+
+    async getAlbumById(id: number) {
+        const album = await prisma.albums.findUnique({
+            where: { id },
+            include: {
+                artist: true,
+                albumGenres: {
+                    include: { genre: true },
+                },
+                albumMoods: {
+                    include: { mood: true },
+                },
+                albumTags: {
+                    include: { tag: true },
+                },
+                albumWriters: {
+                    include: { writer: true },
+                },
+                albumTracks: {
+                    include: {
+                        track: true,
+                    },
+                    orderBy: {
+                        track_position: 'asc',
+                    },
+                },
+            },
+        });
+
+        if (!album) throw new Error('Альбом не знайдено');
+
+        return {
+            id: album.id,
+            name: album.name,
+            release_date: album.release_date,
+            info: album.info,
+            artist: album.artist,
+            genres: album.albumGenres.map((g) => g.genre.name),
+            moods: album.albumMoods.map((m) => m.mood.name),
+            tags: album.albumTags.map((t) => t.tag.name),
+            writers: album.albumWriters.map((w) => w.writer.writer_name),
+            tracks: album.albumTracks.map((t) => ({
+                id: t.track.id,
+                track_name: t.track.track_name,
+                track_path: t.track.track_path,
+                position: t.track_position,
+            })),
+        };
+    }
+
     async updateAlbumInsideTx(
         data: InputAlbumData,
         tx: Prisma.TransactionClient,

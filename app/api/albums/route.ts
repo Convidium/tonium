@@ -3,6 +3,7 @@ import { FileService } from '@/app/api/services/FileService';
 import { InputAlbumData } from '@/app/api/types/InputDefinitions';
 import { AlbumController } from '@/app/api/controllers/AlbumController';
 import { RequestParser } from '../utils/RequestParser';
+import { AlbumService } from '../services/AlbumService';
 
 const fileService = new FileService();
 
@@ -31,7 +32,7 @@ export async function POST(req: NextRequest) {
         }
     }
 
-    const controller = new AlbumController({ fileService });
+    const controller = new AlbumController();
     const result = await controller.createAlbum(albumData);
 
     return NextResponse.json(result);
@@ -39,23 +40,10 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
     try {
-        const parser = new RequestParser(req);
-
-        const filters = parser.getFilters();
-        const fields = parser.getFields();
-        const limit = parser.getLimit();
-        const page = parser.getPage();
-        const query = parser.getQueryParam();
-
-        const data = {
-            message: `You searched for: ${query}`,
-            limit: limit,
-            page: page,
-        };
-        return NextResponse.json(data);
-
+        const albumController = new AlbumController();
+        const response = await albumController.getAlbums(req);
+        return NextResponse.json(response);
     } catch (error: any) {
-        console.error('Error in GET request:', error);
-        return NextResponse.json({ error: 'Internal server error', details: error.message }, { status: 500 });
+        return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }
