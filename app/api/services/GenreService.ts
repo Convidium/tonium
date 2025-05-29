@@ -1,9 +1,9 @@
 import { InputGenre } from '@/app/api/types/InputDefinitions';
 import prisma from '@/app/api/utils/prisma';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 export class GenreService {
-    constructor(private tx: PrismaClient = prisma) {}
+    constructor(private tx: Prisma.TransactionClient = prisma) {}
 
     public async processInputGenres(inputGenres: InputGenre[]): Promise<number[]> {
         return await this.prepareGenres(inputGenres);

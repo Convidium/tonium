@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     }
     if (albumData.tracks && audioFiles.length === albumData.tracks.length) {
         for (let i = 0; i < albumData.tracks.length; i++) {
-            albumData.tracks[i].track_path = await fileService.save(audioFiles[i], 'audiofiles');
+            albumData.tracks[i].track.track_path = await fileService.save(audioFiles[i], 'audiofiles');
         }
     }
 

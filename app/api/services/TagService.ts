@@ -1,9 +1,9 @@
 import { InputTag } from '@/app/api/types/InputDefinitions';
 import prisma from '@/app/api/utils/prisma';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 export class TagService {
-    constructor(private tx: PrismaClient = prisma) {}
+    constructor(private tx: Prisma.TransactionClient = prisma) {}
 
     public async processInputTags(inputTags: InputTag[]): Promise<number[]> {
         return await this.prepareTags(inputTags);

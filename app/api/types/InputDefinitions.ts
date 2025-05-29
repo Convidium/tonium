@@ -76,7 +76,7 @@ export interface InputAlbumData {
     producer_id?: number | null;
     front_cover_path?: string | null;
     back_cover_path?: string | null;
-    tracks?: InputTrack[];
+    tracks?: InputAlbumTrack[];
     genres?: InputGenre[];
     moods?: InputMood[];
     tags?: InputTag[];

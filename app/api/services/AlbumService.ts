@@ -4,25 +4,32 @@ import { GenreService } from './GenreService';
 import { MoodService } from './MoodService';
 import { TagService } from './TagService';
 import { WriterService } from './WriterService';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
+import { TrackService } from './TrackService';
 
 export class AlbumService {
     constructor() {}
-    private genreService = new GenreService();
-    private moodService = new MoodService();
-    private tagService = new TagService();
-    private writerService = new WriterService();
 
     async createAlbum(data: InputAlbumData) {
+        return await prisma.$transaction(async (tx) => {
+            const genreService = new GenreService(tx);
+            const moodService = new MoodService(tx);
+            const tagService = new TagService(tx);
+            const writerService = new WriterService(tx);
+            const trackService = new TrackService(tx);
+
+            return await this.createAlbumInsideTx(data, tx, {genreService, moodService, tagService, writerService, trackService});
+        });
     }
 
-    async createAlbumInsideTx(data: InputAlbumData, tx: PrismaClient) {
-        console.log('[Service] Створюємо альбом:', data.name);
+    async createAlbumInsideTx(data: InputAlbumData, tx: Prisma.TransactionClient, {genreService, moodService, tagService, writerService, trackService}: any) {
+        console.log('[Service] Creating an Album...', data.name);
 
-        const genreIds = await this.genreService.processInputGenres(data.genres || []);
-        const moodIds = await this.moodService.processInputMoods(data.moods || []);
-        const tagIds = await this.tagService.processInputTags(data.tags || []);
-        const writerIds = await this.writerService.processInputWriters(data.writers || []);
+        const genreIds = await genreService.processInputGenres(data.genres || []);
+        const moodIds = await moodService.processInputMoods(data.moods || []);
+        const tagIds = await tagService.processInputTags(data.tags || []);
+        const writerIds = await writerService.processInputWriters(data.writers || []);
+        const albumTracks = await trackService.processInputTracks(data.tracks || []);
 
         const album = await tx.albums.create({
             data: {
@@ -37,12 +44,13 @@ export class AlbumService {
             },
         });
 
-        await this.genreService.bindGenresToAlbum(album.id, genreIds);
-        await this.moodService.bindMoodsToAlbum(album.id, moodIds);
-        await this.tagService.bindTagsToAlbum(album.id, tagIds);
-        await this.writerService.bindWritersToAlbum(album.id, writerIds);
+        await genreService.bindGenresToAlbum(album.id, genreIds);
+        await moodService.bindMoodsToAlbum(album.id, moodIds);
+        await tagService.bindTagsToAlbum(album.id, tagIds);
+        await writerService.bindWritersToAlbum(album.id, writerIds);
+        await trackService.bindTracksToAlbum(album.id, albumTracks);
 
-        console.log('[Service] Базовий альбом створено, id =', album.id);
+        console.log('[Service] Album has been succesfully created! id =', album.id);
         return album;
     }
     
