@@ -72,6 +72,25 @@ export class AlbumService {
         });
     }
 
+    async deleteAlbum(albumId: number) {
+        return await prisma.$transaction(async (tx) => {
+            const album = await tx.albums.findUnique({
+                where: { id: albumId },
+            });
+
+            if (!album) {
+                throw new Error(`No album with id ${albumId} was found.`);
+            }
+
+            await tx.albums.delete({
+                where: { id: albumId },
+            });
+
+            console.log(`[Service] Album has been succesfully deleted: id = ${albumId}`);
+            return { success: true, id: albumId };
+        });
+    }
+
     async updateAlbumInsideTx(
         data: InputAlbumData,
         tx: Prisma.TransactionClient,
@@ -101,13 +120,13 @@ export class AlbumService {
 
         await tx.album_Genres.deleteMany({ where: { album_id: album.id } });
         await genreService.bindGenresToAlbum(album.id, genreIds);
-        
+
         await tx.album_Moods.deleteMany({ where: { album_id: album.id } });
         await moodService.bindMoodsToAlbum(album.id, moodIds);
-        
+
         await tx.album_Tags.deleteMany({ where: { album_id: album.id } });
         await tagService.bindTagsToAlbum(album.id, tagIds);
-        
+
         await tx.album_Writers.deleteMany({ where: { album_id: album.id } });
         await writerService.bindWritersToAlbum(album.id, writerIds);
 
