@@ -68,6 +68,7 @@ export interface InputRating {
 }
 
 export interface InputAlbumData {
+    id?: number;                                // id is not used when adding an album, so it's optional here
     name: string;
     artist: InputArtist;
     release_date: string;

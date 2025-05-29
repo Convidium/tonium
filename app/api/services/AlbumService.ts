@@ -8,7 +8,7 @@ import { PrismaClient, Prisma } from '@prisma/client';
 import { TrackService } from './TrackService';
 
 export class AlbumService {
-    constructor() {}
+    constructor() { }
 
     async createAlbum(data: InputAlbumData) {
         return await prisma.$transaction(async (tx) => {
@@ -18,11 +18,11 @@ export class AlbumService {
             const writerService = new WriterService(tx);
             const trackService = new TrackService(tx);
 
-            return await this.createAlbumInsideTx(data, tx, {genreService, moodService, tagService, writerService, trackService});
+            return await this.createAlbumInsideTx(data, tx, { genreService, moodService, tagService, writerService, trackService });
         });
     }
 
-    async createAlbumInsideTx(data: InputAlbumData, tx: Prisma.TransactionClient, {genreService, moodService, tagService, writerService, trackService}: any) {
+    async createAlbumInsideTx(data: InputAlbumData, tx: Prisma.TransactionClient, { genreService, moodService, tagService, writerService, trackService }: any) {
         console.log('[Service] Creating an Album...', data.name);
 
         const genreIds = await genreService.processInputGenres(data.genres || []);
@@ -53,5 +53,67 @@ export class AlbumService {
         console.log('[Service] Album has been succesfully created! id =', album.id);
         return album;
     }
-    
+
+    async updateAlbum(data: InputAlbumData) {
+        return await prisma.$transaction(async (tx) => {
+            const genreService = new GenreService(tx);
+            const moodService = new MoodService(tx);
+            const tagService = new TagService(tx);
+            const writerService = new WriterService(tx);
+            const trackService = new TrackService(tx);
+
+            return await this.updateAlbumInsideTx(data, tx, {
+                genreService,
+                moodService,
+                tagService,
+                writerService,
+                trackService,
+            });
+        });
+    }
+
+    async updateAlbumInsideTx(
+        data: InputAlbumData,
+        tx: Prisma.TransactionClient,
+        { genreService, moodService, tagService, writerService, trackService }: any
+    ) {
+        console.log('[Service] Updating an album:', data.name);
+
+        const album = await tx.albums.update({
+            where: { id: Number(data.id) },
+            data: {
+                name: data.name,
+                release_date: data.release_date,
+                info: data.info,
+                label_id: data.label_id || null,
+                producer_id: data.producer_id || null,
+                artist: { connect: { id: Number(data.artist.id) } },
+                front_cover_path: data.front_cover_path || null,
+                back_cover_path: data.back_cover_path || null,
+            },
+        });
+
+        const genreIds = await genreService.processInputGenres(data.genres || []);
+        const moodIds = await moodService.processInputMoods(data.moods || []);
+        const tagIds = await tagService.processTagsGenres(data.tags || []);
+        const writerIds = await writerService.processInputWriters(data.writers || []);
+        const trackIds = await trackService.processInputTracks(data.tracks || []);
+
+        await tx.album_Genres.deleteMany({ where: { album_id: album.id } });
+        await genreService.bindGenresToAlbum(album.id, genreIds);
+        
+        await tx.album_Moods.deleteMany({ where: { album_id: album.id } });
+        await moodService.bindMoodsToAlbum(album.id, moodIds);
+        
+        await tx.album_Tags.deleteMany({ where: { album_id: album.id } });
+        await tagService.bindTagsToAlbum(album.id, tagIds);
+        
+        await tx.album_Writers.deleteMany({ where: { album_id: album.id } });
+        await writerService.bindWritersToAlbum(album.id, writerIds);
+
+        await tx.album_Tracks.deleteMany({ where: { album_id: album.id } });
+        await trackService.bindTracksToAlbum(album.id, trackIds);
+
+        return album;
+    }
 }

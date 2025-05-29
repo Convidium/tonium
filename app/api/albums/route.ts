@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { FileService } from '@/app/api/services/FileService';
 import { InputAlbumData } from '@/app/api/types/InputDefinitions';
 import { AlbumController } from '@/app/api/controllers/AlbumController';
+import { RequestParser } from '../utils/RequestParser';
 
 const fileService = new FileService();
-
 
 export async function POST(req: NextRequest) {
     const formData = await req.formData();
@@ -35,4 +35,27 @@ export async function POST(req: NextRequest) {
     const result = await controller.createAlbum(albumData);
 
     return NextResponse.json(result);
+}
+
+export async function GET(req: NextRequest) {
+    try {
+        const parser = new RequestParser(req);
+
+        const filters = parser.getFilters();
+        const fields = parser.getFields();
+        const limit = parser.getLimit();
+        const page = parser.getPage();
+        const query = parser.getQueryParam();
+
+        const data = {
+            message: `You searched for: ${query}`,
+            limit: limit,
+            page: page,
+        };
+        return NextResponse.json(data);
+
+    } catch (error: any) {
+        console.error('Error in GET request:', error);
+        return NextResponse.json({ error: 'Internal server error', details: error.message }, { status: 500 });
+    }
 }
