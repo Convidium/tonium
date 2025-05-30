@@ -1,7 +1,11 @@
 import { InputAlbumData } from '@/app/api/types/InputDefinitions';
 import { AlbumService } from '@/app/api/services/AlbumService';
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { RequestParser } from '../utils/RequestParser';
+import { FileService } from '../services/FileService';
+
+
+const fileService = new FileService();
 
 export class AlbumController {
   private albumService: AlbumService;
@@ -12,10 +16,31 @@ export class AlbumController {
   }
 
 
-  async createAlbum(data: InputAlbumData) {
-    console.log('[Controller] Creating an album:', data.name);
+  async createAlbum(formData: FormData) {
+    const albumJson = formData.get('album_data');
+    if (!albumJson || typeof albumJson !== 'string') {
+      return NextResponse.json({ error: 'Invalid album data' }, { status: 400 });
+    }
+    const albumData: InputAlbumData = JSON.parse(albumJson as string);
 
-    const album = await this.albumService.createAlbum(data);
+    console.log('[Controller] Creating an album:', albumData.name);
+    const frontCover = formData.get('front_cover') as File | null;
+    const backCover = formData.get('back_cover') as File | null;
+    const audioFiles = formData.getAll('audiofiles') as File[];
+
+    if (frontCover) {
+      albumData.front_cover_path = await fileService.save(frontCover, 'covers');
+    }
+    if (backCover) {
+      albumData.back_cover_path = await fileService.save(backCover, 'covers');
+    }
+    if (albumData.tracks && audioFiles.length === albumData.tracks.length) {
+      for (let i = 0; i < albumData.tracks.length; i++) {
+        albumData.tracks[i].track.track_path = await fileService.save(audioFiles[i], 'audiofiles');
+      }
+    }
+
+    const album = await this.albumService.createAlbum(albumData);
     console.log('[Controller] The Album has beend created, id =', album.id);
     return album;
   }
@@ -23,12 +48,8 @@ export class AlbumController {
 
   async getAlbums(req: NextRequest) {
     const parser = new RequestParser(req);
+    const fullQuery = parser.parseQueryParams();
 
-    const limit = parser.getLimit();
-    const page = parser.getPage();
-    const query = parser.getQueryParam();
-    const filters = parser.getFilters();
-
-    return await this.service.getAlbums({ limit, page, query, filters });
+    return await this.service.getAlbums(fullQuery);
   }
 }

@@ -6,6 +6,7 @@ import { TagService } from './TagService';
 import { WriterService } from './WriterService';
 import { PrismaClient, Prisma } from '@prisma/client';
 import { TrackService } from './TrackService';
+import { buildPrismaQuery, BuildPrismaQueryOptions } from '../utils/buildAlbumQuery';
 
 export class AlbumService {
     constructor() { }
@@ -91,39 +92,18 @@ export class AlbumService {
         });
     }
 
-    async getAlbums({ limit = 10, page = 1, query, filters = {} } : { limit?: number; page?: number; query?: string | null; filters?: Record<string, string | string[] | number>}) {
-        const where: Prisma.AlbumsWhereInput = {};
+    async getAlbums(options: BuildPrismaQueryOptions) {
+        const query = buildPrismaQuery(options);
 
-        if (query) {
-            where.name = { contains: query };
-        }
+        const albums = await prisma.albums.findMany({
+            ...query,
+            include: query.select ? undefined : {
+                artist: true
+            }
+        });
+        
 
-        const [albums, total] = await prisma.$transaction([
-            prisma.albums.findMany({
-                where,
-                include: {
-                    artist: true,
-                    albumTracks: {
-                    include: {
-                        track: true,
-                    }
-                },
-                },
-                skip: (page - 1) * limit,
-                take: limit,
-                orderBy: {
-                    release_date: 'desc',
-                },
-            }),
-            prisma.albums.count({ where }),
-        ]);
-
-        return {
-            albums,
-            total,
-            page,
-            limit,
-        };
+        return albums;
     }
 
     async getAlbumById(id: number) {

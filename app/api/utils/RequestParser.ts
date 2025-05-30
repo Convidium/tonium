@@ -100,4 +100,78 @@ export class RequestParser {
         const parsedValue = parseInt(value, 10);
         return isNaN(parsedValue) || parsedValue <= 0 ? defaultValue : parsedValue;
     }
+
+    parseQueryParams(): {
+        search?: { key: string; value: string };
+        filters?: Record<string, string[]>;
+        page: number;
+        limit: number;
+        orderBy?: { key: string; direction: 'asc' | 'desc' };
+        fields?: string[];
+        table?: string;
+    } {
+        const filtersRaw = this.searchParams.get('filters');
+        const searchKey = this.searchParams.get('searchKey');
+        const searchValue = this.searchParams.get('searchValue');
+        const orderKey = this.searchParams.get('orderKey');
+        const orderRule = this.searchParams.get('orderRule');
+        const fieldsRaw = this.searchParams.get('fields');
+        const table = this.searchParams.get('table') || 'albums';
+        const page = parseInt(this.searchParams.get('page') || '1');
+        const limit = parseInt(this.searchParams.get('limit') || '10');
+
+        let filters: Record<string, string[]> = {};
+        if (filtersRaw) {
+            try {
+                const parsed = JSON.parse(filtersRaw);
+                if (typeof parsed === 'object' && parsed !== null) {
+                    filters = parsed;
+                }
+            } catch (e) {
+                console.warn('Invalid filters JSON:', filtersRaw);
+            }
+        }
+
+        const result: {
+            search?: { key: string; value: string };
+            filters?: Record<string, string[]>;
+            page: number;
+            limit: number;
+            orderBy?: { key: string; direction: 'asc' | 'desc' };
+            fields?: string[];
+            table?: string;
+        } = {
+            page,
+            limit,
+            table,
+        };
+
+        if (searchKey && searchValue) {
+            result.search = { key: searchKey, value: searchValue };
+        }
+
+        if (Object.keys(filters).length > 0) {
+            result.filters = filters;
+        }
+
+        if (orderKey && orderRule && ['asc', 'desc'].includes(orderRule)) {
+            result.orderBy = { key: orderKey, direction: orderRule as 'asc' | 'desc' };
+        }
+
+        if (fieldsRaw) {
+            result.fields = fieldsRaw.split(',').map(f => f.trim()).filter(Boolean);
+        }
+
+        return result;
+    }
+
+    async extractFiltersFromQueryParams(searchParams: URLSearchParams): Promise<Record<string, string[]>> {
+    const filters: Record<string, string[]> = {};
+    for (const [key, value] of searchParams.entries()) {
+        if (!['q', 'limit', 'page', 'fields', 'orderKey', 'orderRule'].includes(key)) {
+            filters[key] = [value];
+        }
+    }
+    return filters;
+}
 }
