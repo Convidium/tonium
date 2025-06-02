@@ -94,12 +94,12 @@ export class AlbumService {
 
     async getAlbums(options: BuildPrismaQueryOptions) {
         const query = buildPrismaQuery(options);
+        console.log(query.include);
+        
 
         const albums = await prisma.albums.findMany({
             ...query,
-            include: query.select ? undefined : {
-                artist: true
-            }
+            include: query.include ? query.include : undefined
         });
         
 

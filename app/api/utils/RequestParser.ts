@@ -109,6 +109,7 @@ export class RequestParser {
         orderBy?: { key: string; direction: 'asc' | 'desc' };
         fields?: string[];
         table?: string;
+        inclue?: string[];
     } {
         const filtersRaw = this.searchParams.get('filters');
         const searchKey = this.searchParams.get('searchKey');
@@ -116,6 +117,7 @@ export class RequestParser {
         const orderKey = this.searchParams.get('orderKey');
         const orderRule = this.searchParams.get('orderRule');
         const fieldsRaw = this.searchParams.get('fields');
+        const includeRaw = this.searchParams.get('include');
         const table = this.searchParams.get('table') || 'albums';
         const page = parseInt(this.searchParams.get('page') || '1');
         const limit = parseInt(this.searchParams.get('limit') || '10');
@@ -140,6 +142,7 @@ export class RequestParser {
             orderBy?: { key: string; direction: 'asc' | 'desc' };
             fields?: string[];
             table?: string;
+            include?: string[];
         } = {
             page,
             limit,
@@ -162,16 +165,20 @@ export class RequestParser {
             result.fields = fieldsRaw.split(',').map(f => f.trim()).filter(Boolean);
         }
 
+        if (includeRaw) {
+            result.include = includeRaw.split(',').map(f => f.trim()).filter(Boolean);
+        }
+
         return result;
     }
 
     async extractFiltersFromQueryParams(searchParams: URLSearchParams): Promise<Record<string, string[]>> {
-    const filters: Record<string, string[]> = {};
-    for (const [key, value] of searchParams.entries()) {
-        if (!['q', 'limit', 'page', 'fields', 'orderKey', 'orderRule'].includes(key)) {
-            filters[key] = [value];
+        const filters: Record<string, string[]> = {};
+        for (const [key, value] of searchParams.entries()) {
+            if (!['q', 'limit', 'page', 'fields', 'orderKey', 'orderRule'].includes(key)) {
+                filters[key] = [value];
+            }
         }
+        return filters;
     }
-    return filters;
-}
 }

@@ -1,3 +1,5 @@
+import parseInclude from "./parseInclude";
+
 export interface BuildPrismaQueryOptions {
     search?: { key: string; value: string };
     filters?: Record<string, string[]>;
@@ -5,6 +7,7 @@ export interface BuildPrismaQueryOptions {
     limit: number;
     page: number;
     fields?: string[];
+    include?: string[];
 }
 
 export function buildPrismaQuery(options: BuildPrismaQueryOptions) {
@@ -14,7 +17,8 @@ export function buildPrismaQuery(options: BuildPrismaQueryOptions) {
         orderBy,
         limit,
         page,
-        fields
+        fields,
+        include
     } = options;
 
     const where: any = { AND: [] };
@@ -69,6 +73,9 @@ export function buildPrismaQuery(options: BuildPrismaQueryOptions) {
     // 5. Select
     const select = fields?.length ? Object.fromEntries(fields.map(field => [field, true])) : undefined;
 
+    // 6. Include
+    const includeObj = include?.length ? parseInclude(include) : undefined;
+
     const query: Record<string, any> = {
         where: where.AND.length > 0 ? where : undefined,
         take,
@@ -77,6 +84,7 @@ export function buildPrismaQuery(options: BuildPrismaQueryOptions) {
 
     if (sort) query.orderBy = sort;
     if (select) query.select = select;
+    if (includeObj) query.include = includeObj;
 
     return query;
 }
