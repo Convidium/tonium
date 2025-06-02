@@ -173,6 +173,8 @@ export class AlbumService {
         await tx.album_Tracks.deleteMany({ where: { album_id: album.id } });
         await trackService.bindTracksToAlbum(album.id, trackIds);
 
+        console.log('[Service] Succesfully created an album:', data.name);
+
         return album;
     }
 }

@@ -22,7 +22,7 @@ export class FileService {
         await fs.writeFile(fullPath, buffer);
 
         const relative = path.relative(this.baseDir, fullPath).replace(/\\/g, '/');
-        console.log(`🗄 FileService: збережено файл → ${relative}`);
+        console.log(`FileService: saved file -> ${relative}`);
         return relative;
     }
 
