@@ -1,15 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { AlbumService } from "../../services/AlbumService";
+import { AlbumController } from "../../controllers/AlbumController";
 
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest) {
     try {
-        const id = Number(params.id);
-        if (isNaN(id)) {
-            return NextResponse.json({ error: 'Invalid album id' }, { status: 400 });
-        }
-
-        const albumService = new AlbumService();
-        const album = await albumService.getAlbumById(id);
+        const controller = new AlbumController();
+        const album = await controller.getAlbum(req);
 
         return NextResponse.json(album);
     } catch (error: any) {

@@ -52,4 +52,13 @@ export class AlbumController {
 
     return await this.service.getAlbums(fullQuery);
   }
+
+  async getAlbum(req: NextRequest) {
+    const parser = new RequestParser(req);
+    const fullQuery = parser.parseQueryParams();
+    
+    const id = parser.getId("albums");
+
+    return await this.albumService.getAlbumById(Number(id), fullQuery.include);
+  }
 }

@@ -7,6 +7,7 @@ import { WriterService } from './WriterService';
 import { PrismaClient, Prisma } from '@prisma/client';
 import { TrackService } from './TrackService';
 import { buildPrismaQuery, BuildPrismaQueryOptions } from '../utils/buildAlbumQuery';
+import parseInclude from '../utils/parseInclude';
 
 export class AlbumService {
     constructor() { }
@@ -94,65 +95,40 @@ export class AlbumService {
 
     async getAlbums(options: BuildPrismaQueryOptions) {
         const query = buildPrismaQuery(options);
-        console.log(query.include);
-        
 
         const albums = await prisma.albums.findMany({
             ...query,
             include: query.include ? query.include : undefined
         });
-        
+
 
         return albums;
     }
 
-    async getAlbumById(id: number) {
+    async getAlbumById(id: number | null, include?: string[]) {
+        if (id === null) {
+            throw new Error('Album Not Found');
+        }
+        
+        const includeObj = (include ? parseInclude(include) : {
+                artist: true,
+                albumGenres: { include: { genre: true } },
+                albumMoods: { include: { mood: true } },
+                albumTags: { include: { tag: true } },
+                albumWriters: { include: { writer: true } },
+                albumTracks: {
+                    include: { track: true },
+                    orderBy: { track_position: 'asc' },
+                },
+            });
+
         const album = await prisma.albums.findUnique({
             where: { id },
-            include: {
-                artist: true,
-                albumGenres: {
-                    include: { genre: true },
-                },
-                albumMoods: {
-                    include: { mood: true },
-                },
-                albumTags: {
-                    include: { tag: true },
-                },
-                albumWriters: {
-                    include: { writer: true },
-                },
-                albumTracks: {
-                    include: {
-                        track: true,
-                    },
-                    orderBy: {
-                        track_position: 'asc',
-                    },
-                },
-            },
+            include: includeObj
         });
 
-        if (!album) throw new Error('Альбом не знайдено');
-
-        return {
-            id: album.id,
-            name: album.name,
-            release_date: album.release_date,
-            info: album.info,
-            artist: album.artist,
-            genres: album.albumGenres.map((g) => g.genre.name),
-            moods: album.albumMoods.map((m) => m.mood.name),
-            tags: album.albumTags.map((t) => t.tag.name),
-            writers: album.albumWriters.map((w) => w.writer.writer_name),
-            tracks: album.albumTracks.map((t) => ({
-                id: t.track.id,
-                track_name: t.track.track_name,
-                track_path: t.track.track_path,
-                position: t.track_position,
-            })),
-        };
+        if (!album) throw new Error('Album Not Found');
+        return album;
     }
 
     async updateAlbumInsideTx(

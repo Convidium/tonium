@@ -61,9 +61,9 @@ export class RequestParser {
         return filters;
     }
 
-    getRecordId(): number | null {
+    getId(table: string): number | null {
         const parts = this.pathname.split('/');
-        const recordsIndex = parts.indexOf('records');
+        const recordsIndex = parts.indexOf(table);
 
         if (recordsIndex !== -1 && parts.length > recordsIndex + 1) {
             const recordId = parseInt(parts[recordsIndex + 1], 10);
@@ -109,7 +109,7 @@ export class RequestParser {
         orderBy?: { key: string; direction: 'asc' | 'desc' };
         fields?: string[];
         table?: string;
-        inclue?: string[];
+        include?: string[];
     } {
         const filtersRaw = this.searchParams.get('filters');
         const searchKey = this.searchParams.get('searchKey');
@@ -166,7 +166,11 @@ export class RequestParser {
         }
 
         if (includeRaw) {
-            result.include = includeRaw.split(',').map(f => f.trim()).filter(Boolean);
+            if (includeRaw === "none") {
+                result.include = [];
+            } else {
+                result.include = includeRaw.split(',').map(f => f.trim()).filter(Boolean);
+            }
         }
 
         return result;
