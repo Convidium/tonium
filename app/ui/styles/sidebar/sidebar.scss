@@ -10,7 +10,7 @@
   border: var(--border-default) solid hsl(var(--cp-h), var(--cp-s), var(--cp-l-4));
   border-left: none;
   border-bottom: none;
-    box-sizing: border-box;
+  box-sizing: border-box;
   transition: left 0.2s ease-in-out;
   z-index: 3;
 }
@@ -20,19 +20,16 @@
 }
 
 .sidebar-content {
-  padding: 20px;
-}
+  padding: 1rem;
+  height: calc(100% - 2rem);
+  display: grid;
+  grid-template-rows: 30px auto;
 
-.close-sidebar-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  color: #f0f0f0;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 5px;
+  .last-listened-albums-title{
+    font-size: var(--f-L);
+    text-align: center;
+    font-family: "Grotezk Fett";
+  }
 }
 
 .overlay {
@@ -43,4 +40,23 @@
   height: 100%;
   z-index: 3;
   display: block;
+}
+
+.last-listened-albums-list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  height: -webkit-fill-available;
+  padding-right: 5px;
+  gap: 15px;
+  .album-item {
+    padding: 0.75rem;
+    border-radius: var(--border-radius-default);
+    background-color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-3));
+      font-family: "Grotezk Regular";
+
+    .album-title{
+      font-family: "Grotezk Fett";
+    }
+  }
 }

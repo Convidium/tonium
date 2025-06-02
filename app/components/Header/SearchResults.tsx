@@ -2,7 +2,7 @@ import React from "react";
 import RecordItem from "./RecordItem";
 import SongItem from "./SongItem";
 import ArtistItem from "./ArtistItem";
-import { RecordType, SongType, ArtistType } from "@/app/domain/types/records";
+import { RecordType, SongType, ArtistType } from "@/app/types/records";
 import "@/app/ui/styles/SearchResults.scss";
 import LoadingSVG from "@/app/ui/icons/LoadingCircle.svg";
 import ArrowSVG from "@/app/ui/icons/arrow.svg";
@@ -19,8 +19,6 @@ type SearchResultsProps = {
 };
 
 const SearchResults: React.FC<SearchResultsProps> = ({ songs, records, artists, recentRecords, loading, searchTerm, filters }) => {
-  console.log(filters);
-  
   const renderedReults = filters.map(filter => {
     if (filter == "Artists" && records.length > 0) {
       return (
