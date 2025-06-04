@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "@/app/ui/styles/ui-components/UserProfile.scss";
 import UserSVG from "@/app/ui/icons/user-default.svg";
-import ExpandSVG from "@/app/ui/icons/expand.svg";
+import Link from 'next/link'
 
 const UserProfile: React.FC = () => {
 
@@ -10,10 +10,12 @@ const UserProfile: React.FC = () => {
             <span>User Profile</span>
             <div className="user-profile">
                 <div className="logo-picture">
-                    <UserSVG />
+                    <Link href="/profile">
+                        <UserSVG />
+                    </Link>
                 </div>
                 <div className="user-desription">
-                    <div className="user-name">My Name</div>
+                    <div className="user-name"><Link href="/profile">My Name</Link></div>
                     <div className="user-email">somename@gmail.com</div>
                 </div>
             </div>

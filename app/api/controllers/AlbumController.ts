@@ -3,18 +3,15 @@ import { AlbumService } from '@/app/api/services/AlbumService';
 import { NextRequest, NextResponse } from 'next/server';
 import { RequestParser } from '../utils/RequestParser';
 import { FileService } from '../services/FileService';
-
+import { createLoggingProxy } from '../utils/Proxy';
 
 const fileService = new FileService();
 
 export class AlbumController {
-  private albumService: AlbumService;
-  private service = new AlbumService();
+  private albumService = createLoggingProxy(new AlbumService());
 
   constructor() {
-    this.albumService = new AlbumService();
   }
-
 
   async createAlbum(formData: FormData) {
     const albumJson = formData.get('album_data');
@@ -50,7 +47,7 @@ export class AlbumController {
     const parser = new RequestParser(req);
     const fullQuery = parser.parseQueryParams();
 
-    return await this.service.getAlbums(fullQuery);
+    return await this.albumService.getAlbums(fullQuery);
   }
 
   async getAlbum(req: NextRequest) {
