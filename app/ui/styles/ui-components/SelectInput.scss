@@ -128,6 +128,7 @@
         border-radius: var(--border-radius-default);
         width: calc(300px - 0.6rem);
         font-family: "Grotezk Regular", "Grotezk Cyrillic Regular";
+        z-index: 4;
 
         .select-input-create{
             width: 100%;

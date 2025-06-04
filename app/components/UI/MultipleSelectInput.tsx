@@ -22,7 +22,7 @@ interface SelectInputProps<OptionType> {
     isError?: boolean;
 }
 
-const SelectInput = <OptionType,>({
+const MultipleSelectInput = <OptionType,>({
     label, value, prevSelected,
     onSelect, onChange,
     createNewOption,
@@ -132,4 +132,4 @@ const SelectInput = <OptionType,>({
     );
 };
 
-export default SelectInput;
+export default MultipleSelectInput;

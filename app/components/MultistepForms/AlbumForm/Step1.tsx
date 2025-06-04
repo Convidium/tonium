@@ -3,7 +3,7 @@ import TextInput from '../../UI/Input';
 import SelectInput from '../../UI/SelectInput';
 import DatePicker from '../../UI/DatePicker';
 
-import "@/app/ui/styles/forms/albumForm/step1.scss";
+import "@/app/ui/styles/forms/albumForm/albumForm.scss";
 import useDebouncedValue from '@/app/hooks/useDebouncedValue';
 import { fetchEntities } from '@/app/services/entityService';
 import { memoize } from '@/app/utils/memoize';
