@@ -35,12 +35,16 @@
 
         .user-desription {
             .user-name {
-                font-size: var(--f-S);
-                color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
-                cursor: pointer;
+                a {
+                    font-size: var(--f-S);
+                    color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-6));
+                    cursor: pointer;
+                    text-decoration: none;
 
-                &:hover {
-                    color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-8));
+                    &:hover {
+                        color: hsl(var(--cp-h), var(--cp-s), var(--cp-l-8));
+                        text-decoration: underline;
+                    }
                 }
             }
 

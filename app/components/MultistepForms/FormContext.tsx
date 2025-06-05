@@ -41,7 +41,7 @@ interface FormProviderProps {
 
 export const FormProvider = ({ children, config }: FormProviderProps) => {
   const [formData, setFormDataState] = useState<Record<string, any>>({});
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(1); // Temporary '1', due to easier debugging
 
   useLocalStorage('formData', formData);
 

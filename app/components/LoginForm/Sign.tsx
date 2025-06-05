@@ -4,7 +4,6 @@ import "@/app/ui/styles/forms/authForms/login.scss";
 import TextInput from '../UI/Input';
 import Button from '../UI/Button';
 import { useRouter } from 'next/navigation';
-import { registerUser } from '@/app/api/services/userService';
 
 import * as Yup from 'yup';
 
