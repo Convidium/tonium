@@ -12,7 +12,7 @@ interface HeaderProps {
   toggleSidebar: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ isSidebarOpen, toggleSidebar }) => {
+const Header: React.FC<HeaderProps> = () => {
   const pathname = usePathname();
   return (
     simplePagesURL.includes(pathname)

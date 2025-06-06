@@ -6,21 +6,10 @@ export function getDefaultStoragePath(): string {
   let defaultPath: string;
   const appFolderName = 'ToniumData';
 
-  switch (os.platform()) {
-    case 'win32':
-      // Windows: C:\Users\<username>\Music\ToniumData
+  const osPlatform = os.platform();
+  if (osPlatform === 'win32' || osPlatform === 'darwin' || osPlatform === 'linux') {
       defaultPath = path.join(os.homedir(), 'Music', appFolderName);
-      break;
-    case 'darwin':
-      // macOS: /Users/<username>/Music/ToniumData
-      defaultPath = path.join(os.homedir(), 'Music', appFolderName);
-      break;
-    case 'linux':
-      // Linux: /home/<username>/Music/ToniumData
-      defaultPath = path.join(os.homedir(), 'Music', appFolderName);
-      break;
-    default:
-      // other OS:
+  } else {
       defaultPath = path.join(os.homedir(), appFolderName + 'Files');
   }
 

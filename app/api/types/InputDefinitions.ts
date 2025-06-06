@@ -1,6 +1,6 @@
 export interface InputArtist {
     id?: number;
-    artist_name?: string;
+    artist_name: string;
     isNew?: boolean;
     artist_logo_path?: string | null;
     active_from?: string | null;
