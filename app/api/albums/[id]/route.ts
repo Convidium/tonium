@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { AlbumController } from "../../controllers/AlbumController";
+import { AlbumController } from "../../../controllers/AlbumController";
 
 export async function GET(req: NextRequest) {
     try {

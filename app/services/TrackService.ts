@@ -1,5 +1,5 @@
-import { InputTrack, InputAlbumTrack } from '@/app/api/types/InputDefinitions';
-import prisma from '@/app/api/utils/prisma';
+import { InputTrack, InputAlbumTrack } from '@/app/types/InputDefinitions';
+import prisma from '@/app/utils/prisma';
 import { Prisma, PrismaClient } from '@prisma/client';
 
 export class TrackService {

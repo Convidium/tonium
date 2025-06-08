@@ -1,4 +1,4 @@
-import { FileService } from '@/app/api/services/FileService';
+import { FileService } from '@/app/services/FileService';
 import path from 'path';
 import fs from 'fs/promises';
 import os from 'os';

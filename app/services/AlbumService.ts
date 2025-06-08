@@ -1,5 +1,5 @@
-import { InputAlbumData, InputGenre } from '@/app/api/types/InputDefinitions';
-import prisma from '@/app/api/utils/prisma';
+import { InputAlbumData, InputGenre } from '@/app/types/InputDefinitions';
+import prisma from '@/app/utils/prisma';
 import { GenreService } from './GenreService';
 import { MoodService } from './MoodService';
 import { TagService } from './TagService';

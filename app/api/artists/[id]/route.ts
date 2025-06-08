@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ArtistController } from "../../controllers/ArtistController";
+import { ArtistController } from "../../../controllers/ArtistController";
 
 const controller = new ArtistController();
 

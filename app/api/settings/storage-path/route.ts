@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import { getDefaultStoragePath } from '@/app/api/utils/paths';
+import { getDefaultStoragePath } from '@/app/utils/paths';
 import fsPromises from 'fs/promises';
 import { NextRequest, NextResponse } from 'next/server';
-import prisma from '../../utils/prisma';
+import prisma from '../../../utils/prisma';
 
 interface StoragePathResponse {
   storagePath: string;

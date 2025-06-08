@@ -12,3 +12,8 @@ export interface ExistingArtist {
     active_from?: string | null;
     active_to?: string | null;
 }
+
+export interface ExistingGenre {
+    id: number;
+    name: string;
+}

@@ -1,4 +1,4 @@
-import { Artist, ExistingArtist } from "@/app/api/types/serviceLayerDefinitions";
+import { Artist, ExistingArtist } from "@/app/types/serviceLayerDefinitions";
 import prisma from "../utils/prisma";
 import { buildPrismaQuery, BuildPrismaQueryOptions } from "../utils/buildAlbumQuery";
 import parseInclude from "../utils/parseInclude";
@@ -6,37 +6,37 @@ import parseInclude from "../utils/parseInclude";
 export class ArtistService {
     constructor() { }
 
-    async createArtist(data: Artist) {
-        console.log('[Service] Creating an artist:', data.artist_name);
+    async createArtist(artist: Artist) {
+        console.log('[Service] Creating an artist:', artist.artist_name);
 
-        const artist = await prisma.artists.create({
+        const createdArtist = await prisma.artists.create({
             data: {
-                artist_name: data.artist_name,
-                artist_logo_path: data.artist_logo_path || null,
-                active_from: data.active_from || null,
-                active_to: data.active_to || null
+                artist_name: artist.artist_name,
+                artist_logo_path: artist.artist_logo_path || null,
+                active_from: artist.active_from || null,
+                active_to: artist.active_to || null
             },
         });
 
-        console.log(`[Service] Artist: ${artist?.artist_name} has been succesfully created!`);
-        return artist;
+        console.log(`[Service] Artist: ${createdArtist?.artist_name} has been succesfully created!`);
+        return createdArtist;
     }
 
-    async updateArtist(data: ExistingArtist) {
-        console.log('[Service] Updating an artist:', data.artist_name);
+    async updateArtist(artist: ExistingArtist) {
+        console.log('[Service] Updating an artist:', artist.artist_name);
 
-        const artist = await prisma.artists.update({
-            where: { id: Number(data.id) },
+        const updatedArtist = await prisma.artists.update({
+            where: { id: Number(artist.id) },
             data: {
-                artist_name: data.artist_name,
-                artist_logo_path: data.artist_logo_path || null,
-                active_from: data.active_from || null,
-                active_to: data.active_to || null
+                artist_name: artist.artist_name,
+                artist_logo_path: artist.artist_logo_path || null,
+                active_from: artist.active_from || null,
+                active_to: artist.active_to || null
             },
         });
 
-        console.log('[Service] Succesfully created an artist:', data.artist_name);
-        return artist;
+        console.log('[Service] Succesfully created an artist:', updatedArtist.artist_name);
+        return updatedArtist;
     }
 
     async deleteArtist(artistId: number) {
@@ -65,7 +65,6 @@ export class ArtistService {
             ...query,
             include: query.include ? query.include : undefined
         });
-
 
         return artists;
     }

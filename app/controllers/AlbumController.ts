@@ -1,5 +1,5 @@
-import { InputAlbumData } from '@/app/api/types/InputDefinitions';
-import { AlbumService } from '@/app/api/services/AlbumService';
+import { InputAlbumData } from '@/app/types/InputDefinitions';
+import { AlbumService } from '@/app/services/AlbumService';
 import { NextRequest, NextResponse } from 'next/server';
 import { RequestParser } from '../utils/RequestParser';
 import { FileService } from '../services/FileService';

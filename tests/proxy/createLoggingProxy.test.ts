@@ -1,4 +1,4 @@
-import { createLoggingProxy } from '@/app/api/utils/Proxy';
+import { createLoggingProxy } from '@/app/utils/Proxy';
 
 describe('createLoggingProxy', () => {
     it('logs method calls and results', async () => {

@@ -1,5 +1,5 @@
-import { InputWriter } from '@/app/api/types/InputDefinitions';
-import prisma from '@/app/api/utils/prisma';
+import { InputWriter } from '@/app/types/InputDefinitions';
+import prisma from '@/app/utils/prisma';
 import { Prisma, PrismaClient } from '@prisma/client';
 
 export class WriterService {

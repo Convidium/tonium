@@ -1,6 +1,6 @@
-import { AlbumService } from '@/app/api/services/AlbumService';
+import { AlbumService } from '@/app/services/AlbumService';
 import { PrismaClient } from '@prisma/client';
-import prisma from '@/app/api/utils/prisma';
+import prisma from '@/app/utils/prisma';
 
 jest.mock('@/app/api/utils/prisma', () => ({
     __esModule: true,

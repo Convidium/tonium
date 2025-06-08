@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs/promises';
 import { v4 as uuid } from 'uuid';
-import { getDefaultStoragePath } from '@/app/api/utils/paths';
+import { getDefaultStoragePath } from '@/app/utils/paths';
 
 export class FileService {
     private baseDir: string;

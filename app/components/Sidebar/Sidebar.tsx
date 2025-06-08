@@ -3,7 +3,7 @@ import '@/app/ui/styles/sidebar/sidebar.scss';
 import AlbumData from '@/app/interfaces/Album';
 import { BiDirectionalPriorityQueue } from '@/app/utils/directionalQueue';
 
-import { examplesJSON } from 'database/examples';
+import { examplesJSON } from '@/database/examples';
 
 
 interface CollectionSidebarProps {

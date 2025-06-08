@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { AlbumController } from '@/app/api/controllers/AlbumController';
+import { AlbumController } from '@/app/controllers/AlbumController';
 
 export async function POST(req: NextRequest) {
     const formData = await req.formData();

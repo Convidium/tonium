@@ -1,5 +1,5 @@
-import { InputMood } from '@/app/api/types/InputDefinitions';
-import prisma from '@/app/api/utils/prisma';
+import { InputMood } from '@/app/types/InputDefinitions';
+import prisma from '@/app/utils/prisma';
 import { Prisma, PrismaClient } from '@prisma/client';
 
 export class MoodService {

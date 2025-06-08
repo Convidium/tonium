@@ -1,5 +1,5 @@
-import { InputArtist } from '@/app/api/types/InputDefinitions';
-import { ArtistService } from '@/app/api/services/ArtistService';
+import { InputArtist } from '@/app/types/InputDefinitions';
+import { ArtistService } from '@/app/services/ArtistService';
 import { NextRequest, NextResponse } from 'next/server';
 import { FileService } from '../services/FileService';
 import { RequestParser } from '../utils/RequestParser';
